@@ -1,4 +1,6 @@
+const path = require('path'); 
 import * as dotenv from 'dotenv';
+
 dotenv.config({ path: path.join(__dirname + '/../', '.env') });
 
 export const ConfigGlobais = {
