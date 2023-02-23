@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: path.join(__dirname + '/../', '.env') });
 
 export const ConfigGlobais = {
     ENV_PORT: process.env.ENV_PORT,

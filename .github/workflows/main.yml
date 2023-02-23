@@ -1,0 +1,42 @@
+name: Deploy Production LCWB_SH_PRD CentOs 8
+
+on:
+    push:
+        branches:
+            - main
+    #pull_request:
+        #types: [labeled]
+
+jobs:
+    build:
+        #if: contains( github.event.label.name, 'deploy dev' )
+        runs-on: ubuntu-latest
+        environment: LCWB_SH_PRD
+        steps:
+        - uses: actions/checkout@v2
+
+        - name: Setup Env Node
+          uses: actions/setup-node@v1
+          with:
+              node-version: 19
+
+        - name: Instalando lib package.json
+          run: npm ci
+
+        #- name: Iniciando test
+        #  run: npm run test
+
+        - name: SSH Remote Commands
+          uses: appleboy/ssh-action@v0.1.7
+          with:
+              host: ${{ secrets.HOST }}
+              username: ${{ secrets.USERNAME }}
+              password: ${{ secrets.PASSWORD }}
+              port: ${{ secrets.PORT }}
+              script: |
+                pm2 delete all
+                cd /home/userapp/api/produto-ms-api
+                git pull
+                npm install
+                npm run build
+                pm2 start dist/main.js --name produto-ms-api
