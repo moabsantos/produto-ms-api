@@ -78,7 +78,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             
 
         let listIds = userModel.map((value) => value['originId'])
-        
+        /*
         req.options.query.filter = {
             id:{
                 $in:[0]
@@ -91,7 +91,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
                     $in:listIds
                 }
             }
-        
+        */
         let modelsFound = await this.getMany(req)
 
         console.log(req.options.query.filter)
