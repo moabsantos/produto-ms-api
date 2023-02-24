@@ -73,7 +73,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         if (userModel.length > 0 && id)
             return {
                 msgGeral: `Resultado para o id ${id}`,
-                data: this.repo.find({where: {id: id}})
+                data: this.repo.findBy({id: id})
             }
             
 

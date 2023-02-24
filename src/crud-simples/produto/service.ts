@@ -22,6 +22,10 @@ export class ProdutoService extends BaseCrudService{
         model.unidadeMedidaName = this.unidadeMedida.name
         model.unidadeMedidaSigla = this.unidadeMedida.sigla
         model.unidadeMedidaId = dto.unidadeMedidaId
+
+        model.flagServico = 0
+        if (dto.flagServico > 0)
+            model.flagServico = 1
         
         return super.getDataFromDto(dto, user, model)
     }

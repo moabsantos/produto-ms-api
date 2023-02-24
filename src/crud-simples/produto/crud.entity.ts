@@ -13,4 +13,7 @@ export class Produto extends BaseModelCrud {
     @Column()
     unidadeMedidaSigla: string;
 
+    @Column({default: 0})
+    flagServico: number;
+
 }

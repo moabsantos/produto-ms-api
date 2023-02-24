@@ -32,6 +32,9 @@ export class CustosDia extends BaseModelCrud {
     itemDespesaName: string;
 
     @Column()
+    flagServico: number;  
+
+    @Column()
     unidadeMedidaId: number;    
 
     @Column()

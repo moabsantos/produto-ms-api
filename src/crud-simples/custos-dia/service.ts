@@ -41,6 +41,7 @@ export class CustosDiaService extends BaseCrudService{
 
         model.itemDespesaId = this.itemDespesa.id
         model.itemDespesaName = this.itemDespesa.name
+        model.flagServico = this.itemDespesa.flagServico
 
         model.unidadeMedidaId = dto.unidadeMedidaId
         model.unidadeMedidaName = this.unidadeMedida.name
@@ -49,6 +50,10 @@ export class CustosDiaService extends BaseCrudService{
         model.quantidadeRealizada = 0
         if (dto.quantidadeRealizada)
             model.quantidadeRealizada = dto.quantidadeRealizada
+
+        model.valorRealizado = 0
+        if (dto.valorRealizado)
+            model.valorRealizado = dto.valorRealizado
 
         dto.name = model.itemDespesaName +' '+dto.data  
         dto.description = '*'
