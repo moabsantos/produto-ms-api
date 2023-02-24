@@ -94,6 +94,9 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         
         let modelsFound = await this.getMany(req)
 
+        console.log(req.options.query.filter)
+        console.log(req.parsed.filter)
+
         return {
             msgGeral: "Resultado para filtro sem o id único",
             data: modelsFound
