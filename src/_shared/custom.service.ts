@@ -101,6 +101,8 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         if(dto.id){
 
             modelRepoFound  = await this.get(req, user, dto.id)
+            console.log(`id ${dto.id} user ${user}`)
+            console.log(modelRepoFound)
 
             if (modelRepoFound.length > 1){
                 this.logger.error("found duplicated on save")
