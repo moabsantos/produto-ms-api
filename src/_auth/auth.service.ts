@@ -19,16 +19,18 @@ export class AuthService {
         if (dto.realmId){
             let realm = await this.realmService.get(null, user, dto.realmId)
 
-            if (!realm || !realm[0]){
+            if (!realm || !realm.data || !realm.data[0]){
                 return
             }
         }
 
         if (dto.clientAppId){
             let clientApp = await this.clientAppService.get(null, user, dto.realmId)
-            if (!clientApp || !clientApp[0]){
+            
+            if (!clientApp || !clientApp.data || !clientApp.data[0]){
                 return
             }
+
         }
 
         const payload = { 

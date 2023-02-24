@@ -52,7 +52,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         return this.repo.find({where:w})
     }
 
-    async get(req: CrudRequest, user: any, id?: number): Promise<GetManyDefaultResponse<BaseModel> | BaseModel[]>{
+    async get(req: CrudRequest, user: any, id?: number): Promise<any>{
 
         let w: any;
         w = {userId: user.userId}
@@ -64,11 +64,18 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         let userModel = await this.getIdsAutorizados(w)
 
         if (!userModel){
-            return
+            return {
+                msgGeral: "Não há dados autorizados para visualização",
+                data: []
+            }
         }
 
         if (userModel.length > 0 && id)
-            return this.repo.find({where: {id: id}})
+            return {
+                msgGeral: `Resultado para o id ${id}`,
+                data: this.repo.find({where: {id: id}})
+            }
+            
 
         let listIds = userModel.map((value) => value['originId'])
         
@@ -87,7 +94,10 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         
         let modelsFound = await this.getMany(req)
 
-        return modelsFound
+        return {
+            msgGeral: "Resultado para filtro sem o id único",
+            data: modelsFound
+        }
     }
 
 
@@ -100,9 +110,8 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         let modelRepoFound
         if(dto.id){
 
-            modelRepoFound  = await this.get(req, user, dto.id)
-            console.log(`id ${dto.id} user ${user}`)
-            console.log(modelRepoFound)
+            const resBusca  = await this.get(req, user, dto.id)
+            modelRepoFound  = resBusca.data
 
             if (modelRepoFound.length > 1){
                 this.logger.error("found duplicated on save")
