@@ -14,6 +14,16 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         super(repo)
     }
 
+    valorValido(valor: any){
+        if (valor == undefined)
+            return false
+
+        if (valor == null)
+            return false
+
+        return true
+    }
+
     async validate(dto: any, user: any): Promise<boolean>{
 
         if (!user){
@@ -70,13 +80,15 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             }
         }
 
-        if (userModel.length > 0 && id)
+        if (userModel.length > 0 && this.valorValido(id)){
+                
             return {
                 msgGeral: `Resultado para o id ${id}`,
-                data: this.repo.findBy({id: id})
+                data: await this.repo.find({where:{id:id}})
             }
+        }
             
-
+        
         let listIds = userModel.map((value) => value['originId'])
         /*
         req.options.query.filter = {
@@ -85,17 +97,15 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             }
         }
 
-        if (listIds.length > 0)
+        if (listIds.length < 0){
             req.options.query.filter = {
                 id:{
                     $in:listIds
                 }
             }
+        }
         */
         let modelsFound = await this.getMany(req)
-
-        console.log(req.options.query.filter)
-        console.log(req.parsed.filter)
 
         return {
             msgGeral: "Resultado para filtro sem o id único",
