@@ -28,7 +28,7 @@ export class CustosDiaService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: CustosDia){
 
-        model.empresaId = dto.empresaId
+        model.empresaId = this.empresa.id
 
         let date: Date = new Date(dto.data);
         model.data = date

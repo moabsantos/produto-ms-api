@@ -25,7 +25,7 @@ import { BaseModelCrud } from './base-model-crud.entity';
 export class BaseCrudController {
 
     constructor(
-        public service: BaseCrudService | BaseCrudUserService,
+        public service: BaseCrudService | BaseCrudUserService | any,
         protected userService: UserService,
         protected readonly http: HttpService
     ) {}

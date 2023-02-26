@@ -10,17 +10,29 @@ import { CustosMensaisUser } from "./crud-user.entity";
 import { CustosMensaisUserController } from "./crud-user.controller";
 import { CustosMensaisService } from "./service";
 import { CustosMensaisUserService } from "./crud-user.service";
+import { ProdutoModule } from "../produto/module";
+import { UnidadeMedidaModule } from "../unidade-medida/module";
+import { EmpresaModule } from "../empresa/module";
+import { SetorModule } from "../setor/module";
+
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
         
+        ProdutoModule,
+        UnidadeMedidaModule,
+        EmpresaModule,
+        SetorModule,
+
         TypeOrmModule.forFeature([CustosMensais, CustosMensaisUser]),
         BaseCrudModule
     ],
     controllers:[CustosMensaisController, CustosMensaisUserController],
-    providers:[CustosMensaisService, CustosMensaisUserService],
+    providers:[
+        CustosMensaisService, CustosMensaisUserService
+    ],
     exports:[CustosMensaisService, CustosMensaisUserService]
 })
 export class CustosMensaisModule {}

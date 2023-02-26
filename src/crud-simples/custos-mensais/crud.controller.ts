@@ -1,5 +1,7 @@
 import { HttpService } from "@nestjs/axios";
-import { Controller } from "@nestjs/common";
+import { Body, Controller, HttpException, HttpStatus, Post } from "@nestjs/common";
+import { CrudRequest, ParsedRequest } from "@nestjsx/crud";
+import { UserRequest } from "src/_auth/user.decorator";
 import { BaseCrudController } from "src/_shared/base-crud.controller";
 import { UserService } from "src/_user/user.service";
 
@@ -11,5 +13,15 @@ export class CustosMensaisController extends BaseCrudController{
                 protected userService: UserService,
                 protected readonly http: HttpService) {
         super(service, userService, http)
+    }
+
+    @Post()
+    async createOne(@ParsedRequest() req: CrudRequest, @UserRequest() authToken: any, @Body() body: any){
+
+        return {
+            msgGeral: "Este cadastro deve ser feito pelo Facade",
+            data: []
+        }
+
     }
 }

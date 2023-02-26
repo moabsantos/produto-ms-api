@@ -18,6 +18,8 @@ import { SetorModule } from './crud-simples/setor/module';
 import { EmpresaModule } from './crud-simples/empresa/module';
 import { CustosMensaisModule } from './crud-simples/custos-mensais/module';
 import { CustosDiaModule } from './crud-simples/custos-dia/module';
+import { CustosMensaisFacadeModule } from './facade/custos-mensais/module';
+import { GrupoAcessoModule } from './crud-simples/grupo-acesso/module';
 
 
 
@@ -34,6 +36,8 @@ import { CustosDiaModule } from './crud-simples/custos-dia/module';
     RealmModule,
     ClientAppModule,
 
+    GrupoAcessoModule,
+
     EmpresaModule,
     UnidadeMedidaModule,
     EstagioModule,
@@ -41,8 +45,9 @@ import { CustosDiaModule } from './crud-simples/custos-dia/module';
     ProdutoModule,
     FichaTecnicaModule,
 
+    CustosDiaModule,
     CustosMensaisModule,
-    CustosDiaModule
+    CustosMensaisFacadeModule
   ],
   controllers: [AppController],
   providers: [AppService],

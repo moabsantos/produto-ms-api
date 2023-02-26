@@ -29,6 +29,9 @@ export class CustosMensais extends BaseModelCrud {
     itemDespesaName: string;
 
     @Column()
+    flagServico: number;   
+
+    @Column()
     unidadeMedidaId: number;    
 
     @Column()
@@ -37,10 +40,16 @@ export class CustosMensais extends BaseModelCrud {
     @Column()
     unidadeMedidaSigla: string;
 
-    @Column({default: 0})
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeRealizada: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadePrevista: number;   
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorRealizado: number;
 
-    @Column({default: 0})
-    valorPrevisto: number;   
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    valorPrevisto: number;  
 
 }
