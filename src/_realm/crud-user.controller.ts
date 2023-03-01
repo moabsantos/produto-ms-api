@@ -1,12 +1,24 @@
 import { Body, Controller, HttpStatus, Post, UseInterceptors } from "@nestjs/common";
-import { CrudRequest, CrudRequestInterceptor, ParsedRequest } from "@nestjsx/crud";
+import { Crud, CrudRequest, CrudRequestInterceptor, ParsedRequest } from "@nestjsx/crud";
 import { UserRequest } from "src/_auth/user.decorator";
 import { BaseCrudController } from "src/_shared/base-crud.controller";
 import { UserService } from "src/_user/user.service";
+import { RealmUser } from "./crud-user.entity";
 import { RealmUserService } from "./crud-user.service";
 import { RealmService } from "./crud.service";
 
 
+@Crud({
+    model:{
+        type: RealmUser
+    },
+    routes:{
+        createOneBase: {
+            returnShallow: false
+        },
+        only: ["createOneBase", "getOneBase", "getManyBase", "deleteOneBase"],
+    }
+})
 @Controller('realm-user')
 export class RealmUserController extends BaseCrudController{
     constructor(public service: RealmUserService,
@@ -34,6 +46,11 @@ export class RealmUserController extends BaseCrudController{
         }
 
 
+        console.log({
+            userId: userAuth.userId, 
+            isAdmin: true, 
+            originId: userAuth.realmId
+        })
         let relmUser = await this.service.findByWhere({
             userId: userAuth.userId, 
             isAdmin: true, 
@@ -59,9 +76,12 @@ export class RealmUserController extends BaseCrudController{
                 email: body.email,
                 checked: false
             })
+            
         }else{
             newUser = userPost[0]
         }
+
+        console.log(newUser)
 
         const jaExiste = await this.service.findByWhere({
             userId: newUser.id, 
