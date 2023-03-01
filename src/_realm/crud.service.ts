@@ -40,4 +40,20 @@ export class RealmService extends BaseCrudService{
 
     }
 
+    async foundDuplicated(dto: any, user: any): Promise<boolean> {
+
+        if (!dto.name){
+            return false
+        }
+
+        let modelRepo = await this.repo.findOne({where:{created_by:user.userId}})
+
+        if(modelRepo && (!dto.id || dto.id != modelRepo.id)){
+
+            return true
+        }
+
+        return false
+    }
+
 }
