@@ -1,7 +1,8 @@
 import { BaseModelCrud } from "src/_shared/base-model-crud.entity";
-import { Column, Entity } from "typeorm";
+import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
+@Unique("uniq_name", ["name", "realmId"])
 export class UnidadeMedida extends BaseModelCrud {
 
     @Column()

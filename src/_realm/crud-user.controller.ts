@@ -20,7 +20,7 @@ export class RealmUserController extends BaseCrudController{
     async createOne(@ParsedRequest() req: CrudRequest, @UserRequest() authToken: any, @Body() body: any){
 
         const userAuth = await this.getDetailToken(req, authToken.token)
-        console.log(userAuth)
+  
         if (!userAuth.realmId || userAuth.realmId == 0){
             
             const realmUserAuth = await this.realmService.addRealmToUser(req, userAuth)
@@ -61,6 +61,15 @@ export class RealmUserController extends BaseCrudController{
             })
         }else{
             newUser = userPost[0]
+        }
+
+        const jaExiste = await this.service.findByWhere({
+            userId: newUser.id, 
+            originId: userAuth.realmId
+        })
+
+        if (jaExiste && (jaExiste.length > 0)){
+            return jaExiste[0]
         }
 
         return this.service.save(req, userAuth, {

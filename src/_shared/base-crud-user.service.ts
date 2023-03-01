@@ -10,4 +10,20 @@ export class BaseCrudUserService extends CustomService<BaseModelUser>{
         super(repo)
     }
 
+    async foundDuplicated(dto: any, user: any): Promise<boolean> {
+
+        if (!dto.name){
+            return false
+        }
+
+        let modelRepo = await this.repo.find({where:{userId:user.userId, originId: dto.originId}})
+        console.log(dto)
+        if(modelRepo && modelRepo.length > 0){
+
+            return true
+        }
+
+        return false
+    }
+
 }

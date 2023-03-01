@@ -46,9 +46,9 @@ export class RealmService extends BaseCrudService{
             return false
         }
 
-        let modelRepo = await this.repo.findOne({where:{created_by:user.userId}})
+        let modelRepo = await this.repo.find({where:{created_by:user.userId}})
 
-        if(modelRepo && (!dto.id || dto.id != modelRepo.id)){
+        if(modelRepo && modelRepo.length > 0){
 
             return true
         }

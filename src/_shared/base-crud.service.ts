@@ -51,6 +51,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
     }
 
     getIdsAutorizados(w: any): Promise<BaseModelUser[]> {
+
         return this.repoUser.find({where:w})
     }
 

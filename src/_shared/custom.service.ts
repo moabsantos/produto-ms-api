@@ -59,6 +59,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
     }
 
     getIdsAutorizados(w: any): Promise<BaseModel[]> {
+  
         return this.repo.find({where:w})
     }
 
@@ -114,7 +115,10 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
 
     async findByWhere(where: any){
-        return this.repo.find({where: where})
+        if (where){
+            return this.repo.find({where: where})
+        }
+        return this.repo.find()
     }
 
     async save(req: CrudRequest, user: any, dto: any){

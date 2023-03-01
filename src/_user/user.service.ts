@@ -15,6 +15,7 @@ export class UserService extends TypeOrmCrudService<User>{
     }
 
     async findByWhere(where: any){
+      
         return this.repo.find({where: where})
     }
 
