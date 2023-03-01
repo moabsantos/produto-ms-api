@@ -66,28 +66,44 @@ export class CustosMensaisService extends BaseCrudService{
             return
         }
 
-        const itemDespesa = await this.itemServ.findByWhere({id: dto.itemDespesaId})
+        const itemDespesa = await this.itemServ.findByWhere({
+            id: dto.itemDespesaId,
+            realmId: user.realmId
+        })
+
         if (itemDespesa.length == 0){
             this.logger.error(`O item de Despesa ${dto.itemDespesaId} não foi encontrado`)
             return false
         }
         this.itemDespesa = itemDespesa[0]
 
-        const unidMedida = await this.unidadeServ.findByWhere({id: dto.unidadeMedidaId})
+        const unidMedida = await this.unidadeServ.findByWhere({
+            id: dto.unidadeMedidaId,
+            realmId: user.realmId
+        })
+
         if (unidMedida.length == 0){
             this.logger.error(`A unidade de medida ${dto.unidadeMedidaId} não foi encontrada`)
             return false
         }
         this.unidadeMedida = unidMedida[0]
 
-        const setor = await this.setorServ.findByWhere({id: dto.setorId})
+        const setor = await this.setorServ.findByWhere({
+            id: dto.setorId,
+            realmId: user.realmId
+        })
+
         if (setor.length == 0){
             this.logger.error(`O setor ${dto.setorId} não foi encontrado`)
             return false
         }
         this.setor = setor[0]
 
-        const emp = await this.empresaServ.findByWhere({id: dto.empresaId})
+        const emp = await this.empresaServ.findByWhere({
+            id: dto.empresaId,
+            realmId: user.realmId
+        })
+
         if (emp.length == 0){
             this.logger.error(`A empresa ${dto.empresaId} não foi encontrada`)
             return false

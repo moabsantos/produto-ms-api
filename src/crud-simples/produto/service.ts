@@ -32,7 +32,11 @@ export class ProdutoService extends BaseCrudService{
 
     async validate(dto: any, user: any): Promise<boolean>{
         
-        const unidMedida = await this.unidadeServ.findByWhere({id: dto.unidadeMedidaId})
+        const unidMedida = await this.unidadeServ.findByWhere({
+            id: dto.unidadeMedidaId,
+            realmId: user.realmId
+        })
+
         if (unidMedida.length == 0){
             this.logger.error(`A unidade de medida ${dto.unidadeMedidaId} não foi encontrada`)
             return false

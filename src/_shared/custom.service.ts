@@ -81,30 +81,29 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         }
 
         if (userModel.length > 0 && this.valorValido(id)){
-                
+            
+            const data = await this.repo.find({where:{id:id}})
+
+            if (data && data[0]['realmId'] != user.realmId){
+                return {
+                    msgGeral: "Não há dados autorizados para visualização",
+                    data: []
+                }
+            }
             return {
                 msgGeral: `Resultado para o id ${id}`,
-                data: await this.repo.find({where:{id:id}})
-            }
-        }
-            
-        
-        let listIds = userModel.map((value) => value['originId'])
-        /*
-        req.options.query.filter = {
-            id:{
-                $in:[0]
+                data: data
             }
         }
 
-        if (listIds.length < 0){
-            req.options.query.filter = {
-                id:{
-                    $in:listIds
-                }
+
+        req.options.query.filter = {
+            realmId:{
+                $eq:user.realmId
             }
         }
-        */
+
+
         let modelsFound = await this.getMany(req)
 
         return {

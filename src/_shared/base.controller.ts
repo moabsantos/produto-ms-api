@@ -27,9 +27,10 @@ export class BaseController {
 
         const userCheck = await this.userService.findByWhere({email: response.data.email})
 
-        if (userCheck.length == 1 && !userCheck[0].checked){
+        if (userCheck.length == 1 && ( !userCheck[0].checked || userCheck[0].picture != response.data.picture)){
             userCheck[0].checked = true
             userCheck[0].name = response.data.name
+            userCheck[0].picture = response.data.picture
             this.userService.updateOne(req, userCheck[0])
         }
 

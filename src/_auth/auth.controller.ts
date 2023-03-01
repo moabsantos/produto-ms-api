@@ -1,22 +1,33 @@
 import { Controller, Request, Post, UseGuards, UseInterceptors, HttpException, HttpStatus, Get, Body } from "@nestjs/common";
-import { CrudRequestInterceptor } from "@nestjsx/crud";
+import { Crud, CrudRequest, CrudRequestInterceptor, Override, ParsedRequest } from "@nestjsx/crud";
 import { JwtAuthGuard } from "./jwt-auth.guards";
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
-import { firstValueFrom } from "rxjs";
-import { HttpService } from "@nestjs/axios";
+
 import { UserService } from "src/_user/user.service";
+import { UserRequest } from "./user.decorator";
+import { BaseController } from "src/_shared/base.controller";
+import { User } from "src/_user/user.entity";
 
+@Crud({
+    model:{
+        type: User
+    },
+    routes:{
+        createOneBase: {
+            returnShallow: false
+        },
+        only: ["getManyBase"],
+    }
+})
 @Controller('auth')
-export class AuthController {
-
-    protected readonly http: HttpService
+export class AuthController extends BaseController {
 
     constructor(
         private authService: AuthService,
-        private userService: UserService
+        protected userService: UserService
     ){
-        this.http = new HttpService()
+        super(userService)
     }
 
     @UseGuards(LocalAuthGuard)
@@ -36,8 +47,16 @@ export class AuthController {
 
     @UseGuards(JwtAuthGuard)
     @Get('profile')
-    getProfile(@Request() req: any) {
-        return req.user;
+    @UseInterceptors(CrudRequestInterceptor)
+    async getProfile(@ParsedRequest() req: CrudRequest, @UserRequest() authToken: any) {
+        return this.getDetailToken(req, authToken.token);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(CrudRequestInterceptor)
+    @Override()
+    async getMany(@ParsedRequest() req: CrudRequest, @UserRequest() authToken: any) {
+        return this.getProfile(req, authToken);
     }
 
 }
