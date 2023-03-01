@@ -9,6 +9,6 @@ export class EstagioController extends BaseCrudController{
     constructor(public service: EstagioService,
                 protected userService: UserService,
                 protected readonly http: HttpService) {
-        super(service, userService, http)
+        super(service, userService)
     }
 }

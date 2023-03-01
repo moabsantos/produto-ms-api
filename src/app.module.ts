@@ -20,6 +20,7 @@ import { CustosMensaisModule } from './crud-simples/custos-mensais/module';
 import { CustosDiaModule } from './crud-simples/custos-dia/module';
 import { CustosMensaisFacadeModule } from './facade/custos-mensais/module';
 import { GrupoAcessoModule } from './crud-simples/grupo-acesso/module';
+import { PermissaoAcessoModule } from './crud-simples/permissao-acesso/module';
 
 
 
@@ -36,6 +37,7 @@ import { GrupoAcessoModule } from './crud-simples/grupo-acesso/module';
     RealmModule,
     ClientAppModule,
 
+    PermissaoAcessoModule,
     GrupoAcessoModule,
 
     EmpresaModule,

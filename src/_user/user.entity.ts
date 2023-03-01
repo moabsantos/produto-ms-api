@@ -14,4 +14,13 @@ export class User {
 
   @Column({default: false})
   checked: boolean;
+
+  @Column()
+  realmId: number;
+
+  @Column()
+  empresaId: number;
+
+  @Column()
+  grupoId: number;
 }

@@ -3,16 +3,26 @@ import { CrudRequestInterceptor } from "@nestjsx/crud";
 import { JwtAuthGuard } from "./jwt-auth.guards";
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
+import { firstValueFrom } from "rxjs";
+import { HttpService } from "@nestjs/axios";
+import { UserService } from "src/_user/user.service";
 
 @Controller('auth')
 export class AuthController {
 
-    constructor(private authService: AuthService){}
+    protected readonly http: HttpService
+
+    constructor(
+        private authService: AuthService,
+        private userService: UserService
+    ){
+        this.http = new HttpService()
+    }
 
     @UseGuards(LocalAuthGuard)
     @Post('login-basic')
     @UseInterceptors(CrudRequestInterceptor)
-    async loginBasic(@Request() req, @Body() dto){
+    async loginBasic(@Request() req: any, @Body() dto: any){
 
         if (!req.user){
             throw new HttpException({
@@ -26,7 +36,7 @@ export class AuthController {
 
     @UseGuards(JwtAuthGuard)
     @Get('profile')
-    getProfile(@Request() req) {
+    getProfile(@Request() req: any) {
         return req.user;
     }
 

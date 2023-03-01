@@ -28,4 +28,16 @@ export class RealmService extends BaseCrudService{
 
     }
 
+    async addRealmToUser(req: any, user: any){
+
+        const realms = await this.findByWhere({created_by: user.userId})
+
+        if (realms && realms[0]){
+            return realms[0]
+        }
+
+        return {id: await this.save(req, user, { name: user.name })}
+
+    }
+
 }

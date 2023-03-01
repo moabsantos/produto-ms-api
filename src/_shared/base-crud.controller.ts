@@ -1,7 +1,5 @@
-import { HttpService } from "@nestjs/axios";
 import { Body, HttpException, HttpStatus, Param, UseGuards } from "@nestjs/common";
 import { Crud, CrudRequest, Override, ParsedRequest } from "@nestjsx/crud";
-import { firstValueFrom } from "rxjs";
 import { JwtAuthGuard } from "src/_auth/jwt-auth.guards";
 
 import { UserRequest } from "src/_auth/user.decorator";
@@ -9,6 +7,8 @@ import { UserService } from "src/_user/user.service";
 import { BaseCrudUserService } from "./base-crud-user.service";
 import { BaseCrudService } from './base-crud.service';
 import { BaseModelCrud } from './base-model-crud.entity';
+import { BaseController } from "./base.controller";
+
 
 @Crud({
     model:{
@@ -22,48 +22,15 @@ import { BaseModelCrud } from './base-model-crud.entity';
     }
 })
 @UseGuards(JwtAuthGuard)
-export class BaseCrudController {
+export class BaseCrudController extends BaseController {
 
     constructor(
         public service: BaseCrudService | BaseCrudUserService | any,
-        protected userService: UserService,
-        protected readonly http: HttpService
-    ) {}
-
-    async getDetailToken(req: any, token: any){
-
-        let response: any;
-
-        try {
-            response = await firstValueFrom(this.http.get('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='+ token));
-        } catch (error) { 
-            throw new HttpException({
-                status: HttpStatus.UNAUTHORIZED,
-                error: 'Token Inválido',
-            }, HttpStatus.UNAUTHORIZED, {
-                cause: error
-            });
-        }
-
-
-        const userCheck = await this.userService.findByWhere({email: response.data.email})
-
-        if (userCheck.length == 0){
-            let newUser = await this.userService.createOne(req, {
-                name: response.data.name,
-                email: response.data.email,
-                checked: true
-            })
-
-            return {userId: newUser.id, realmId: 1};
-        }
-
-        if (userCheck.length > 0){
-            return {userId: userCheck[0].id, realmId: 1};
-        }
-
-        
+        protected userService: UserService
+    ) {
+        super(userService)
     }
+
 
     @Override()
     async getOne(@ParsedRequest() req: CrudRequest, @Param('id') id: number, @UserRequest() authToken){

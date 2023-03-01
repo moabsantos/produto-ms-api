@@ -1,5 +1,4 @@
-import { HttpService } from "@nestjs/axios";
-import { Body, Controller, HttpException, HttpStatus, Post } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { CrudRequest, ParsedRequest } from "@nestjsx/crud";
 import { UserRequest } from "src/_auth/user.decorator";
 import { BaseCrudController } from "src/_shared/base-crud.controller";
@@ -10,9 +9,8 @@ import { CustosMensaisService } from "./service";
 @Controller('custos-mensais')
 export class CustosMensaisController extends BaseCrudController{
     constructor(public service: CustosMensaisService,
-                protected userService: UserService,
-                protected readonly http: HttpService) {
-        super(service, userService, http)
+                protected userService: UserService) {
+        super(service, userService)
     }
 
     @Post()
