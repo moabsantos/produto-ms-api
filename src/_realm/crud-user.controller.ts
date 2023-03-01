@@ -20,7 +20,7 @@ export class RealmUserController extends BaseCrudController{
     async createOne(@ParsedRequest() req: CrudRequest, @UserRequest() authToken: any, @Body() body: any){
 
         const userAuth = await this.getDetailToken(req, authToken.token)
-
+        console.log(userAuth)
         if (!userAuth.realmId || userAuth.realmId == 0){
             
             const realmUserAuth = await this.realmService.addRealmToUser(req, userAuth)

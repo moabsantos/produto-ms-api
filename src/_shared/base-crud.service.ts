@@ -30,7 +30,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
             return false
         }
 
-        let modelRepo = await this.repo.findOne({where:{name:dto.name}})
+        let modelRepo = await this.repo.findOne({where:{name:dto.name, realmId:user.realmId}})
 
         if(modelRepo && (!dto.id || dto.id != modelRepo.id)){
 
