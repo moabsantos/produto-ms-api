@@ -14,6 +14,9 @@ export class CustosMensais extends BaseModelCrud {
     mes: number;
 
     @Column()
+    periodo: string;
+
+    @Column()
     setorId: number;    
 
     @Column()

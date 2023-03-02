@@ -32,6 +32,7 @@ export class CustosMensaisService extends BaseCrudService{
 
         model.ano = dto.ano
         model.mes = dto.mes
+        model.periodo = `${dto.mes} / ${dto.ano}`
 
         model.setorId = this.setor.id
         model.setorName = this.setor.name
@@ -109,8 +110,6 @@ export class CustosMensaisService extends BaseCrudService{
             return false
         }
         this.empresa = emp[0]
-
-        return true
 
         return true
 

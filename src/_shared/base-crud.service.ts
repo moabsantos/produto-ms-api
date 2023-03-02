@@ -42,6 +42,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
     getDataFromDto(dto: any, user: any, model: BaseModelCrud){
 
+        model.code = dto.code
         model.name = dto.name
         model.description = dto.description
         model.idImage = dto.idImage

@@ -4,6 +4,9 @@ import { BaseModel } from "./base-model.entity";
 @Entity()
 export class BaseModelCrud extends BaseModel {
 
+    @Column()
+    code: string;
+
     @Column({nullable: false})
     name: string;
 
