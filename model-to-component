@@ -1,0 +1,152 @@
+/*
+----------------------------------------------------------------------------
+crud-user.controller.ts
+============================================================================
+
+import { Controller } from "@nestjs/common";
+import { BaseCrudController } from "src/_shared/base-crud.controller";
+import { UserService } from "src/_user/user.service";
+
+import { FormaPagamentoUserService } from "./crud-user.service";
+
+
+@Controller('forma-pagamento-user')
+export class FormaPagamentoUserController extends BaseCrudController{
+    constructor(public service: FormaPagamentoUserService,
+        protected userService: UserService) {
+        super(service, userService)
+    }
+}
+
+
+----------------------------------------------------------------------------
+crud-user.entity.ts
+============================================================================
+
+import { BaseModelUser } from "src/_shared/base-model-user";
+import { Entity } from "typeorm";
+
+
+@Entity()
+export class FormaPagamentoUser extends BaseModelUser {}
+
+
+----------------------------------------------------------------------------
+crud-user.service.ts
+============================================================================
+
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { BaseCrudUserService } from "src/_shared/base-crud-user.service";
+
+import { FormaPagamentoUser } from "./crud-user.entity";
+
+@Injectable()
+export class FormaPagamentoUserService extends BaseCrudUserService{
+
+    constructor (
+        @InjectRepository(FormaPagamentoUser) protected repo)
+    {
+        super(repo)
+    }
+
+}
+
+
+----------------------------------------------------------------------------
+crud.controller.ts
+============================================================================
+
+import { Controller } from "@nestjs/common";
+import { BaseCrudController } from "src/_shared/base-crud.controller";
+import { UserService } from "src/_user/user.service";
+
+import { FormaPagamentoService } from "./service";
+
+@Controller('forma-pagamento')
+export class FormaPagamentoController extends BaseCrudController{
+    constructor(public service: FormaPagamentoService,
+                protected userService: UserService) {
+        super(service, userService)
+    }
+}
+
+
+----------------------------------------------------------------------------
+crud.entity.ts
+============================================================================
+
+import { BaseModelCrud } from "src/_shared/base-model-crud.entity";
+import { Column, Entity, Unique } from "typeorm";
+
+@Entity()
+@Unique("uniq_name", ["name", "realmId"])
+export class FormaPagamento extends BaseModelCrud {
+
+    @Column()
+    sigla: string;
+
+}
+
+
+----------------------------------------------------------------------------
+module.ts
+============================================================================
+
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { BaseCrudModule } from "src/_shared/base-crud.module";
+import { HttpModule } from "@nestjs/axios/dist/http.module";
+import { UserModule } from "src/_user/user.module";
+
+import { FormaPagamentoController } from "./crud.controller";
+import { FormaPagamento } from "./crud.entity";
+import { FormaPagamentoUser } from "./crud-user.entity";
+import { FormaPagamentoUserController } from "./crud-user.controller";
+import { FormaPagamentoService } from "./service";
+import { FormaPagamentoUserService } from "./crud-user.service";
+
+@Module({
+    imports: [
+        HttpModule,
+        UserModule,
+        
+        TypeOrmModule.forFeature([FormaPagamento, FormaPagamentoUser]),
+        BaseCrudModule
+    ],
+    controllers:[FormaPagamentoController, FormaPagamentoUserController],
+    providers:[FormaPagamentoService, FormaPagamentoUserService],
+    exports:[FormaPagamentoService, FormaPagamentoUserService]
+})
+export class FormaPagamentoModule {}
+
+
+----------------------------------------------------------------------------
+service.ts
+============================================================================
+
+import { InjectRepository } from "@nestjs/typeorm";
+import { BaseCrudService } from "src/_shared/base-crud.service";
+
+import { FormaPagamento } from "./crud.entity";
+import { FormaPagamentoUser } from "./crud-user.entity";
+
+export class FormaPagamentoService extends BaseCrudService{
+
+    constructor (
+        @InjectRepository(FormaPagamento) protected repo,
+        @InjectRepository(FormaPagamentoUser) protected repoUser)
+    {
+        super(repo, repoUser)
+    }
+
+    getDataFromDto(dto: any, user: any, model: FormaPagamento){
+
+        model.sigla = dto.sigla
+        
+        return super.getDataFromDto(dto, user, model)
+    }
+
+}
+
+*/

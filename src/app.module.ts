@@ -22,6 +22,7 @@ import { CustosMensaisFacadeModule } from './facade/custos-mensais/module';
 import { GrupoAcessoModule } from './crud-simples/grupo-acesso/module';
 import { PermissaoAcessoModule } from './crud-simples/permissao-acesso/module';
 import { ClienteModule } from './crud-simples/cliente/module';
+import { FornecedorModule } from './crud-simples/fornecedor/module';
 
 
 
@@ -42,6 +43,7 @@ import { ClienteModule } from './crud-simples/cliente/module';
     GrupoAcessoModule,
 
     ClienteModule,
+    FornecedorModule,
     EmpresaModule,
     UnidadeMedidaModule,
     EstagioModule,

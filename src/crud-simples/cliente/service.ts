@@ -20,19 +20,4 @@ export class ClienteService extends BaseCrudService{
         return super.getDataFromDto(dto, user, model)
     }
 
-    async validate(dto: any, user: any): Promise<boolean>{
-
-        if (!user){
-            this.logger.error("login is requerid")
-            return
-        }
-
-        if (!dto.name){
-            return false
-        }
-
-        return true
-
-    }
-
 }
