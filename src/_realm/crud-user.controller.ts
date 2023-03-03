@@ -45,12 +45,6 @@ export class RealmUserController extends BaseCrudController{
 
         }
 
-
-        console.log({
-            userId: userAuth.userId, 
-            isAdmin: true, 
-            originId: userAuth.realmId
-        })
         let relmUser = await this.service.findByWhere({
             userId: userAuth.userId, 
             isAdmin: true, 
@@ -80,8 +74,6 @@ export class RealmUserController extends BaseCrudController{
         }else{
             newUser = userPost[0]
         }
-
-        console.log(newUser)
 
         const jaExiste = await this.service.findByWhere({
             userId: newUser.id, 
