@@ -23,6 +23,11 @@ import { GrupoAcessoModule } from './crud-simples/grupo-acesso/module';
 import { PermissaoAcessoModule } from './crud-simples/permissao-acesso/module';
 import { ClienteModule } from './crud-simples/cliente/module';
 import { FornecedorModule } from './crud-simples/fornecedor/module';
+import { FormaPagamentoModule } from './crud-simples/forma-pagamento/module';
+import { PedidoVendaModule } from './crud-simples/pedido-venda/module';
+import { PaisModule } from './crud-simples/pais/module';
+import { UFModule } from './crud-simples/uf/module';
+import { CidadeModule } from './crud-simples/cidade/module';
 
 
 
@@ -42,8 +47,15 @@ import { FornecedorModule } from './crud-simples/fornecedor/module';
     PermissaoAcessoModule,
     GrupoAcessoModule,
 
+    PaisModule,
+    UFModule,
+    CidadeModule,
     ClienteModule,
+    PedidoVendaModule,
+
     FornecedorModule,
+    FormaPagamentoModule,
+
     EmpresaModule,
     UnidadeMedidaModule,
     EstagioModule,
