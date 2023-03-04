@@ -14,8 +14,6 @@ export class PedidoVendaService extends BaseCrudService{
     }
 
     getDataFromDto(dto: any, user: any, model: PedidoVenda){
-
-        model.sigla = dto.sigla
         
         return super.getDataFromDto(dto, user, model)
     }
