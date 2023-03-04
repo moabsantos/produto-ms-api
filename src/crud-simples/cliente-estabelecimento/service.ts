@@ -1,26 +1,26 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { BaseCrudService } from "src/_shared/base-crud.service";
 
-import { EstabelecimentoCliente } from "./crud.entity";
-import { EstabelecimentoClienteUser } from "./crud-user.entity";
+import { ClienteEstabelecimento } from "./crud.entity";
+import { ClienteEstabelecimentoUser } from "./crud-user.entity";
 import { ClienteService } from "../cliente/service";
 import { CidadeService } from "../cidade/service";
 
-export class EstabelecimentoClienteService extends BaseCrudService{
+export class ClienteEstabelecimentoService extends BaseCrudService{
 
     cliente: any;
     cidade: any;
 
     constructor (
-        @InjectRepository(EstabelecimentoCliente) protected repo,
-        @InjectRepository(EstabelecimentoClienteUser) protected repoUser,
+        @InjectRepository(ClienteEstabelecimento) protected repo,
+        @InjectRepository(ClienteEstabelecimentoUser) protected repoUser,
         private clienteServ: ClienteService,
         private cidadeServ: CidadeService)
     {
         super(repo, repoUser)
     }
 
-    getDataFromDto(dto: any, user: any, model: EstabelecimentoCliente){
+    getDataFromDto(dto: any, user: any, model: ClienteEstabelecimento){
 
         model.clienteId = this.cliente.id
         model.clienteName = this.cliente.name

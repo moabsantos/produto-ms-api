@@ -28,7 +28,7 @@ import { PedidoVendaModule } from './crud-simples/pedido-venda/module';
 import { PaisModule } from './crud-simples/pais/module';
 import { UFModule } from './crud-simples/uf/module';
 import { CidadeModule } from './crud-simples/cidade/module';
-import { EstabelecimentoClienteModule } from './crud-simples/estabelecimento-cliente/module';
+import { ClienteEstabelecimentoModule } from './crud-simples/cliente-estabelecimento/module';
 
 
 
@@ -52,7 +52,7 @@ import { EstabelecimentoClienteModule } from './crud-simples/estabelecimento-cli
     UFModule,
     CidadeModule,
     ClienteModule,
-    EstabelecimentoClienteModule,
+    ClienteEstabelecimentoModule,
     PedidoVendaModule,
 
     FornecedorModule,

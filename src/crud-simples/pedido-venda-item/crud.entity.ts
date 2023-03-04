@@ -3,7 +3,10 @@ import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
 @Unique("uniq_name", ["name", "realmId"])
-export class PedidoVenda extends BaseModelCrud {
+export class PedidoVendaItem extends BaseModelCrud {
+
+    @Column()
+    pedidoVendaId: number;
 
     @Column()
     clienteId: number;
@@ -43,5 +46,36 @@ export class PedidoVenda extends BaseModelCrud {
 
     @Column()
     cidadeSigla: string;
+
+
+    @Column()
+    itemVendaId: number;
+
+    @Column()
+    itemVendaName: string;
+
+    @Column()
+    itemVendaSigla: string;
+
+    @Column()
+    itemVendaDescription: string;
+
+    @Column()
+    quantidadeSolicitada: number;
+
+    @Column()
+    quantidadeEntregue: number;
+
+    @Column()
+    valorInicialItem: number;
+
+    @Column()
+    percentDescontoItem: number;
+
+    @Column()
+    valorItem: number;
+
+    @Column()
+    valorTotalItem: number;
 
 }

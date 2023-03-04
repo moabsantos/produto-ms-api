@@ -7,12 +7,12 @@ import { Controller } from "@nestjs/common";
 import { BaseCrudController } from "src/_shared/base-crud.controller";
 import { UserService } from "src/_user/user.service";
 
-import { EstabelecimentoUserService } from "./crud-user.service";
+import { PedidoVendaItemUserService } from "./crud-user.service";
 
 
-@Controller('estabelecimento-user')
-export class EstabelecimentoUserController extends BaseCrudController{
-    constructor(public service: EstabelecimentoUserService,
+@Controller('pedido-venda-item-user')
+export class PedidoVendaItemUserController extends BaseCrudController{
+    constructor(public service: PedidoVendaItemUserService,
         protected userService: UserService) {
         super(service, userService)
     }
@@ -28,7 +28,7 @@ import { Entity } from "typeorm";
 
 
 @Entity()
-export class EstabelecimentoUser extends BaseModelUser {}
+export class PedidoVendaItemUser extends BaseModelUser {}
 
 
 ----------------------------------------------------------------------------
@@ -39,13 +39,13 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { BaseCrudUserService } from "src/_shared/base-crud-user.service";
 
-import { EstabelecimentoUser } from "./crud-user.entity";
+import { PedidoVendaItemUser } from "./crud-user.entity";
 
 @Injectable()
-export class EstabelecimentoUserService extends BaseCrudUserService{
+export class PedidoVendaItemUserService extends BaseCrudUserService{
 
     constructor (
-        @InjectRepository(EstabelecimentoUser) protected repo)
+        @InjectRepository(PedidoVendaItemUser) protected repo)
     {
         super(repo)
     }
@@ -61,11 +61,11 @@ import { Controller } from "@nestjs/common";
 import { BaseCrudController } from "src/_shared/base-crud.controller";
 import { UserService } from "src/_user/user.service";
 
-import { EstabelecimentoService } from "./service";
+import { PedidoVendaItemService } from "./service";
 
-@Controller('estabelecimento')
-export class EstabelecimentoController extends BaseCrudController{
-    constructor(public service: EstabelecimentoService,
+@Controller('pedido-venda-item')
+export class PedidoVendaItemController extends BaseCrudController{
+    constructor(public service: PedidoVendaItemService,
                 protected userService: UserService) {
         super(service, userService)
     }
@@ -81,7 +81,7 @@ import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
 @Unique("uniq_name", ["name", "realmId"])
-export class Estabelecimento extends BaseModelCrud {
+export class PedidoVendaItem extends BaseModelCrud {
 
     @Column()
     sigla: string;
@@ -99,26 +99,26 @@ import { BaseCrudModule } from "src/_shared/base-crud.module";
 import { HttpModule } from "@nestjs/axios/dist/http.module";
 import { UserModule } from "src/_user/user.module";
 
-import { EstabelecimentoController } from "./crud.controller";
-import { Estabelecimento } from "./crud.entity";
-import { EstabelecimentoUser } from "./crud-user.entity";
-import { EstabelecimentoUserController } from "./crud-user.controller";
-import { EstabelecimentoService } from "./service";
-import { EstabelecimentoUserService } from "./crud-user.service";
+import { PedidoVendaItemController } from "./crud.controller";
+import { PedidoVendaItem } from "./crud.entity";
+import { PedidoVendaItemUser } from "./crud-user.entity";
+import { PedidoVendaItemUserController } from "./crud-user.controller";
+import { PedidoVendaItemService } from "./service";
+import { PedidoVendaItemUserService } from "./crud-user.service";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
         
-        TypeOrmModule.forFeature([Estabelecimento, EstabelecimentoUser]),
+        TypeOrmModule.forFeature([PedidoVendaItem, PedidoVendaItemUser]),
         BaseCrudModule
     ],
-    controllers:[EstabelecimentoController, EstabelecimentoUserController],
-    providers:[EstabelecimentoService, EstabelecimentoUserService],
-    exports:[EstabelecimentoService, EstabelecimentoUserService]
+    controllers:[PedidoVendaItemController, PedidoVendaItemUserController],
+    providers:[PedidoVendaItemService, PedidoVendaItemUserService],
+    exports:[PedidoVendaItemService, PedidoVendaItemUserService]
 })
-export class EstabelecimentoModule {}
+export class PedidoVendaItemModule {}
 
 
 ----------------------------------------------------------------------------
@@ -128,19 +128,19 @@ service.ts
 import { InjectRepository } from "@nestjs/typeorm";
 import { BaseCrudService } from "src/_shared/base-crud.service";
 
-import { Estabelecimento } from "./crud.entity";
-import { EstabelecimentoUser } from "./crud-user.entity";
+import { PedidoVendaItem } from "./crud.entity";
+import { PedidoVendaItemUser } from "./crud-user.entity";
 
-export class EstabelecimentoService extends BaseCrudService{
+export class PedidoVendaItemService extends BaseCrudService{
 
     constructor (
-        @InjectRepository(Estabelecimento) protected repo,
-        @InjectRepository(EstabelecimentoUser) protected repoUser)
+        @InjectRepository(PedidoVendaItem) protected repo,
+        @InjectRepository(PedidoVendaItemUser) protected repoUser)
     {
         super(repo, repoUser)
     }
 
-    getDataFromDto(dto: any, user: any, model: Estabelecimento){
+    getDataFromDto(dto: any, user: any, model: PedidoVendaItem){
 
         model.sigla = dto.sigla
         

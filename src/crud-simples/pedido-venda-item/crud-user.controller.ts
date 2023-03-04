@@ -2,12 +2,12 @@ import { Controller } from "@nestjs/common";
 import { BaseCrudController } from "src/_shared/base-crud.controller";
 import { UserService } from "src/_user/user.service";
 
-import { EstabelecimentoClienteUserService } from "./crud-user.service";
+import { PedidoVendaItemUserService } from "./crud-user.service";
 
 
-@Controller('estabelecimento-cliente-user')
-export class EstabelecimentoClienteUserController extends BaseCrudController{
-    constructor(public service: EstabelecimentoClienteUserService,
+@Controller('pedido-venda-item-user')
+export class PedidoVendaItemUserController extends BaseCrudController{
+    constructor(public service: PedidoVendaItemUserService,
         protected userService: UserService) {
         super(service, userService)
     }
