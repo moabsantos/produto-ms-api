@@ -7,12 +7,12 @@ import { Controller } from "@nestjs/common";
 import { BaseCrudController } from "src/_shared/base-crud.controller";
 import { UserService } from "src/_user/user.service";
 
-import { CidadeUserService } from "./crud-user.service";
+import { EstabelecimentoUserService } from "./crud-user.service";
 
 
-@Controller('cidade-user')
-export class CidadeUserController extends BaseCrudController{
-    constructor(public service: CidadeUserService,
+@Controller('estabelecimento-user')
+export class EstabelecimentoUserController extends BaseCrudController{
+    constructor(public service: EstabelecimentoUserService,
         protected userService: UserService) {
         super(service, userService)
     }
@@ -28,7 +28,7 @@ import { Entity } from "typeorm";
 
 
 @Entity()
-export class CidadeUser extends BaseModelUser {}
+export class EstabelecimentoUser extends BaseModelUser {}
 
 
 ----------------------------------------------------------------------------
@@ -39,13 +39,13 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { BaseCrudUserService } from "src/_shared/base-crud-user.service";
 
-import { CidadeUser } from "./crud-user.entity";
+import { EstabelecimentoUser } from "./crud-user.entity";
 
 @Injectable()
-export class CidadeUserService extends BaseCrudUserService{
+export class EstabelecimentoUserService extends BaseCrudUserService{
 
     constructor (
-        @InjectRepository(CidadeUser) protected repo)
+        @InjectRepository(EstabelecimentoUser) protected repo)
     {
         super(repo)
     }
@@ -61,11 +61,11 @@ import { Controller } from "@nestjs/common";
 import { BaseCrudController } from "src/_shared/base-crud.controller";
 import { UserService } from "src/_user/user.service";
 
-import { CidadeService } from "./service";
+import { EstabelecimentoService } from "./service";
 
-@Controller('cidade')
-export class CidadeController extends BaseCrudController{
-    constructor(public service: CidadeService,
+@Controller('estabelecimento')
+export class EstabelecimentoController extends BaseCrudController{
+    constructor(public service: EstabelecimentoService,
                 protected userService: UserService) {
         super(service, userService)
     }
@@ -81,7 +81,7 @@ import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
 @Unique("uniq_name", ["name", "realmId"])
-export class Cidade extends BaseModelCrud {
+export class Estabelecimento extends BaseModelCrud {
 
     @Column()
     sigla: string;
@@ -99,26 +99,26 @@ import { BaseCrudModule } from "src/_shared/base-crud.module";
 import { HttpModule } from "@nestjs/axios/dist/http.module";
 import { UserModule } from "src/_user/user.module";
 
-import { CidadeController } from "./crud.controller";
-import { Cidade } from "./crud.entity";
-import { CidadeUser } from "./crud-user.entity";
-import { CidadeUserController } from "./crud-user.controller";
-import { CidadeService } from "./service";
-import { CidadeUserService } from "./crud-user.service";
+import { EstabelecimentoController } from "./crud.controller";
+import { Estabelecimento } from "./crud.entity";
+import { EstabelecimentoUser } from "./crud-user.entity";
+import { EstabelecimentoUserController } from "./crud-user.controller";
+import { EstabelecimentoService } from "./service";
+import { EstabelecimentoUserService } from "./crud-user.service";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
         
-        TypeOrmModule.forFeature([Cidade, CidadeUser]),
+        TypeOrmModule.forFeature([Estabelecimento, EstabelecimentoUser]),
         BaseCrudModule
     ],
-    controllers:[CidadeController, CidadeUserController],
-    providers:[CidadeService, CidadeUserService],
-    exports:[CidadeService, CidadeUserService]
+    controllers:[EstabelecimentoController, EstabelecimentoUserController],
+    providers:[EstabelecimentoService, EstabelecimentoUserService],
+    exports:[EstabelecimentoService, EstabelecimentoUserService]
 })
-export class CidadeModule {}
+export class EstabelecimentoModule {}
 
 
 ----------------------------------------------------------------------------
@@ -128,19 +128,19 @@ service.ts
 import { InjectRepository } from "@nestjs/typeorm";
 import { BaseCrudService } from "src/_shared/base-crud.service";
 
-import { Cidade } from "./crud.entity";
-import { CidadeUser } from "./crud-user.entity";
+import { Estabelecimento } from "./crud.entity";
+import { EstabelecimentoUser } from "./crud-user.entity";
 
-export class CidadeService extends BaseCrudService{
+export class EstabelecimentoService extends BaseCrudService{
 
     constructor (
-        @InjectRepository(Cidade) protected repo,
-        @InjectRepository(CidadeUser) protected repoUser)
+        @InjectRepository(Estabelecimento) protected repo,
+        @InjectRepository(EstabelecimentoUser) protected repoUser)
     {
         super(repo, repoUser)
     }
 
-    getDataFromDto(dto: any, user: any, model: Cidade){
+    getDataFromDto(dto: any, user: any, model: Estabelecimento){
 
         model.sigla = dto.sigla
         
