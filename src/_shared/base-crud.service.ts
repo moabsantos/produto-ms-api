@@ -24,6 +24,20 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         return super.validate(dto, user)
     }
 
+    async validateId(service: BaseCrudService, id: any, user: any): Promise<any>{
+
+        const listService = await service.findByWhere({
+            id: id,
+            realmId: user.realmId
+        })
+
+        if (listService.length == 0){
+            return false
+        }
+
+        return listService[0]
+    }
+
     async foundDuplicated(dto: any, user: any): Promise<boolean> {
 
         if (!dto.name){
@@ -40,7 +54,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         return false
     }
 
-    getDataFromDto(dto: any, user: any, model: BaseModelCrud){
+    getDataFromDto(dto: any, user: any, model: BaseModelCrud): BaseModelCrud{
 
         model.code = dto.code
         model.name = dto.name

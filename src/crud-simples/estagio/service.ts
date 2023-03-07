@@ -22,16 +22,11 @@ export class EstagioService extends BaseCrudService{
 
     async validate(dto: any, user: any): Promise<boolean>{
 
-        if (!user){
-            this.logger.error("login is requerid")
-            return
-        }
-
         if (!dto.name){
             return false
         }
 
-        return true
+        return super.validate(dto, user)
 
     }
 

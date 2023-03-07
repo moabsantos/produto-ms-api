@@ -1,22 +1,22 @@
-import { Column, Entity, Unique } from "typeorm";
+import { Column, Entity } from "typeorm";
 import { BaseModel } from "./base-model.entity";
 
 @Entity()
 export class BaseModelCrud extends BaseModel {
 
-    @Column()
+    @Column({nullable: true})
     code: string;
 
     @Column({nullable: false})
     name: string;
 
-    @Column()
+    @Column({nullable: true})
     description: string;
 
     @Column({nullable:true})
     idImage: string;
 
-    @Column()
+    @Column({default: 0})
     realmId: number;
 
 }

@@ -41,7 +41,7 @@ export class UFService extends BaseCrudService{
         }
         this.pais = paises[0] 
         
-        return true
+        return super.validate(dto, user)
     }
 
 }

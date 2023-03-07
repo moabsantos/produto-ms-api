@@ -40,16 +40,11 @@ export class FichaTecnicaService extends BaseCrudService{
         }
         this.unidadeMedida = unidMedida[0]
 
-        if (!user){
-            this.logger.error("login is requerid")
-            return
-        }
-
         if (!dto.name){
             return false
         }
 
-        return true
+        return super.validate(dto, user)
 
     }
 

@@ -9,7 +9,7 @@ export class User {
   @Column()
   name: string;
 
-  @Column()
+  @Column({nullable: true})
   picture: string;
 
   @Column({unique: true})
@@ -18,12 +18,12 @@ export class User {
   @Column({default: false})
   checked: boolean;
 
-  @Column()
+  @Column({default: 0})
   realmId: number;
 
-  @Column()
+  @Column({default: 0})
   empresaId: number;
 
-  @Column()
+  @Column({default: 0})
   grupoId: number;
 }

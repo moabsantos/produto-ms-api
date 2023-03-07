@@ -10,13 +10,17 @@ import { PedidoVendaUser } from "./crud-user.entity";
 import { PedidoVendaUserController } from "./crud-user.controller";
 import { PedidoVendaService } from "./service";
 import { PedidoVendaUserService } from "./crud-user.service";
+import { ClienteModule } from "../cliente/module";
+import { ClienteEstabelecimentoModule } from "../cliente-estabelecimento/module";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
-        
+    
         TypeOrmModule.forFeature([PedidoVenda, PedidoVendaUser]),
+        ClienteModule,
+        ClienteEstabelecimentoModule,
         BaseCrudModule
     ],
     controllers:[PedidoVendaController, PedidoVendaUserController],

@@ -11,28 +11,31 @@ export class PedidoVenda extends BaseModelCrud {
     @Column()
     clienteName: string;
 
-    @Column()
+    @Column({nullable: true})
     clienteSigla: string;
 
     @Column()
+    clienteEstabelecimentoId: number;
+
+    @Column({nullable: true})
     cnpj: string;
 
-    @Column()
+    @Column({nullable: true})
     inscricaoEstadual: string;
 
-    @Column()
+    @Column({nullable: true})
     email: string;
 
-    @Column()
+    @Column({nullable: true})
     telefone: string;
 
-    @Column()
+    @Column({nullable: true})
     endereco: string;
 
-    @Column()
+    @Column({nullable: true})
     numero: string;
 
-    @Column()
+    @Column({nullable: true})
     bairro: string;
 
     @Column()
@@ -41,7 +44,7 @@ export class PedidoVenda extends BaseModelCrud {
     @Column()
     cidadeName: string;
 
-    @Column()
+    @Column({nullable: true})
     cidadeSigla: string;
 
 }

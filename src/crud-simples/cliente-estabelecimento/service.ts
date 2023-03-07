@@ -40,6 +40,8 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
         model.cidadeName = this.cidade.name
         model.cidadeSigla = this.cidade.sigla
 
+        dto.name = this.cliente.id + ' - '+ this.cidade.id +' - '+ dto.numero +' - '+ dto.bairro
+
         return super.getDataFromDto(dto, user, model)
     }
 
@@ -67,7 +69,9 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
         }
         this.cidade = cidades[0]
 
-        return true
+        dto.name = '*'
+
+        return super.validate(dto, user)
 
     }
 

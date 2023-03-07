@@ -22,19 +22,21 @@ export class PedidoVendaItemService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: PedidoVendaItem){
 
+        model.pedidoVendaId = this.pedidoVenda.id
+
         model.clienteId = this.pedidoVenda.clienteId
         model.clienteName = this.pedidoVenda.clienteName
         model.clienteSigla = this.pedidoVenda.clienteSigla
     
-        model.cnpj = dto.cnpj
-        model.inscricaoEstadual = dto.inscricaoEstadual
+        model.cnpj = this.pedidoVenda.cnpj
+        model.inscricaoEstadual = this.pedidoVenda.inscricaoEstadual
     
-        model.email = dto.email
-        model.telefone = dto.telefone
+        model.email = this.pedidoVenda.email
+        model.telefone = this.pedidoVenda.telefone
     
-        model.endereco = dto.endereco
-        model.numero = dto.numero
-        model.bairro = dto.bairro
+        model.endereco = this.pedidoVenda.endereco
+        model.numero = this.pedidoVenda.numero
+        model.bairro = this.pedidoVenda.bairro
     
         model.cidadeId = this.pedidoVenda.cidadeId
         model.cidadeName = this.pedidoVenda.cidadeName
@@ -45,11 +47,17 @@ export class PedidoVendaItemService extends BaseCrudService{
         model.itemVendaSigla = this.itemVenda.sigla;
         model.itemVendaDescription = this.itemVenda.description;
 
+        model.unidadeMedidaId = this.itemVenda.unidadeMedidaId;
+        model.unidadeMedidaName = this.itemVenda.unidadeMedidaName;
+        model.unidadeMedidaSigla = this.itemVenda.unidadeMedidaSigla;
+
         model.quantidadeSolicitada = dto.quantidadeSolicitada;
         model.valorInicialItem = dto.valorInicialItem;
         model.percentDescontoItem = dto.percentDescontoItem;
-        model.valorItem = dto.valorItem;
-        model.valorTotalItem = dto.valorItem * dto.quantidadeSolicitada;
+        model.valorItem = dto.valorInicialItem * (1 - (dto.percentDescontoItem/100));
+        model.valorTotalItem = model.valorItem * model.quantidadeSolicitada;
+
+        dto.name = model.pedidoVendaId +'-'+ model.clienteId +'-'+ model.itemVendaId
 
         return super.getDataFromDto(dto, user, model)
     }
@@ -78,7 +86,8 @@ export class PedidoVendaItemService extends BaseCrudService{
         }
         this.itemVenda = itensVenda[0]
 
-        return true
+        dto.name = '*'
+        return super.validate(dto, user)
 
     }
 
