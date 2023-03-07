@@ -2,7 +2,7 @@ import { BaseModelCrud } from "src/_shared/base-model-crud.entity";
 import { Column, Entity } from "typeorm";
 
 @Entity()
-export class FichaTecnica extends BaseModelCrud {
+export class ProdutoComponente extends BaseModelCrud {
 
     @Column()
     produtoId: number;
@@ -11,10 +11,10 @@ export class FichaTecnica extends BaseModelCrud {
     produtoName: string;
 
     @Column()
-    alternativaId: number;
+    numeroAlternativa: number;
 
     @Column()
-    producao: number;
+    quantidadeProducao: number;
 
     @Column()
     unidadeMedidaProducaoId: number;
@@ -41,16 +41,16 @@ export class FichaTecnica extends BaseModelCrud {
     componenteName: string;
 
     @Column()
-    consumo: number;
+    consumoProducao: number;
 
     @Column()
-    unidadeMedidaId: number;
+    unidadeMedidaConsumoId: number;
 
     @Column()
-    unidadeMedidaName: string;
+    unidadeMedidaConsumoName: string;
 
     @Column()
-    unidadeMedidaSigla: string;
+    unidadeMedidaConsumoSigla: string;
 
 
 }

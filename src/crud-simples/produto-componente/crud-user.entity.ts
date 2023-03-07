@@ -3,4 +3,4 @@ import { Entity } from "typeorm";
 
 
 @Entity()
-export class FichaTecnicaUser extends BaseModelUser {}
+export class ProdutoComponenteUser extends BaseModelUser {}

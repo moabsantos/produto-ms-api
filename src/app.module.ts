@@ -12,7 +12,7 @@ import { DatabaseModule } from './_shared/database.module';
 import { UnidadeMedidaModule } from './crud-simples/unidade-medida/module';
 import { HttpModule } from '@nestjs/axios/dist/http.module';
 import { ProdutoModule } from './crud-simples/produto/module';
-import { FichaTecnicaModule } from './crud-simples/ficha-tecnica/module';
+
 import { EstagioModule } from './crud-simples/estagio/module';
 import { SetorModule } from './crud-simples/setor/module';
 import { EmpresaModule } from './crud-simples/empresa/module';
@@ -30,6 +30,7 @@ import { UFModule } from './crud-simples/uf/module';
 import { CidadeModule } from './crud-simples/cidade/module';
 import { ClienteEstabelecimentoModule } from './crud-simples/cliente-estabelecimento/module';
 import { PedidoVendaItemModule } from './crud-simples/pedido-venda-item/module';
+import { ProdutoComponenteModule } from './crud-simples/produto-componente/module';
 
 
 
@@ -65,7 +66,7 @@ import { PedidoVendaItemModule } from './crud-simples/pedido-venda-item/module';
     EstagioModule,
     SetorModule,
     ProdutoModule,
-    FichaTecnicaModule,
+    ProdutoComponenteModule,
 
     CustosDiaModule,
     CustosMensaisModule,
