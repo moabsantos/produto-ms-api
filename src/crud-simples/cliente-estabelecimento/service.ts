@@ -67,8 +67,6 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
         }
         this.cidade = cidades[0]
 
-        dto.name = '*'
-
         return super.validate(dto, user)
 
     }
