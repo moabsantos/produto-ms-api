@@ -55,7 +55,7 @@ export class CustosDiaService extends BaseCrudService{
         if (dto.valorRealizado)
             model.valorRealizado = dto.valorRealizado
 
-        dto.name = model.itemDespesaName +' '+dto.data  
+        dto.name = this.empresa.id +' - '+this.setor.id +' - '+ model.itemDespesaName +' - '+dto.data  
         dto.description = '*'
         
         return super.getDataFromDto(dto, user, model)
@@ -107,6 +107,7 @@ export class CustosDiaService extends BaseCrudService{
         }
         this.empresa = emp[0]
 
+        dto.name = '*'
         return super.validate(dto, user)
 
     }

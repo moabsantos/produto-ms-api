@@ -17,7 +17,7 @@ export class BaseCrudUserService extends CustomService<BaseModelUser>{
         }
 
         let modelRepo = await this.repo.find({where:{userId:user.userId, originId: dto.originId}})
-        console.log(dto)
+        
         if(modelRepo && modelRepo.length > 0){
 
             return true

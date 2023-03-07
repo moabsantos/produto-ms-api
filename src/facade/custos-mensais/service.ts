@@ -13,6 +13,12 @@ export class CustosMensaisFacadeService {
         private custosMesServ: CustosMensaisService)
     {}
 
+
+    somaValidada(valores){
+
+        return 0
+    }
+
     async calculaCustoMesItem(req: CrudRequest, user: any, params: any){
 
         const custosDia = await this.custosDiaServ.findByWhere({
@@ -30,7 +36,7 @@ export class CustosMensaisFacadeService {
         }
 
         for await (const item of custosDia) {
-          
+
             valores.quantidadeRealizada = valores.quantidadeRealizada + Number(item['quantidadeRealizada'])
             valores.quantidadePrevista = valores.quantidadePrevista + Number(item['quantidadePrevista'])
             valores.valorRealizado =  valores.valorRealizado + Number(item['valorRealizado'])
