@@ -14,6 +14,9 @@ export class ProdutoComponente extends BaseModelCrud {
     numeroAlternativa: number;
 
     @Column()
+    sequencia: number;
+
+    @Column()
     quantidadeProducao: number;
 
     @Column()

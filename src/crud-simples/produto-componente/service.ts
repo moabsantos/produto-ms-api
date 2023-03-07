@@ -28,6 +28,9 @@ export class ProdutoComponenteService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: ProdutoComponente){
 
+        model.sequencia = dto.sequencia
+        model.numeroAlternativa = dto.numeroAlternativa
+
         model.produtoId = this.produto.id
         model.produtoName = this.produto.name
 
@@ -36,6 +39,9 @@ export class ProdutoComponenteService extends BaseCrudService{
         model.unidadeMedidaProducaoName = this.unidadeProducao.name
         model.unidadeMedidaProducaoSigla = this.unidadeProducao.sigla
         model.unidadeMedidaProducaoId = this.unidadeProducao.id
+
+        model.componenteId = this.componente.id
+        model.componenteName = this.componente.name
 
         model.consumoProducao = dto.consumoProducao
 
@@ -46,6 +52,8 @@ export class ProdutoComponenteService extends BaseCrudService{
         model.estagioName = this.estagio.name
         model.estagioSigla = this.estagio.sigla
         model.estagioId = this.estagio.id
+
+        model.name = this.produto.id +' - '+model.numeroAlternativa +' - '+ this.componente.id +' - '+ this.estagio.id
 
         return super.getDataFromDto(dto, user, model)
     }
@@ -86,6 +94,7 @@ export class ProdutoComponenteService extends BaseCrudService{
             return false
         }
 
+        dto.name = '*'
         return super.validate(dto, user)
 
     }
