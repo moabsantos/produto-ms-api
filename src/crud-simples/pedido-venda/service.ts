@@ -42,8 +42,6 @@ export class PedidoVendaService extends BaseCrudService{
         model.cidadeName = this.estabelecimento.cidadeName
         model.cidadeSigla = this.estabelecimento.cidadeSigla
 
-        dto.name = `${dto.code} cli ${this.cliente.id} local ${model.clienteEstabelecimentoId}`
-
         return super.getDataFromDto(dto, user, model)
     }
 
@@ -61,7 +59,7 @@ export class PedidoVendaService extends BaseCrudService{
             return false
         }
 
-        dto.name = '*'
+        dto.name = `${dto.code} cli ${this.cliente.id} local ${this.estabelecimento.id}`
         return super.validate(dto, user)
     }
 

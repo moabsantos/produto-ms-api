@@ -54,9 +54,6 @@ export class CustosMensaisService extends BaseCrudService{
         if (dto.valorRealizado)
             model.valorRealizado = dto.valorRealizado
 
-        dto.name = `realm ${user.realmId} empresa ${this.empresa.id} periodo ${dto.mes}/${dto.ano} item ${this.itemDespesa.id}`  
-        dto.description = '*'
-
         return super.getDataFromDto(dto, user, model)
     }
 
@@ -106,6 +103,8 @@ export class CustosMensaisService extends BaseCrudService{
         }
         this.empresa = emp[0]
 
+        dto.name = `realm ${user.realmId} empresa ${this.empresa.id} periodo ${dto.mes}/${dto.ano} item ${this.itemDespesa.id}`  
+        dto.description = '*'
         return super.validate(dto, user)
 
     }

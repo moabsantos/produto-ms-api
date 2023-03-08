@@ -53,8 +53,6 @@ export class ProdutoComponenteService extends BaseCrudService{
         model.estagioSigla = this.estagio.sigla
         model.estagioId = this.estagio.id
 
-        model.name = this.produto.id +' - '+model.numeroAlternativa +' - '+ this.componente.id +' - '+ this.estagio.id
-
         return super.getDataFromDto(dto, user, model)
     }
 
@@ -90,11 +88,7 @@ export class ProdutoComponenteService extends BaseCrudService{
             return false
         }
 
-        if (!dto.name){
-            return false
-        }
-
-        dto.name = '*'
+        dto.name = this.produto.id +' - '+ dto.numeroAlternativa +' - '+ dto.sequencia +' - '+ this.componente.id +' - '+ this.estagio.id
         return super.validate(dto, user)
 
     }
