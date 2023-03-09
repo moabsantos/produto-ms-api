@@ -32,6 +32,8 @@ import { ClienteEstabelecimentoModule } from './crud-simples/cliente-estabelecim
 import { PedidoVendaItemModule } from './crud-simples/pedido-venda-item/module';
 import { ProdutoComponenteModule } from './crud-simples/produto-componente/module';
 import { OrdemProducaoModule } from './crud-simples/ordem-producao/module';
+import { OrdemProducaoItemModule } from './crud-simples/ordem-producao-item/module';
+import { DepositoModule } from './crud-simples/deposito/module';
 
 
 
@@ -51,6 +53,8 @@ import { OrdemProducaoModule } from './crud-simples/ordem-producao/module';
     PermissaoAcessoModule,
     GrupoAcessoModule,
 
+    DepositoModule,
+
     PaisModule,
     UFModule,
     CidadeModule,
@@ -60,6 +64,7 @@ import { OrdemProducaoModule } from './crud-simples/ordem-producao/module';
     PedidoVendaItemModule,
 
     OrdemProducaoModule,
+    OrdemProducaoItemModule,
 
     FornecedorModule,
     FormaPagamentoModule,

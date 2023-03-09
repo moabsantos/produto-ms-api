@@ -8,6 +8,7 @@ import { UnidadeMedidaService } from "../unidade-medida/service";
 export class ProdutoService extends BaseCrudService{
 
     private unidadeMedida: any;
+    private unidadeMedidaCompra: any;
 
     constructor (
         @InjectRepository(Produto) protected repo,
@@ -22,6 +23,10 @@ export class ProdutoService extends BaseCrudService{
         model.unidadeMedidaName = this.unidadeMedida.name
         model.unidadeMedidaSigla = this.unidadeMedida.sigla
         model.unidadeMedidaId = dto.unidadeMedidaId
+
+        model.unidadeMedidaCompraName = this.unidadeMedidaCompra.name
+        model.unidadeMedidaCompraSigla = this.unidadeMedidaCompra.sigla
+        model.unidadeMedidaCompraId = dto.unidadeMedidaCompraId
 
         model.flagServico = 0
         if (dto.flagServico > 0)
@@ -42,6 +47,14 @@ export class ProdutoService extends BaseCrudService{
             return false
         }
         this.unidadeMedida = unidMedida[0]
+
+        if (dto.unidadeMedidaCompraId){
+            this.unidadeMedidaCompra = await this.validateId(this.unidadeServ, dto.unidadeMedidaCompraId, user)
+            if (!this.unidadeMedidaCompra){
+                this.logger.error(`A Unidade de Compra ${dto.unidadeMedidaCompraId} não foi encontrada`)
+                return false
+            }
+        }
 
         if (!dto.name){
             return false

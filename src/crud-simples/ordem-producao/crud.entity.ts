@@ -5,20 +5,17 @@ import { Column, Entity, Unique } from "typeorm";
 @Unique("uniq_name", ["name", "realmId"])
 export class OrdemProducao extends BaseModelCrud {
 
-    @Column()
+    @Column({nullable: true})
     pedidoVendaId: number;
 
-    @Column()
+    @Column({nullable: true})
     clienteId: number;
 
-    @Column()
+    @Column({nullable: true})
     clienteName: string;
 
     @Column({nullable: true})
     clienteSigla: string;
-
-    @Column()
-    clienteEstabelecimentoId: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeItens: number; 
