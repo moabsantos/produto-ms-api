@@ -42,6 +42,10 @@ export class PedidoVendaService extends BaseCrudService{
         model.cidadeName = this.estabelecimento.cidadeName
         model.cidadeSigla = this.estabelecimento.cidadeSigla
 
+        model.quantidadeItens = dto.quantidadeItens
+        model.valorDesconto = dto.valorDesconto
+        model.valorTotal = dto.valorTotal
+
         return super.getDataFromDto(dto, user, model)
     }
 

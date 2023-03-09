@@ -47,4 +47,13 @@ export class PedidoVenda extends BaseModelCrud {
     @Column({nullable: true})
     cidadeSigla: string;
 
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeItens: number; 
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    valorDesconto: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    valorTotal: number;
+
 }

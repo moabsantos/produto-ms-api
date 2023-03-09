@@ -54,7 +54,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         return model
     }
 
-    async afterSave(dto: any, user: any, model: BaseModel){
+    async afterSave(req: any, dto: any, user: any, model: BaseModel){
         return model
     }
 
@@ -174,7 +174,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         modelRepo = this.getDataFromDto(dto, user, modelRepo)
         modelRepo = await this.repo.save(modelRepo)
 
-        this.afterSave(dto, user, modelRepo)
+        this.afterSave(req, dto, user, modelRepo)
 
         return modelRepo.id
 

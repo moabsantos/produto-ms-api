@@ -89,4 +89,35 @@ export class PedidoVendaItemService extends BaseCrudService{
 
     }
 
+    async afterSave(req: any, dto: any, user: any, model: PedidoVendaItem) {
+
+        const itensVenda = await this.repo.find({where:{
+            pedidoVendaId: dto.pedidoVendaId,
+            realmId: user.realmId
+        }})
+
+        let qtdTotal = 0
+        let valorDesconto = 0
+        let valorTotal = 0
+
+        itensVenda.forEach(element => {
+            qtdTotal = qtdTotal + element['quantidadeSolicitada']
+            valorDesconto = valorDesconto + (qtdTotal * (element['valorInicialItem'] - element['valorItem'])) 
+            valorTotal = valorTotal + element['valorTotalItem']
+        });
+
+        const pedidoVenda = await this.pedidoVendaServ.findByWhere({
+            id: dto.pedidoVendaId,
+            realmId: user.realmId
+        })
+
+        pedidoVenda[0]['quantidadeItens'] = qtdTotal
+        pedidoVenda[0]['valorDesconto'] = valorDesconto
+        pedidoVenda[0]['valorTotal'] = valorTotal
+
+        this.pedidoVendaServ.save(req, user, pedidoVenda[0])
+
+        return super.afterSave(req, dto, user, model)
+    }
+
 }

@@ -45,7 +45,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         }
 
         let modelRepo = await this.repo.findOne({where:{name:dto.name, realmId:user.realmId}})
-
+        
         if(modelRepo && (!dto.id || dto.id != modelRepo.id)){
 
             return true
@@ -70,7 +70,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         return this.repoUser.find({where:w})
     }
 
-    async afterSave(dto: any, user: any, model: BaseModel) {
+    async afterSave(req: any, dto: any, user: any, model: BaseModel) {
 
         if (!dto.id && user.userId){
             this.repoUser.save({
