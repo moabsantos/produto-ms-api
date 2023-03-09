@@ -31,6 +31,7 @@ import { CidadeModule } from './crud-simples/cidade/module';
 import { ClienteEstabelecimentoModule } from './crud-simples/cliente-estabelecimento/module';
 import { PedidoVendaItemModule } from './crud-simples/pedido-venda-item/module';
 import { ProdutoComponenteModule } from './crud-simples/produto-componente/module';
+import { OrdemProducaoModule } from './crud-simples/ordem-producao/module';
 
 
 
@@ -57,6 +58,8 @@ import { ProdutoComponenteModule } from './crud-simples/produto-componente/modul
     ClienteEstabelecimentoModule,
     PedidoVendaModule,
     PedidoVendaItemModule,
+
+    OrdemProducaoModule,
 
     FornecedorModule,
     FormaPagamentoModule,
