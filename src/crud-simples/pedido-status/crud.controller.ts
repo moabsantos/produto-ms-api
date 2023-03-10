@@ -4,7 +4,7 @@ import { UserService } from "src/_user/user.service";
 
 import { PedidoStatusService } from "./service";
 
-@Controller('prioridade')
+@Controller('pedido-status')
 export class PedidoStatusController extends BaseCrudController{
     constructor(public service: PedidoStatusService,
                 protected userService: UserService) {
