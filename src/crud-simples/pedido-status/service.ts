@@ -17,6 +17,8 @@ export class PedidoStatusService extends BaseCrudService{
 
         model.flagPendente = dto.flagPendente
         model.flagAprovado = dto.flagAprovado
+        model.flagEmProducao = dto.flagEmProducao
+        model.flagEmTransito = dto.flagEmTransito
         model.flagFinalizado = dto.flagFinalizado
 
         model.cor = dto.cor
