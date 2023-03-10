@@ -16,6 +16,7 @@ export class PrioridadeService extends BaseCrudService{
     getDataFromDto(dto: any, user: any, model: Prioridade){
 
         model.sequencia = dto.sequencia
+        model.cor = dto.cor
         
         return super.getDataFromDto(dto, user, model)
     }

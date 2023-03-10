@@ -5,8 +5,10 @@ import { Column, Entity, Unique } from "typeorm";
 @Unique("uniq_name", ["name", "realmId"])
 export class Prioridade extends BaseModelCrud {
 
-
     @Column({default: 0})
     sequencia: number;
+
+    @Column({nullable: true})
+    cor: string;
 
 }
