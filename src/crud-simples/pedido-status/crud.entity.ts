@@ -12,4 +12,10 @@ export class PedidoStatus extends BaseModelCrud {
     @Column({default: 0})
     flagAprovado: number;
 
+    @Column({default: 0})
+    flagFinalizado: number;
+
+    @Column({nullable: true})
+    cor: string;
+
 }
