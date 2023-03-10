@@ -12,6 +12,8 @@ import { PedidoVendaService } from "./service";
 import { PedidoVendaUserService } from "./crud-user.service";
 import { ClienteModule } from "../cliente/module";
 import { ClienteEstabelecimentoModule } from "../cliente-estabelecimento/module";
+import { PrioridadeModule } from "../prioridade/module";
+import { PedidoStatusModule } from "../pedido-status/module";
 
 @Module({
     imports: [
@@ -21,6 +23,9 @@ import { ClienteEstabelecimentoModule } from "../cliente-estabelecimento/module"
         TypeOrmModule.forFeature([PedidoVenda, PedidoVendaUser]),
         ClienteModule,
         ClienteEstabelecimentoModule,
+        PrioridadeModule,
+        PedidoStatusModule,
+        
         BaseCrudModule
     ],
     controllers:[PedidoVendaController, PedidoVendaUserController],
