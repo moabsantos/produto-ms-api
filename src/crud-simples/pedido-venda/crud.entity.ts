@@ -56,4 +56,53 @@ export class PedidoVenda extends BaseModelCrud {
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorTotal: number;
 
+
+
+    @Column({default: 0})
+    prioridadeId: number;
+
+    @Column({nullable: true})
+    prioridadeCode: string;
+
+    @Column({nullable: true})
+    prioridadeName: string;
+
+    @Column({default: 0})
+    prioridadeSequencia: number;
+
+    @Column({nullable: true})
+    prioridadeCor: string;
+
+
+
+    @Column({default: 0})
+    pedidoStatusId: number;
+
+    @Column({nullable: true})
+    pedidoStatusCode: string;
+
+    @Column({nullable: true})
+    pedidoStatusName: string;
+
+    @Column({default: 0})
+    pedidoStatusflagPendente: number;
+
+    @Column({default: 0})
+    pedidoStatusflagAprovado: number;
+
+    @Column({default: 0})
+    pedidoStatusflagEmProducao: number;
+
+    @Column({default: 0})
+    pedidoStatusflagEmTransito: number;
+
+    @Column({default: 0})
+    pedidoStatusflagEntregue: number;
+
+    @Column({default: 0})
+    pedidoStatusflagFinalizado: number;
+
+    @Column({nullable: true})
+    pedidoStatusCor: string;
+
 }
