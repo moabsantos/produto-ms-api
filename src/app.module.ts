@@ -34,6 +34,8 @@ import { ProdutoComponenteModule } from './crud-simples/produto-componente/modul
 import { OrdemProducaoModule } from './crud-simples/ordem-producao/module';
 import { OrdemProducaoItemModule } from './crud-simples/ordem-producao-item/module';
 import { DepositoModule } from './crud-simples/deposito/module';
+import { PrioridadeModule } from './crud-simples/prioridade/module';
+import { PedidoStatusModule } from './crud-simples/pedido-status/module';
 
 
 
@@ -53,6 +55,8 @@ import { DepositoModule } from './crud-simples/deposito/module';
     PermissaoAcessoModule,
     GrupoAcessoModule,
 
+    PedidoStatusModule,
+    PrioridadeModule,
     DepositoModule,
 
     PaisModule,
