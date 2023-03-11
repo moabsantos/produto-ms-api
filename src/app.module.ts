@@ -36,6 +36,7 @@ import { OrdemProducaoItemModule } from './crud-simples/ordem-producao-item/modu
 import { DepositoModule } from './crud-simples/deposito/module';
 import { PrioridadeModule } from './crud-simples/prioridade/module';
 import { PedidoStatusModule } from './crud-simples/pedido-status/module';
+import { ProdutoGrupoModule } from './crud-simples/produto-grupo/module';
 
 
 
@@ -77,6 +78,8 @@ import { PedidoStatusModule } from './crud-simples/pedido-status/module';
     UnidadeMedidaModule,
     EstagioModule,
     SetorModule,
+
+    ProdutoGrupoModule,
     ProdutoModule,
     ProdutoComponenteModule,
 
