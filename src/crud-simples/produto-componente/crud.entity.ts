@@ -16,7 +16,7 @@ export class ProdutoComponente extends BaseModelCrud {
     @Column()
     sequencia: number;
 
-    @Column()
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeProducao: number;
 
     @Column()
@@ -43,7 +43,7 @@ export class ProdutoComponente extends BaseModelCrud {
     @Column()
     componenteName: string;
 
-    @Column()
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     consumoProducao: number;
 
     @Column()
