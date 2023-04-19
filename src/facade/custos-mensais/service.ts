@@ -57,6 +57,17 @@ export class CustosMensaisFacadeService {
             dtoCustosMensais = custosMensais[0]
         }
 
+        if (custosMensais.length > 1){
+            for (let index = 1; index < custosMensais.length; index++) {
+                const element = custosMensais[index];
+                element['quantidadeRealizada'] = 0
+                element['quantidadePrevista'] = 0
+                element['valorPrevisto'] = 0
+                element['valorRealizado'] = 0
+                await this.custosMesServ.save(req, user, element)
+            }
+        }
+
         if ((custosMensais.length === 0) && (custosDia.length > 0)){
             dtoCustosMensais = custosDia[0]
             dtoCustosMensais.id = undefined
