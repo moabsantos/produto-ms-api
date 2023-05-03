@@ -49,7 +49,8 @@ export class CustosMensaisFacadeService {
             empresaId: params.empresaId, 
             ano: params.ano, 
             mes: params.mes,
-            itemDespesaId: params.itemDespesaId
+            itemDespesaId: params.itemDespesaId,
+            setorId: params.setorId
         })
 
         let dtoCustosMensais: any;
