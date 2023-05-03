@@ -26,7 +26,8 @@ export class CustosMensaisFacadeService {
             ano: params.ano, 
             mes: params.mes,
             itemDespesaId: params.itemDespesaId,
-            setorId: params.setorId
+            setorId: params.setorId,
+            unidadeMedidaId: params.unidadeMedidaId
         })
 
         let valores: any = {
@@ -50,7 +51,8 @@ export class CustosMensaisFacadeService {
             ano: params.ano, 
             mes: params.mes,
             itemDespesaId: params.itemDespesaId,
-            setorId: params.setorId
+            setorId: params.setorId,
+            unidadeMedidaId: params.unidadeMedidaId
         })
 
         let dtoCustosMensais: any;
@@ -66,6 +68,7 @@ export class CustosMensaisFacadeService {
                 element['quantidadePrevista'] = 0
                 element['valorPrevisto'] = 0
                 element['valorRealizado'] = 0
+
                 await this.custosMesServ.save(req, user, element)
             }
         }
@@ -102,7 +105,7 @@ export class CustosMensaisFacadeService {
         
         for await (const item of custosDia) {
             
-            const keyItemSetor = item['itemDespesaId'] +'-'+ item['setorId']
+            const keyItemSetor = 'i' + item['itemDespesaId'] +'-s'+ item['setorId'] +'-s'+ item['unidadeMedidaId']
             if (!itensProcessados[keyItemSetor]){
 
                 await this.calculaCustoMesItem(req, user, {
@@ -110,7 +113,8 @@ export class CustosMensaisFacadeService {
                     ano: params.ano, 
                     mes: params.mes,
                     itemDespesaId: item['itemDespesaId'],
-                    setorId: item['setorId']
+                    setorId: item['setorId'],
+                    unidadeMedidaId: item['unidadeMedidaId']
                 })
 
             }
