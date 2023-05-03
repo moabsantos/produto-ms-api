@@ -7,10 +7,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     //logger: new MyLoggerService(),
-    cors: {
-      origin: 'https://produto.queavanca.com',
-      credentials: false,
-    }
+    cors: false
   })
 
 
