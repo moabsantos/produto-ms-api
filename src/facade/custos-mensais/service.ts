@@ -101,7 +101,8 @@ export class CustosMensaisFacadeService {
         
         for await (const item of custosDia) {
             
-            if (!itensProcessados['id'+ item.id]){
+            const keyItemSetor = item['itemDespesaId'] +'-'+ item['setorId']
+            if (!itensProcessados[keyItemSetor]){
 
                 await this.calculaCustoMesItem(req, user, {
                     empresaId: params.empresaId, 
@@ -113,7 +114,7 @@ export class CustosMensaisFacadeService {
 
             }
 
-            itensProcessados['id'+ item.id] = 1
+            itensProcessados[keyItemSetor] = 1
         }
 
         return {
