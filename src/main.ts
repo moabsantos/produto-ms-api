@@ -9,7 +9,7 @@ async function bootstrap() {
     //logger: new MyLoggerService(),
     cors: {
       origin: 'https://produto.queavanca.com',
-      credentials: true,
+      credentials: false,
     }
   })
 
