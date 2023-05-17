@@ -38,6 +38,7 @@ import { PrioridadeModule } from './crud-simples/prioridade/module';
 import { PedidoStatusModule } from './crud-simples/pedido-status/module';
 import { ProdutoGrupoModule } from './crud-simples/produto-grupo/module';
 import { DepositoRequisicaoModule } from './crud-simples/deposito-requisicao/module';
+import { ProducaoDiaModule } from './crud-simples/producao-dia/module';
 
 
 
@@ -88,7 +89,9 @@ import { DepositoRequisicaoModule } from './crud-simples/deposito-requisicao/mod
 
     CustosDiaModule,
     CustosMensaisModule,
-    CustosMensaisFacadeModule
+    CustosMensaisFacadeModule,
+
+    ProducaoDiaModule
   ],
   controllers: [AppController],
   providers: [AppService],
