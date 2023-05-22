@@ -4,16 +4,19 @@ import { Produto } from "./crud.entity";
 
 import { ProdutoUser } from "./crud-user.entity";
 import { UnidadeMedidaService } from "../unidade-medida/service";
+import { ProdutoGrupoService } from "../produto-grupo/service";
 
 export class ProdutoService extends BaseCrudService{
 
     private unidadeMedida: any;
     private unidadeMedidaCompra: any;
+    private produtoGrupo: any;
 
     constructor (
         @InjectRepository(Produto) protected repo,
         @InjectRepository(ProdutoUser) protected repoUser,
-        private unidadeServ: UnidadeMedidaService )
+        private unidadeServ: UnidadeMedidaService,
+        private produtoGrupoServ: ProdutoGrupoService )
     {
         super(repo, repoUser)
     }
@@ -28,6 +31,10 @@ export class ProdutoService extends BaseCrudService{
         model.unidadeMedidaCompraSigla = this.unidadeMedidaCompra.sigla
         model.unidadeMedidaCompraId = dto.unidadeMedidaCompraId
 
+        model.produtoGrupoName = this.produtoGrupo.name
+        model.produtoGrupoSigla = this.produtoGrupo.sigla
+        model.produtoGrupoId = this.produtoGrupo.id
+
         model.flagServico = 0
         if (dto.flagServico > 0)
             model.flagServico = 1
@@ -37,6 +44,17 @@ export class ProdutoService extends BaseCrudService{
 
     async validate(dto: any, user: any): Promise<boolean>{
         
+        const produtoGrp = await this.produtoGrupoServ.findByWhere({
+            id: dto.produtoGrupoId,
+            realmId: user.realmId
+        })
+
+        if (produtoGrp.length == 0){
+            this.logger.error(`O Grupo de Produto ${dto.produtoGrupoId} não foi encontrado`)
+            return false
+        }
+        this.produtoGrupo = produtoGrp[0]
+
         const unidMedida = await this.unidadeServ.findByWhere({
             id: dto.unidadeMedidaId,
             realmId: user.realmId

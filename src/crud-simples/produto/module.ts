@@ -10,6 +10,7 @@ import { ProdutoService } from "./service";
 import { ProdutoUserService } from "./crud-user.service";
 import { ProdutoUserController } from "./crud-user.controller";
 import { UnidadeMedidaModule } from "../unidade-medida/module";
+import { ProdutoGrupoModule } from "../produto-grupo/module";
 
 
 @Module({
@@ -20,7 +21,8 @@ import { UnidadeMedidaModule } from "../unidade-medida/module";
         BaseCrudModule,
 
         UserModule,
-        UnidadeMedidaModule
+        UnidadeMedidaModule,
+        ProdutoGrupoModule
     ],
     controllers:[ProdutoController, ProdutoUserController],
     providers:[ProdutoService, ProdutoUserService],

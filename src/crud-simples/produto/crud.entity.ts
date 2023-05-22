@@ -25,6 +25,15 @@ export class Produto extends BaseModelCrud {
     unidadeMedidaCompraSigla: string;
 
 
+    @Column({nullable: true})
+    produtoGrupoId: number;
+
+    @Column({nullable: true})
+    produtoGrupoName: string;
+
+    @Column({nullable: true})
+    produtoGrupoSigla: string;    
+
     @Column({default: 0})
     flagServico: number;
 
