@@ -39,6 +39,7 @@ import { PedidoStatusModule } from './crud-simples/pedido-status/module';
 import { ProdutoGrupoModule } from './crud-simples/produto-grupo/module';
 import { DepositoRequisicaoModule } from './crud-simples/deposito-requisicao/module';
 import { ProducaoDiaModule } from './crud-simples/producao-dia/module';
+import { ProdutoPrecoModule } from './crud-simples/produto-preco/module';
 
 
 
@@ -85,6 +86,7 @@ import { ProducaoDiaModule } from './crud-simples/producao-dia/module';
 
     ProdutoGrupoModule,
     ProdutoModule,
+    ProdutoPrecoModule,
     ProdutoComponenteModule,
 
     CustosDiaModule,
