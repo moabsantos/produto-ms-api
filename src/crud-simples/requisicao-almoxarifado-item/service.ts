@@ -6,6 +6,7 @@ import { RequisicaoAlmoxarifadoItemUser } from "./crud-user.entity";
 import { ProdutoService } from "../produto/service";
 import { UnidadeMedidaService } from "../unidade-medida/service";
 import { SetorService } from "../setor/service";
+import { CrudRequest } from "@nestjsx/crud";
 
 export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
@@ -86,6 +87,12 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         dto.code = dto.name
 
         return super.validate(dto, user)
+    }
+
+    atendimento(req: CrudRequest, user: any, id?: number): Promise<any>{
+
+        return null
+
     }
 
 }
