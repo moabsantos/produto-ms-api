@@ -14,12 +14,34 @@ export class RequisicaoAlmoxarifado extends BaseModelCrud {
 
     @Column({nullable: true})
     empresaSigla: string;
-    
+
+
+    @Column()
+    depositoIdOrigem: number;
+
+    @Column()
+    depositoNameOrigem: string;
+
+    @Column({nullable: true})
+    depositoSiglaOrigem: string;
+
+
+    @Column()
+    depositoIdDestino: number;
+
+    @Column()
+    depositoNameDestino: string;
+
+    @Column({nullable: true})
+    depositoSiglaDestino: string;
+
 
     @Column()
     dataSolicitacao: Date;
 
-    @Column()
+    @Column({nullable: true})
     dataEntrega: Date;
 
+    @Column({default: 'Pendente'})
+    statusItem: string;
 }

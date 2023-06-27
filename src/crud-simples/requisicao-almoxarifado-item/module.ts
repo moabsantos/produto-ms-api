@@ -14,6 +14,9 @@ import { ProdutoModule } from "../produto/module";
 import { UnidadeMedidaModule } from "../unidade-medida/module";
 import { EmpresaModule } from "../empresa/module";
 import { SetorModule } from "../setor/module";
+import { CustosDiaModule } from "../custos-dia/module";
+import { DepositoRequisicaoModule } from "../deposito-requisicao/module";
+import { RequisicaoAlmoxarifadoModule } from "../requisicao-almoxarifado/module";
 
 @Module({
     imports: [
@@ -23,6 +26,9 @@ import { SetorModule } from "../setor/module";
         ProdutoModule,
         UnidadeMedidaModule,
         SetorModule,
+        CustosDiaModule,
+        RequisicaoAlmoxarifadoModule,
+        DepositoRequisicaoModule,
 
         TypeOrmModule.forFeature([RequisicaoAlmoxarifadoItem, RequisicaoAlmoxarifadoItemUser]),
         BaseCrudModule

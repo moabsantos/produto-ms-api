@@ -11,12 +11,14 @@ import { RequisicaoAlmoxarifadoUserController } from "./crud-user.controller";
 import { RequisicaoAlmoxarifadoService } from "./service";
 import { RequisicaoAlmoxarifadoUserService } from "./crud-user.service";
 import { EmpresaModule } from "../empresa/module";
+import { DepositoModule } from "../deposito/module";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
         EmpresaModule,
+        DepositoModule,
         
         TypeOrmModule.forFeature([RequisicaoAlmoxarifado, RequisicaoAlmoxarifadoUser]),
         BaseCrudModule

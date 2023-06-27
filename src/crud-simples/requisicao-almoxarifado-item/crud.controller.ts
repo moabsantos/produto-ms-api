@@ -1,9 +1,9 @@
-import { Controller, HttpException, HttpStatus, Post } from "@nestjs/common";
+import { Body, Controller, HttpException, HttpStatus, Post, UseInterceptors } from "@nestjs/common";
 import { BaseCrudController } from "src/_shared/base-crud.controller";
 import { UserService } from "src/_user/user.service";
 
 import { RequisicaoAlmoxarifadoItemService } from "./service";
-import { CrudRequest, ParsedRequest } from "@nestjsx/crud";
+import { CrudRequest, CrudRequestInterceptor, ParsedRequest } from "@nestjsx/crud";
 import { UserRequest } from "src/_auth/user.decorator";
 
 @Controller('requisicao-almoxarifado-item')
@@ -13,12 +13,13 @@ export class RequisicaoAlmoxarifadoItemController extends BaseCrudController{
         super(service, userService)
     }
 
-    @Post('atendimento')
-    async atendimento(@ParsedRequest() req: CrudRequest, @UserRequest() authToken){
+    @Post('aprovacao/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async aprovacaoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
 
         const user = await this.getDetailToken(req, authToken.token)
 
-        let result = await this.service.atendimento(req, user)
+        let result = await this.service.aprovacaoFullList(req, user, body.requisicaoAlmoxarifadoId)
 
         if (!result){
             throw new HttpException({
@@ -28,6 +29,42 @@ export class RequisicaoAlmoxarifadoItemController extends BaseCrudController{
         }
 
         return result
+    }
 
+    @Post('separacao/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async separacaoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.separacaoFullList(req, user, body.requisicaoAlmoxarifadoId)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+    }
+
+
+    @Post('atendimento/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async atendimentoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.atendimentoFullList(req, user, body.requisicaoAlmoxarifadoId)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
     }
 }

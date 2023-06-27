@@ -9,6 +9,12 @@ export class RequisicaoAlmoxarifadoItem extends BaseModelCrud {
     dataSolicitacao: Date;
 
     @Column()
+    dataAprovacao: Date;
+
+    @Column()
+    dataSeparacao: Date;
+
+    @Column()
     dataEntrega: Date;
 
     @Column()
@@ -56,6 +62,10 @@ export class RequisicaoAlmoxarifadoItem extends BaseModelCrud {
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeEntregue: number;
+
+
+    @Column({default: 'Pendente'})
+    statusItem: string;
 
 
 }
