@@ -19,6 +19,9 @@ export class DepositoSaldo extends BaseModelCrud {
     depositoId: number;
 
     @Column()
+    depositoCode: string;
+
+    @Column()
     depositoName: string;
 
     @Column({nullable: true})
@@ -27,6 +30,9 @@ export class DepositoSaldo extends BaseModelCrud {
     
     @Column()
     itemId: number;
+
+    @Column()
+    itemCode: string;
 
     @Column()
     itemName: string;

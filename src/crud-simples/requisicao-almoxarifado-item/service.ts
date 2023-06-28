@@ -36,6 +36,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             model.requisicaoAlmoxarifadoId = dto.requisicaoAlmoxarifadoId
 
             model.itemDescription = this.item.description
+            model.itemCode = this.item.code
             model.itemName = this.item.name
             model.itemSigla = this.item.sigla
             model.itemId = dto.itemId
@@ -138,6 +139,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             empresaSigla: dto.reqAlmox.empresaSigla,
             
             itemId: dto.reqAlmoxItem.itemId,
+            itemCode: dto.reqAlmoxItem.itemCode,
             itemName: dto.reqAlmoxItem.itemName,
             itemSigla: dto.reqAlmoxItem.itemSigla,
             itemDescription: dto.reqAlmoxItem.itemDescription,
@@ -154,10 +156,12 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             setorSigla: dto.reqAlmoxItem.setorSigla,
         
             depositoIdOrigem: novaQtdEvt > 0 ? dto.depositoIdOrigem : dto.depositoIdDestino,
+            depositoCodeOrigem: novaQtdEvt > 0 ? dto.depositoCodeOrigem : dto.depositoCodeDestino,
             depositoNameOrigem: novaQtdEvt > 0 ? dto.depositoNameOrigem : dto.depositoNameDestino,
             depositoSiglaOrigem: novaQtdEvt > 0 ? dto.depositoSiglaOrigem : dto.depositoSiglaDestino,
         
             depositoIdDestino: novaQtdEvt > 0 ? dto.depositoIdDestino : dto.depositoIdOrigem,
+            depositoCodeDestino: novaQtdEvt > 0 ? dto.depositoCodeDestino : dto.depositoCodeOrigem,
             depositoNameDestino: novaQtdEvt > 0 ? dto.depositoNameDestino : dto.depositoNameOrigem,
             depositoSiglaDestino: novaQtdEvt > 0 ? dto.depositoSiglaDestino : dto.depositoSiglaOrigem,
             
@@ -215,10 +219,12 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
                     quantidadeEntregue: Number(element.quantidadeSolicitada),
 
                     depositoIdOrigem: reqAlmox[0].depositoIdOrigem,
+                    depositoCodeOrigem: reqAlmox[0].depositoCodeOrigem,
                     depositoNameOrigem: reqAlmox[0].depositoNameOrigem,
                     depositoSiglaOrigem: reqAlmox[0].depositoSiglaOrigem,
 
                     depositoIdDestino: reqAlmox[0].depositoIdOrigem,
+                    depositoCodeDestino: reqAlmox[0].depositoCodeOrigem,
                     depositoNameDestino: reqAlmox[0].depositoNameOrigem,
                     depositoSiglaDestino: reqAlmox[0].depositoSiglaOrigem,
 
@@ -264,10 +270,12 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
                     quantidadeEntregue: Number(element.quantidadeSolicitada),
 
                     depositoIdOrigem: reqAlmox[0].depositoIdOrigem,
+                    depositoCodeOrigem: reqAlmox[0].depositoCodeOrigem,
                     depositoNameOrigem: reqAlmox[0].depositoNameOrigem,
                     depositoSiglaOrigem: reqAlmox[0].depositoSiglaOrigem,
 
                     depositoIdDestino: reqAlmox[0].depositoIdOrigem,
+                    depositoCodeDestino: reqAlmox[0].depositoCodeOrigem,
                     depositoNameDestino: reqAlmox[0].depositoNameOrigem,
                     depositoSiglaDestino: reqAlmox[0].depositoSiglaOrigem,
 
@@ -311,10 +319,12 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
                     quantidadeEntregue: Number(element.quantidadeSolicitada),
 
                     depositoIdOrigem: reqAlmox[0].depositoIdOrigem,
+                    depositoCodeOrigem: reqAlmox[0].depositoCodeOrigem,
                     depositoNameOrigem: reqAlmox[0].depositoNameOrigem,
                     depositoSiglaOrigem: reqAlmox[0].depositoSiglaOrigem,
     
                     depositoIdDestino: reqAlmox[0].depositoIdDestino,
+                    depositoCodeDestino: reqAlmox[0].depositoCodeDestino,
                     depositoNameDestino: reqAlmox[0].depositoNameDestino,
                     depositoSiglaDestino: reqAlmox[0].depositoSiglaDestino,
 

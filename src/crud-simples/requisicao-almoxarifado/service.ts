@@ -30,10 +30,12 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         model.empresaId = dto.empresaId
 
         model.depositoNameOrigem = this.depositoOrigem.name
+        model.depositoCodeOrigem = this.depositoOrigem.code
         model.depositoSiglaOrigem = this.depositoOrigem.sigla
         model.depositoIdOrigem = dto.depositoIdOrigem
 
         model.depositoNameDestino = this.depositoDestino.name
+        model.depositoCodeDestino = this.depositoDestino.code
         model.depositoSiglaDestino = this.depositoDestino.sigla
         model.depositoIdDestino = dto.depositoIdDestino
 

@@ -27,6 +27,7 @@ export class DepositoRequisicaoService extends BaseCrudService{
         model.empresaSigla = dto.empresaSigla
     
         model.itemId = dto.itemId
+        model.itemCode = dto.itemCode
         model.itemName = dto.itemName
         model.itemSigla = dto.itemSigla
         model.itemDescription = dto.itemDescription
@@ -43,10 +44,12 @@ export class DepositoRequisicaoService extends BaseCrudService{
         model.setorSigla = dto.setorSigla
     
         model.depositoIdOrigem = dto.depositoIdOrigem
+        model.depositoCodeOrigem = dto.depositoCodeOrigem
         model.depositoNameOrigem = dto.depositoNameOrigem
         model.depositoSiglaOrigem = dto.depositoSiglaOrigem
     
         model.depositoIdDestino = dto.depositoIdDestino
+        model.depositoCodeDestino = dto.depositoCodeDestino
         model.depositoNameDestino = dto.depositoNameDestino
         model.depositoSiglaDestino = dto.depositoSiglaDestino
         
@@ -105,11 +108,13 @@ export class DepositoRequisicaoService extends BaseCrudService{
         
         
             depositoId: depositoOrigem ? model.depositoIdOrigem : model.depositoIdDestino,
+            depositoCode: depositoOrigem ? model.depositoCodeOrigem : model.depositoCodeDestino,
             depositoName: depositoOrigem ? model.depositoNameOrigem : model.depositoNameDestino,
             depositoSigla: depositoOrigem ? model.depositoSiglaOrigem : model.depositoSiglaDestino,
         
             
             itemId: model.itemId,
+            itemCode: model.itemCode,
             itemName: model.itemName,
             itemSigla: model.itemSigla,
             itemDescription: model.itemDescription,
@@ -158,7 +163,9 @@ export class DepositoRequisicaoService extends BaseCrudService{
         if (listSaldo.length > 1) return
 
         let saldo = listSaldo.length == 1 ? listSaldo[0] : await this.novoSaldoRequisicao(req, user, model, true)
-
+        saldo.itemCode = model.itemCode
+        saldo.depositoCode = model.depositoCodeOrigem
+        
         saldo.quantidadeDisponivel = this.baixaSaldo(Number(saldo.quantidadeDisponivel), Number(dto.quantidadeDisponivelOrigem))
         saldo.quantidadeRequisitada = this.baixaSaldo(Number(saldo.quantidadeRequisitada), Number(dto.quantidadeRequisitadaOrigem))
         saldo.quantidadeSeparada = this.baixaSaldo(Number(saldo.quantidadeSeparada), Number(dto.quantidadeSeparadaOrigem))
@@ -194,6 +201,8 @@ export class DepositoRequisicaoService extends BaseCrudService{
         if (listSaldo.length > 1) return
 
         let saldo = listSaldo.length == 1 ? listSaldo[0] : await this.novoSaldoRequisicao(req, user, model, false)
+        saldo.itemCode = model.itemCode
+        saldo.depositoCode = model.depositoCodeDestino
 
         saldo.quantidadeDisponivel = this.adicionaSaldo(Number(saldo.quantidadeDisponivel), Number(dto.quantidadeDisponivelDestino))
         saldo.quantidadeRequisitada = this.adicionaSaldo(Number(saldo.quantidadeRequisitada), Number(dto.quantidadeRequisitadaDestino))

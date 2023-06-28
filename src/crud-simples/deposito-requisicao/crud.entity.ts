@@ -19,6 +19,9 @@ export class DepositoRequisicao extends BaseModelCrud {
     itemId: number;
 
     @Column()
+    itemCode: string;
+
+    @Column()
     itemName: string;
 
     @Column({nullable: true})
@@ -59,6 +62,9 @@ export class DepositoRequisicao extends BaseModelCrud {
     depositoIdOrigem: number;
 
     @Column()
+    depositoCodeOrigem: string;
+
+    @Column()
     depositoNameOrigem: string;
 
     @Column({nullable: true})
@@ -94,6 +100,9 @@ export class DepositoRequisicao extends BaseModelCrud {
 
     @Column()
     depositoIdDestino: number;
+
+    @Column()
+    depositoCodeDestino: string;
 
     @Column()
     depositoNameDestino: string;

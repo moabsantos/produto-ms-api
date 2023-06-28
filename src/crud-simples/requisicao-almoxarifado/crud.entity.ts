@@ -20,6 +20,9 @@ export class RequisicaoAlmoxarifado extends BaseModelCrud {
     depositoIdOrigem: number;
 
     @Column()
+    depositoCodeOrigem: string;
+
+    @Column()
     depositoNameOrigem: string;
 
     @Column({nullable: true})
@@ -28,6 +31,9 @@ export class RequisicaoAlmoxarifado extends BaseModelCrud {
 
     @Column()
     depositoIdDestino: number;
+
+    @Column()
+    depositoCodeDestino: string;
 
     @Column()
     depositoNameDestino: string;
