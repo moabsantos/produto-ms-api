@@ -3,6 +3,7 @@ import { CrudRequest } from "@nestjsx/crud";
 import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
 import { Repository } from "typeorm";
 import { BaseModel } from "./base-model.entity";
+import { equal } from "assert";
 
 
 export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
@@ -103,7 +104,18 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
                 $eq:user.realmId
             }
         }
+        
+        if (req.parsed.search['$or']) req.parsed.search['$or'] = null
+        let filtroRealm = false
 
+        req.parsed.search['$and'].forEach(element => {
+            if (!filtroRealm) filtroRealm = element && element["realmId"] && JSON.stringify(element["realmId"]) == JSON.stringify({$eq:user.realmId})
+        });
+
+        if (!filtroRealm || !user.realmId) return {
+            msgGeral: "Filtro sem Relm",
+            data: []
+        }
 
         let modelsFound = await this.getMany(req)
 

@@ -67,6 +67,7 @@ export class DepositoRequisicao extends BaseModelCrud {
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeDisponivelOrigem: number;
+    
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeRequisitadaOrigem: number;
@@ -76,6 +77,7 @@ export class DepositoRequisicao extends BaseModelCrud {
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeEntregueOrigem: number;
+
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeReservadaOrigem: number;

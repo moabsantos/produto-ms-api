@@ -49,7 +49,7 @@ export class BaseController {
 
         }
 
-        if (userCheck.length > 0){
+        if (userCheck.length == 1){
             return {
                 userId: userCheck[0].id, 
                 ...userCheck[0]

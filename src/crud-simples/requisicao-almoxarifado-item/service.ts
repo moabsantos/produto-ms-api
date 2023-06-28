@@ -7,9 +7,7 @@ import { ProdutoService } from "../produto/service";
 import { UnidadeMedidaService } from "../unidade-medida/service";
 import { SetorService } from "../setor/service";
 import { CrudRequest } from "@nestjsx/crud";
-import { CustosDiaService } from "../custos-dia/service";
 import { DepositoRequisicaoService } from "../deposito-requisicao/service";
-import { endWith } from "rxjs";
 import { RequisicaoAlmoxarifadoService } from "../requisicao-almoxarifado/service";
 
 export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
@@ -273,8 +271,8 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
                     depositoNameDestino: reqAlmox[0].depositoNameOrigem,
                     depositoSiglaDestino: reqAlmox[0].depositoSiglaOrigem,
 
-                    quantidadeOrigemName: 'Requisitado',
-                    quantidadeDestinoName: 'Separado',
+                    quantidadeOrigemName: 'Requisitada',
+                    quantidadeDestinoName: 'Separada',
                 })
             }
         }

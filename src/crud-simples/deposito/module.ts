@@ -10,11 +10,14 @@ import { DepositoUser } from "./crud-user.entity";
 import { DepositoUserController } from "./crud-user.controller";
 import { DepositoService } from "./service";
 import { DepositoUserService } from "./crud-user.service";
+import { EmpresaModule } from "../empresa/module";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
+
+        EmpresaModule,
         
         TypeOrmModule.forFeature([Deposito, DepositoUser]),
         BaseCrudModule

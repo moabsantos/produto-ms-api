@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ConfigGlobais } from './config';
+import { loggerMiddleare } from './middleware/logger.middleware';
 
 async function bootstrap() {
 
@@ -16,6 +17,8 @@ async function bootstrap() {
     }
   })
 
+
+  app.use(loggerMiddleare);
 
   await app.listen(ConfigGlobais.ENV_PORT);
 }
