@@ -9,6 +9,9 @@ export class Deposito extends BaseModelCrud {
     empresaId: number;
 
     @Column()
+    empresaCode: string;
+
+    @Column()
     empresaName: string;
 
     @Column({nullable: true})

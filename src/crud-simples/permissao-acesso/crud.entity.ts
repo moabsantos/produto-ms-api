@@ -4,7 +4,4 @@ import { Column, Entity } from "typeorm";
 @Entity()
 export class PermissaoAcesso extends BaseModelCrud {
 
-    @Column()
-    sigla: string;
-
 }

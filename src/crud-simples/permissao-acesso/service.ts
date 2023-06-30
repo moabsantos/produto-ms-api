@@ -4,6 +4,7 @@ import { PermissaoAcesso } from "./crud.entity";
 
 import { PermissaoAcessoUser } from "./crud-user.entity";
 import { BaseModel } from "src/_shared/base-model.entity";
+import { dataCrud } from "./data";
 
 export class PermissaoAcessoService extends BaseCrudService{
 
@@ -15,8 +16,6 @@ export class PermissaoAcessoService extends BaseCrudService{
     }
 
     getDataFromDto(dto: any, user: any, model: PermissaoAcesso){
-
-        model.sigla = dto.sigla
         
         return super.getDataFromDto(dto, user, model)
     }
@@ -32,9 +31,13 @@ export class PermissaoAcessoService extends BaseCrudService{
     }
 
     async get(req: any, user: any, id?: number): Promise<any>{
+        return {data:dataCrud}
     }
 
     async findByWhere(where: any): Promise<BaseModel[]>{
+
+        if (where && where.id) return dataCrud.filter((data) => {return data.code == where.id})
+
         return null
     }
 

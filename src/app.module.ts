@@ -42,6 +42,8 @@ import { ProducaoDiaModule } from './crud-simples/producao-dia/module';
 import { ProdutoPrecoModule } from './crud-simples/produto-preco/module';
 import { RequisicaoAlmoxarifadoModule } from './crud-simples/requisicao-almoxarifado/module';
 import { RequisicaoAlmoxarifadoItemModule } from './crud-simples/requisicao-almoxarifado-item/module';
+import { GrupoAcessoPermissaoModule } from './crud-simples/grupo-acesso-permissao/module';
+import { GrupoAcessoUsuarioModule } from './crud-simples/grupo-acesso-usuario/module';
 
 
 
@@ -60,6 +62,8 @@ import { RequisicaoAlmoxarifadoItemModule } from './crud-simples/requisicao-almo
 
     PermissaoAcessoModule,
     GrupoAcessoModule,
+    GrupoAcessoPermissaoModule,
+    GrupoAcessoUsuarioModule,
 
     PedidoStatusModule,
     PrioridadeModule,

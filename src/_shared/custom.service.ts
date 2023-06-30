@@ -8,11 +8,17 @@ import { equal } from "assert";
 
 export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
+    private roleService: any
+
     constructor (
         protected repo: Repository<BaseModel>,
         protected readonly logger = new Logger(CustomService.name))
     {
         super(repo)
+    }
+
+    setRole(role: any){
+        this.roleService = role
     }
 
     valorValido(valor: any){

@@ -15,6 +15,10 @@ export class DepositoService extends BaseCrudService{
         private empresaServ: EmpresaService)
     {
         super(repo, repoUser)
+
+        this.setRole({
+            
+        })
     }
 
     getDataFromDto(dto: any, user: any, model: Deposito){
@@ -24,6 +28,7 @@ export class DepositoService extends BaseCrudService{
 
         model.empresaName = this.empresa.name
         model.empresaSigla = this.empresa.sigla
+        model.empresaCode = this.empresa.code
         model.empresaId = dto.empresaId
         
         return super.getDataFromDto(dto, user, model)
