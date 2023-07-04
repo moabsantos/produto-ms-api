@@ -31,6 +31,24 @@ export class RequisicaoAlmoxarifadoItemController extends BaseCrudController{
         return result
     }
 
+    @Post('cancelar-aprovacao/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async cancelarAprovacaoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.cancelarAprovacaoFullList(req, user, body.requisicaoAlmoxarifadoId)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+    }
+
     @Post('separacao/full-list')
     @UseInterceptors(CrudRequestInterceptor)
     async separacaoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
@@ -49,6 +67,24 @@ export class RequisicaoAlmoxarifadoItemController extends BaseCrudController{
         return result
     }
 
+
+    @Post('cancelar-separacao/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async cancelarSeparacaoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.cancelarSeparacaoFullList(req, user, body.requisicaoAlmoxarifadoId)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+    }
 
     @Post('atendimento/full-list')
     @UseInterceptors(CrudRequestInterceptor)

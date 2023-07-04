@@ -118,17 +118,21 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         let qtdEventos = 0
 
         listReqDeposito.forEach(element => {
-            const qtdDisponivel = element['quantidade'+ dto.quantidadeOrigemName + 'Origem']
+            const qtdDisponivel = 
+                element['quantidade'+ dto.quantidadeOrigemName + 'Origem'] 
+                - element['quantidade'+ dto.quantidadeOrigemName + 'Destino']
+
             if (dto.depositoIdOrigem == element.depositoIdOrigem && dto.depositoIdDestino == element.depositoIdDestino)
              totalEventos = totalEventos + Number(qtdDisponivel)
             if (dto.depositoIdOrigem != dto.depositoIdDestino && dto.depositoIdOrigem == element.depositoIdDestino && dto.depositoIdDestino == element.depositoIdOrigem)
                 totalEventos = totalEventos - Number(qtdDisponivel)
             qtdEventos = qtdEventos +1
         });
-
-        if (totalEventos == dto.quantidadeEntregue) return
         
         const novaQtdEvt = dto.quantidadeEntregue - totalEventos
+
+        if (novaQtdEvt == 0) return
+
         const codEvt = 'RLM'+ dto.reqAlmox.realmId +'EMP'+ dto.reqAlmox.empresaId +'REQ'+ dto.reqAlmox.id +'REQi'+ dto.reqAlmoxItem.id +'EVT'+ qtdEventos
         let objEvt = {
             code: codEvt,
@@ -184,7 +188,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             objEvt['quantidade'+ dto.quantidadeDestinoName + 'Origem'] = dto.quantidadeEntregue
         }
 
-        this.depositoRequisicaoServ.save(req, user, objEvt)
+        await this.depositoRequisicaoServ.save(req, user, objEvt)
 
         return null
     }
@@ -240,6 +244,57 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         return {}
     }
 
+    async cancelarAprovacaoFullList(req: CrudRequest, user: any, requisicaoAlmoxarifadoId: number): Promise<any>{
+
+        const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId}})
+
+        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+
+        const reqAlmox = await this.requisicaoAlmoxServ['repo'].find({where:{id: itensRequisicao[0].requisicaoAlmoxarifadoId}})
+
+        if (reqAlmox.length < 1) throw new Error('Requisição não encontrada para o Id')
+
+        for (let index = 0; index < itensRequisicao.length; index++) {
+            const element = itensRequisicao[index];
+            
+            if (element.statusItem == 'Aprovado'){
+
+                await this.repo.save({id: element.id, statusItem: 'Pendente', dataAprovacao: new Date()})
+
+                await this.movimentacao(req, user, {
+                    id: element.id, 
+
+                    reqAlmox: reqAlmox[0],
+                    lote: {
+                        id: 0,
+                        code: "*"
+                    },
+
+                    reqAlmoxItem: element,
+                    quantidadeEntregue: Number(element.quantidadeSolicitada),
+
+                    depositoIdOrigem: reqAlmox[0].depositoIdOrigem,
+                    depositoCodeOrigem: reqAlmox[0].depositoCodeOrigem,
+                    depositoNameOrigem: reqAlmox[0].depositoNameOrigem,
+                    depositoSiglaOrigem: reqAlmox[0].depositoSiglaOrigem,
+
+                    depositoIdDestino: reqAlmox[0].depositoIdOrigem,
+                    depositoCodeDestino: reqAlmox[0].depositoCodeOrigem,
+                    depositoNameDestino: reqAlmox[0].depositoNameOrigem,
+                    depositoSiglaDestino: reqAlmox[0].depositoSiglaOrigem,
+
+                    quantidadeOrigemName: 'Requisitada',
+                    quantidadeDestinoName: 'Disponivel',
+                })
+            }
+
+        }
+
+        await this.setRequisicaoStatusItem(req, user, requisicaoAlmoxarifadoId)
+
+        return {}
+    }
+
     async separacaoFullList(req: CrudRequest, user: any, requisicaoAlmoxarifadoId: number): Promise<any>{
 
         const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId}})
@@ -281,6 +336,56 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
                     quantidadeOrigemName: 'Requisitada',
                     quantidadeDestinoName: 'Separada',
+                })
+            }
+        }
+
+        await this.setRequisicaoStatusItem(req, user, requisicaoAlmoxarifadoId)
+
+        return {}
+    }
+
+    async cancelarSeparacaoFullList(req: CrudRequest, user: any, requisicaoAlmoxarifadoId: number): Promise<any>{
+
+        const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId}})
+
+        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+
+        const reqAlmox = await this.requisicaoAlmoxServ['repo'].find({where:{id: itensRequisicao[0].requisicaoAlmoxarifadoId}})
+
+        if (reqAlmox.length < 1) throw new Error('Requisição não encontrada para o Id')
+
+        for (let index = 0; index < itensRequisicao.length; index++) {
+            const element = itensRequisicao[index];
+            
+            if (element.statusItem == 'Separado'){
+
+                await this.repo.save({id: element.id, statusItem: 'Aprovado', dataSeparacao: new Date()})
+
+                await this.movimentacao(req, user, {
+                    id: element.id, 
+
+                    reqAlmox: reqAlmox[0],
+                    lote: {
+                        id: 0,
+                        code: "*"
+                    },
+
+                    reqAlmoxItem: element,
+                    quantidadeEntregue: Number(element.quantidadeSolicitada),
+
+                    depositoIdOrigem: reqAlmox[0].depositoIdOrigem,
+                    depositoCodeOrigem: reqAlmox[0].depositoCodeOrigem,
+                    depositoNameOrigem: reqAlmox[0].depositoNameOrigem,
+                    depositoSiglaOrigem: reqAlmox[0].depositoSiglaOrigem,
+
+                    depositoIdDestino: reqAlmox[0].depositoIdOrigem,
+                    depositoCodeDestino: reqAlmox[0].depositoCodeOrigem,
+                    depositoNameDestino: reqAlmox[0].depositoNameOrigem,
+                    depositoSiglaDestino: reqAlmox[0].depositoSiglaOrigem,
+
+                    quantidadeOrigemName: 'Separada',
+                    quantidadeDestinoName: 'Requisitada',
                 })
             }
         }

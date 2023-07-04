@@ -15,6 +15,7 @@ export class GrupoAcessoService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: GrupoAcesso){
 
+        model.description = dto.description
         model.sigla = dto.sigla
         
         return super.getDataFromDto(dto, user, model)

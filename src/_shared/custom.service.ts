@@ -3,12 +3,11 @@ import { CrudRequest } from "@nestjsx/crud";
 import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
 import { Repository } from "typeorm";
 import { BaseModel } from "./base-model.entity";
-import { equal } from "assert";
 
 
 export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
-    private roleService: any
+    private roleService: any = {}
 
     constructor (
         protected repo: Repository<BaseModel>,
@@ -48,6 +47,9 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             return
         }
 
+        if (!dto.id) return user.hasPermissao(this.roleService.create)
+        if (dto.id) return user.hasPermissao(this.roleService.update)
+
         return true
         
     }
@@ -71,6 +73,15 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
     }
 
     async get(req: CrudRequest, user: any, id?: number): Promise<any>{
+
+        const userHasPermissao = await user.hasPermissao(this.roleService.get)
+  
+        if (!userHasPermissao){
+            return {
+                msgGeral: "Usuário não autorizado ("+this.roleService.get+") a esta busca",
+                data: []
+            }
+        }
 
         let w: any;
         w = {userId: user.userId}

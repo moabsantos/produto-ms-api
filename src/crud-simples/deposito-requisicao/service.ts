@@ -70,19 +70,12 @@ export class DepositoRequisicaoService extends BaseCrudService{
 
     baixaSaldo(saldo: number, quantidade: number){
 
-        if (!saldo) return 0
+        if (!saldo) return quantidade * -1
 
         if (!quantidade) return saldo
 
-        if (saldo > quantidade) {
-            return saldo - quantidade
-        }
+        return saldo - quantidade
 
-        if (saldo <= quantidade) {
-            return 0
-        }
-
-        return 0
     }
 
     async novoSaldoRequisicao(req: any, user: any, model: DepositoRequisicao, depositoOrigem: boolean){
