@@ -78,7 +78,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
   
         if (!userHasPermissao){
             return {
-                msgGeral: "Usuário não autorizado ("+this.roleService.get+") a esta busca",
+                msgGeral: "Usuário "+ user.id +" não autorizado ("+this.roleService.get+") a esta busca no contexto "+ user.realmId,
                 data: []
             }
         }

@@ -23,6 +23,7 @@ export class DepositoService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: Deposito){
 
+        model.sigla = dto.sigla
         model.flagPrincipal = dto.flagPrincipal
         model.flagBaixaEstoque = dto.flagBaixaEstoque
 

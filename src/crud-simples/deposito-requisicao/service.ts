@@ -8,6 +8,11 @@ import { DepositoSaldoService } from "../deposito-saldo/service";
 export class DepositoRequisicaoService extends BaseCrudService{
 
     private saldo: any;
+    private qtdsName = [
+        'Fornecedor', 'Pedida', 'Faturada', 'Recebida' 
+        , 'Disponivel', 'Requisitada', 'Separada', 'Entregue'
+        , 'Reservada', 'Bloqueada', 'Aprovada', 'Reprovada'
+    ]
 
     constructor (
         @InjectRepository(DepositoRequisicao) protected repo,
@@ -53,11 +58,7 @@ export class DepositoRequisicaoService extends BaseCrudService{
         model.depositoNameDestino = dto.depositoNameDestino
         model.depositoSiglaDestino = dto.depositoSiglaDestino
         
-
-        const qtdsName = [
-            'Disponivel', 'Requisitada', 'Separada', 'Entregue', 'Reservada', 'Bloqueada', 'Aprovada', 'Reprovada'
-        ]
-        qtdsName.forEach(element => {
+        this.qtdsName.forEach(element => {
             model['quantidade'+ element + 'Origem'] = dto['quantidade'+ element + 'Origem'] ? dto['quantidade'+ element + 'Origem'] : 0
             model['quantidade'+ element + 'Destino'] = dto['quantidade'+ element + 'Destino'] ? dto['quantidade'+ element + 'Destino'] : 0
         });
@@ -159,10 +160,9 @@ export class DepositoRequisicaoService extends BaseCrudService{
         saldo.itemCode = model.itemCode
         saldo.depositoCode = model.depositoCodeOrigem
         
-        saldo.quantidadeDisponivel = this.baixaSaldo(Number(saldo.quantidadeDisponivel), Number(dto.quantidadeDisponivelOrigem))
-        saldo.quantidadeRequisitada = this.baixaSaldo(Number(saldo.quantidadeRequisitada), Number(dto.quantidadeRequisitadaOrigem))
-        saldo.quantidadeSeparada = this.baixaSaldo(Number(saldo.quantidadeSeparada), Number(dto.quantidadeSeparadaOrigem))
-        saldo.quantidadeEntregue = this.baixaSaldo(Number(saldo.quantidadeEntregue), Number(dto.quantidadeEntregueOrigem))
+        this.qtdsName.forEach(nomeDep => {
+            saldo['quantidade'+ nomeDep] = this.baixaSaldo(Number(saldo['quantidade'+ nomeDep]), Number(dto['quantidade'+ nomeDep +'Origem']))
+        })
 
         await this.saldoServ['repo'].save(saldo)
     }
@@ -197,10 +197,9 @@ export class DepositoRequisicaoService extends BaseCrudService{
         saldo.itemCode = model.itemCode
         saldo.depositoCode = model.depositoCodeDestino
 
-        saldo.quantidadeDisponivel = this.adicionaSaldo(Number(saldo.quantidadeDisponivel), Number(dto.quantidadeDisponivelDestino))
-        saldo.quantidadeRequisitada = this.adicionaSaldo(Number(saldo.quantidadeRequisitada), Number(dto.quantidadeRequisitadaDestino))
-        saldo.quantidadeSeparada = this.adicionaSaldo(Number(saldo.quantidadeSeparada), Number(dto.quantidadeSeparadaDestino))
-        saldo.quantidadeEntregue = this.adicionaSaldo(Number(saldo.quantidadeEntregue), Number(dto.quantidadeEntregueDestino))
+        this.qtdsName.forEach(nomeDep => {
+            saldo['quantidade'+ nomeDep] = this.adicionaSaldo(Number(saldo['quantidade'+ nomeDep]), Number(dto['quantidade'+ nomeDep +'Destino']))
+        })
 
         await this.saldoServ['repo'].save(saldo)
     }
@@ -219,6 +218,100 @@ export class DepositoRequisicaoService extends BaseCrudService{
 
         return await super.afterSave(req, dto, user, model)
 
+    }
+
+    async movimentacao(req: any, user: any, dto: any): Promise<any>{
+
+        const qtdsName = [
+            'Disponivel', 'Requisitada', 'Separada', 'Entregue'
+            , 'Fornecedor', 'Pedida', 'Faturada', 'Recebida'
+            , 'Reservada', 'Bloqueada', 'Aprovada', 'Reprovada'
+        ]
+
+        if (!dto.quantidadeEntregue) return
+
+        const listReqDeposito = await this.repo.find({where:{
+            origemRequisicaoName: dto.origemRequisicaoName, origemRequisicaoId: dto.id, 
+            empresaId: dto.EmpresaId, realmId: user.realmId}})
+
+        let totalEventos = 0
+
+        let qtdEventos = 0
+
+        listReqDeposito.forEach(element => {
+            const qtdDisponivel = 
+                element['quantidade'+ dto.quantidadeOrigemName + 'Origem'] 
+                - element['quantidade'+ dto.quantidadeOrigemName + 'Destino']
+
+            if (dto.depositoIdOrigem == element.depositoIdOrigem && dto.depositoIdDestino == element.depositoIdDestino)
+             totalEventos = totalEventos + Number(qtdDisponivel)
+            if (dto.depositoIdOrigem != dto.depositoIdDestino && dto.depositoIdOrigem == element.depositoIdDestino && dto.depositoIdDestino == element.depositoIdOrigem)
+                totalEventos = totalEventos - Number(qtdDisponivel)
+            qtdEventos = qtdEventos +1
+        });
+        
+        const novaQtdEvt = dto.quantidadeEntregue - totalEventos
+
+        if (novaQtdEvt == 0) return
+
+        const codEvt = 'RLM'+ dto.capa.realmId +'EMP'+ dto.capa.empresaId +'CAPA'+ dto.capa.id +'ITEM'+ dto.item.id +'EVT'+ qtdEventos
+        let objEvt = {
+            code: codEvt,
+            name: codEvt,
+            
+            empresaId: dto.capa.empresaId,
+            empresaName: dto.capa.empresaName,
+            empresaSigla: dto.capa.empresaSigla,
+            
+            itemId: dto.item.itemId,
+            itemCode: dto.item.itemCode,
+            itemName: dto.item.itemName,
+            itemSigla: dto.item.itemSigla,
+            itemDescription: dto.item.itemDescription,
+        
+            unidadeMedidaId: dto.item.unidadeMedidaId,
+            unidadeMedidaName: dto.item.unidadeMedidaName,
+            unidadeMedidaSigla: dto.item.unidadeMedidaSigla,
+        
+            loteId: dto.lote.id,
+            loteCodigo: dto.lote.code,
+        
+            setorId: dto.item.setorId,
+            setorName: dto.item.setorName,
+            setorSigla: dto.item.setorSigla,
+        
+            depositoIdOrigem: novaQtdEvt > 0 ? dto.depositoIdOrigem : dto.depositoIdDestino,
+            depositoCodeOrigem: novaQtdEvt > 0 ? dto.depositoCodeOrigem : dto.depositoCodeDestino,
+            depositoNameOrigem: novaQtdEvt > 0 ? dto.depositoNameOrigem : dto.depositoNameDestino,
+            depositoSiglaOrigem: novaQtdEvt > 0 ? dto.depositoSiglaOrigem : dto.depositoSiglaDestino,
+        
+            depositoIdDestino: novaQtdEvt > 0 ? dto.depositoIdDestino : dto.depositoIdOrigem,
+            depositoCodeDestino: novaQtdEvt > 0 ? dto.depositoCodeDestino : dto.depositoCodeOrigem,
+            depositoNameDestino: novaQtdEvt > 0 ? dto.depositoNameDestino : dto.depositoNameOrigem,
+            depositoSiglaDestino: novaQtdEvt > 0 ? dto.depositoSiglaDestino : dto.depositoSiglaOrigem,
+            
+            origemRequisicaoName: dto.origemRequisicaoName,
+            origemRequisicaoId: dto.id
+        }
+        
+        qtdsName.forEach(element => {
+            objEvt['quantidade'+ element + 'Origem'] = 0
+            objEvt['quantidade'+ element + 'Destino'] = 0
+        });
+        
+        if (novaQtdEvt > 0) {
+            objEvt['quantidade'+ dto.quantidadeOrigemName + 'Origem'] = dto.quantidadeEntregue
+            objEvt['quantidade'+ dto.quantidadeDestinoName + 'Destino'] = dto.quantidadeEntregue
+        }
+
+        if (novaQtdEvt < 0) {
+            objEvt['quantidade'+ dto.quantidadeOrigemName + 'Destino'] = dto.quantidadeEntregue
+            objEvt['quantidade'+ dto.quantidadeDestinoName + 'Origem'] = dto.quantidadeEntregue
+        }
+
+        await this.save(req, user, objEvt)
+
+        return null
     }
 
 }

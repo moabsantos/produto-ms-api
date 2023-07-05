@@ -5,6 +5,9 @@ import { Column, Entity, Unique } from "typeorm";
 @Unique("uniq_name", ["name", "realmId"])
 export class Deposito extends BaseModelCrud {
 
+    @Column({nullable: true})
+    sigla: string;
+
     @Column()
     empresaId: number;
 

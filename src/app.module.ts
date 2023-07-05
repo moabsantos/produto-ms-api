@@ -44,6 +44,8 @@ import { RequisicaoAlmoxarifadoModule } from './crud-simples/requisicao-almoxari
 import { RequisicaoAlmoxarifadoItemModule } from './crud-simples/requisicao-almoxarifado-item/module';
 import { GrupoAcessoPermissaoModule } from './crud-simples/grupo-acesso-permissao/module';
 import { GrupoAcessoUsuarioModule } from './crud-simples/grupo-acesso-usuario/module';
+import { PedidoCompraModule } from './crud-simples/pedido-compra/module';
+import { PedidoCompraItemModule } from './crud-simples/pedido-compra-item/module';
 
 
 
@@ -97,6 +99,9 @@ import { GrupoAcessoUsuarioModule } from './crud-simples/grupo-acesso-usuario/mo
 
     RequisicaoAlmoxarifadoModule,
     RequisicaoAlmoxarifadoItemModule,
+
+    PedidoCompraModule,
+    PedidoCompraItemModule,
 
     CustosDiaModule,
     CustosMensaisModule,

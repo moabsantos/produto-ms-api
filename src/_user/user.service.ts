@@ -32,10 +32,13 @@ export class UserService extends TypeOrmCrudService<User>{
 
         if (permissaoCode == '*') return grps.length > 0 ? true : false
 
-        grps.forEach(async grp => {
-            const perm = await this.repoPermissoes.find({where: {permissaoAcessoCode:permissaoCode, grupoAcessoId: grp.id, realmId: realmId}})
-            if (perm.length > 1) return true
-        });
+        for (let index = 0; index < grps.length; index++) {
+            const grp = grps[index];
+            
+            const perm = await this.repoPermissoes.findOne({where: {permissaoAcessoCode:permissaoCode, grupoAcessoId: grp.grupoAcessoId, realmId: realmId}})
+
+            if (perm) return true
+        }
 
         return false
     }

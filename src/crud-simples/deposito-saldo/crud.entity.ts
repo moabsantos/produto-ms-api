@@ -64,9 +64,26 @@ export class DepositoSaldo extends BaseModelCrud {
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeTotal: number;
 
+
+
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeFornecedor: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadePedida: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeFaturada: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeRecebida: number;
+
+    
+
+
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeDisponivel: number;
-
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeRequisitada: number;
@@ -78,8 +95,6 @@ export class DepositoSaldo extends BaseModelCrud {
     quantidadeEntregue: number;
 
 
-    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
-    quantidadeRecebida: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeReservada: number;

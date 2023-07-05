@@ -72,8 +72,21 @@ export class DepositoRequisicao extends BaseModelCrud {
 
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeFornecedorOrigem: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadePedidaOrigem: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeFaturadaOrigem: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeRecebidaOrigem: number;
+
+
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeDisponivelOrigem: number;
-    
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeRequisitadaOrigem: number;
@@ -122,6 +135,22 @@ export class DepositoRequisicao extends BaseModelCrud {
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeEntregueDestino: number;
+
+
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeFornecedorDestino: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadePedidaDestino: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeFaturadaDestino: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeRecebidaDestino: number;
+
+
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeReservadaDestino: number;
