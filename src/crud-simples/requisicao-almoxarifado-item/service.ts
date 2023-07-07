@@ -27,6 +27,15 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         private depositoRequisicaoServ: DepositoRequisicaoService)
     {
         super(repo, repoUser)
+
+        this.setRole({
+            create: "sup-almox-req-dig",
+            update: "sup-almox-req-dig",
+            delete: "sup-almox-req-dig",
+            get: "sup-almox-req-dig",
+            aprovar: "sup-almox-req-aprov",
+            atender: "sup-almox-req-aten",
+        })
     }
 
     getDataFromDto(dto: any, user: any, model: RequisicaoAlmoxarifadoItem){

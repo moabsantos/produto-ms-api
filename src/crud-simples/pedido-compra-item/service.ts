@@ -27,6 +27,15 @@ export class PedidoCompraItemService extends BaseCrudService{
         private depositoRequisicaoServ: DepositoRequisicaoService)
     {
         super(repo, repoUser)
+
+        this.setRole({
+            create: "sup-compr-ped-dig",
+            update: "sup-compr-ped-dig",
+            delete: "sup-compr-ped-dig",
+            get: "sup-compr-ped-dig",
+            aprovar: "sup-compr-ped-aprov",
+            atender: "sup-compr-ped-aten",
+        })
     }
 
     getDataFromDto(dto: any, user: any, model: PedidoCompraItem){
