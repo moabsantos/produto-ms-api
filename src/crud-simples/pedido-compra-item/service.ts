@@ -111,8 +111,10 @@ export class PedidoCompraItemService extends BaseCrudService{
     }
 
     async aprovacaoFullList(req: CrudRequest, user: any, pedidoCompraId: number): Promise<any>{
+        
+        if (!pedidoCompraId) return
 
-        const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
+        const itensRequisicao = await this.repo.find({where: {pedidoCompraId: pedidoCompraId}})
 
         if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
 
@@ -164,6 +166,8 @@ export class PedidoCompraItemService extends BaseCrudService{
     }
 
     async cancelarAprovacaoFullList(req: CrudRequest, user: any, pedidoCompraId: number): Promise<any>{
+
+        if (!pedidoCompraId) return
 
         const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
 
@@ -218,6 +222,8 @@ export class PedidoCompraItemService extends BaseCrudService{
 
     async separacaoFullList(req: CrudRequest, user: any, pedidoCompraId: number): Promise<any>{
 
+        if (!pedidoCompraId) return
+
         const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
 
         if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
@@ -270,6 +276,8 @@ export class PedidoCompraItemService extends BaseCrudService{
 
     async cancelarSeparacaoFullList(req: CrudRequest, user: any, pedidoCompraId: number): Promise<any>{
 
+        if (!pedidoCompraId) return
+
         const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
 
         if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
@@ -321,6 +329,8 @@ export class PedidoCompraItemService extends BaseCrudService{
     }
 
     async atendimentoFullList(req: CrudRequest, user: any, pedidoCompraId: number): Promise<any>{
+
+        if (!pedidoCompraId) return
 
         const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
 
@@ -375,6 +385,8 @@ export class PedidoCompraItemService extends BaseCrudService{
 
     async enderecadoFullList(req: CrudRequest, user: any, pedidoCompraId: number): Promise<any>{
 
+        if (!pedidoCompraId) return
+
         const itens = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
 
         if (itens.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
@@ -427,6 +439,8 @@ export class PedidoCompraItemService extends BaseCrudService{
     }
 
     async setRequisicaoStatusItem(req: CrudRequest, user: any, pedidoCompraId: number): Promise<any>{
+
+        if (!pedidoCompraId) return
 
         const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
 
