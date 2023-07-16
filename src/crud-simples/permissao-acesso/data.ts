@@ -7,11 +7,16 @@ function getPermissaoAcesso(obj){
 export const dataCrud: {id: number, code: string,            name: string, description: string, type: string
 , created_at: Date, created_by: number, updated_at: Date, updated_by: number, deleted_at: Date, deleted_by: number}[] = [
 
-    getPermissaoAcesso({code: 'sup-compr-adm', name: 'Compras - (Administração)', description: 'Gestão Geral sobre temas relacionados ao módulo de compras'}),
+    getPermissaoAcesso({ code: 'sup-compra-adm', name: 'Compras - (Administração)', description: 'Gestão Geral sobre temas relacionados ao módulo de compras'}),
+    
+    getPermissaoAcesso({ code: 'sup-compra-ped-aprov',      name: 'Compras - Pedido de Compra (Aprovação)', description: ''}),
+    getPermissaoAcesso({ code: 'sup-compra-ped-dig',        name: 'Compras - Pedido de Compra (Digitaçao)', description: ''}),
 
-    getPermissaoAcesso({ code: 'sup-compr-negoc-dig',      name: 'Compras - Negociação (Digitação)', description: ''}),
-    getPermissaoAcesso({ code: 'sup-compr-ped-aprov',      name: 'Compras - Pedido de Compra (Aprovação)', description: ''}),
-    getPermissaoAcesso({ code: 'sup-compr-ped-dig',        name: 'Compras - Pedido de Compra (Digitaçao)', description: ''}),
+    getPermissaoAcesso({ code: 'sup-compra-negoc-dig',      name: 'Compras - Negociação (Digitação)', description: ''}),
+
+    getPermissaoAcesso({ code: 'sup-compra-req-adm',        name: 'Requisição de Compra - (Administração)', description: ''}),
+    getPermissaoAcesso({ code: 'sup-compra-req-aprov',      name: 'Requisição de Compra - (Aprovação)', description: ''}),
+    getPermissaoAcesso({ code: 'sup-compra-req-dig',        name: 'Requisição de Compra - (Digitação)', description: ''}),
 
     getPermissaoAcesso({ code: 'sup-almox-req-adm',        name: 'Almoxarifado - Gestão (Administração)', description: ''}),
     getPermissaoAcesso({ code: 'sup-almox-req-aprov',      name: 'Almoxarifado - Requisição (Aprovação)', description: ''}),

@@ -1,60 +1,42 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { BaseCrudService } from "src/_shared/base-crud.service";
 
-import { PedidoCompra } from "./crud.entity";
-import { PedidoCompraUser } from "./crud-user.entity";
+import { RequisicaoCompra } from "./crud.entity";
+import { RequisicaoCompraUser } from "./crud-user.entity";
 import { EmpresaService } from "../empresa/service";
 import { DepositoService } from "../deposito/service";
-import { FornecedorService } from "../fornecedor/service";
-import { FormaPagamentoService } from "../forma-pagamento/service";
 
-export class PedidoCompraService extends BaseCrudService{
+export class RequisicaoCompraService extends BaseCrudService{
 
     private empresa: any;
     private depositoOrigem: any;
     private depositoDestino: any;
-    private fornecedor: any;
-    private formaPagamento: any;
     
     constructor (
-        @InjectRepository(PedidoCompra) protected repo,
-        @InjectRepository(PedidoCompraUser) protected repoUser,
+        @InjectRepository(RequisicaoCompra) protected repo,
+        @InjectRepository(RequisicaoCompraUser) protected repoUser,
         private empresaServ: EmpresaService,
-        private fornecedorServ: FornecedorService,
-        private formaPagamentoServ: FormaPagamentoService,
         private depositoServ: DepositoService)
     {
         super(repo, repoUser)
         
         this.setRole({
-            create: "sup-compra-ped-dig",
-            update: "sup-compra-ped-dig",
-            delete: "sup-compra-ped-dig",
-            get: "sup-compra-ped-dig",
-            aprovar: "sup-compra-ped-aprov",
-            atender: "sup-compra-ped-aten",
+            create: "sup-almox-req-dig",
+            update: "sup-almox-req-dig",
+            delete: "sup-almox-req-dig",
+            get: "sup-almox-req-dig",
+            aprovar: "sup-almox-req-aprov",
+            atender: "sup-almox-req-aten",
         })
     }
 
-    getDataFromDto(dto: any, user: any, model: PedidoCompra){
+    getDataFromDto(dto: any, user: any, model: RequisicaoCompra){
  
         model.dataSolicitacao = dto.dataSolicitacao
 
         model.empresaName = this.empresa.name
         model.empresaSigla = this.empresa.sigla
         model.empresaId = dto.empresaId
-
-        model.fornecedorName = this.fornecedor.name
-        model.fornecedorCode = this.fornecedor.code
-        model.fornecedorSigla = this.fornecedor.sigla
-        model.fornecedorId = dto.fornecedorId
-
-
-
-        model.formaPagamentoName = this.formaPagamento.name
-        model.formaPagamentoCode = this.formaPagamento.code
-        model.formaPagamentoSigla = this.formaPagamento.sigla
-        model.formaPagamentoId = dto.formaPagamentoId
 
         model.depositoNameOrigem = this.depositoOrigem.name
         model.depositoCodeOrigem = this.depositoOrigem.code
@@ -74,18 +56,6 @@ export class PedidoCompraService extends BaseCrudService{
         this.empresa = await this.validateId(this.empresaServ, dto.empresaId, user)
         if (!this.empresa){
             this.logger.error(`A empresa ${dto.empresaId} não foi encontrada`)
-            return false
-        }
-
-        this.fornecedor = await this.validateId(this.fornecedorServ, dto.fornecedorId, user)
-        if (!this.fornecedor){
-            this.logger.error(`O Fornecedor ${dto.fornecedorId} não foi encontrado`)
-            return false
-        }
-
-        this.formaPagamento = await this.validateId(this.formaPagamentoServ, dto.formaPagamentoId, user)
-        if (!this.formaPagamento){
-            this.logger.error(`A Forma de Pagamento ${dto.formaPagamentoId} não foi encontrada`)
             return false
         }
 

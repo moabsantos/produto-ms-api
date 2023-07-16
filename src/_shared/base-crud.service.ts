@@ -26,6 +26,8 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
     async validateId(service: BaseCrudService, id: any, user: any): Promise<any>{
 
+        if (!id) return false
+
         const listService = await service.findByWhere({
             id: id,
             realmId: user.realmId

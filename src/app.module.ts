@@ -46,6 +46,8 @@ import { GrupoAcessoPermissaoModule } from './crud-simples/grupo-acesso-permissa
 import { GrupoAcessoUsuarioModule } from './crud-simples/grupo-acesso-usuario/module';
 import { PedidoCompraModule } from './crud-simples/pedido-compra/module';
 import { PedidoCompraItemModule } from './crud-simples/pedido-compra-item/module';
+import { RequisicaoCompraModule } from './crud-simples/requisicao-compra/module';
+import { RequisicaoCompraItemModule } from './crud-simples/requisicao-compra-item/module';
 
 
 
@@ -99,6 +101,9 @@ import { PedidoCompraItemModule } from './crud-simples/pedido-compra-item/module
 
     RequisicaoAlmoxarifadoModule,
     RequisicaoAlmoxarifadoItemModule,
+
+    RequisicaoCompraModule,
+    RequisicaoCompraItemModule,
 
     PedidoCompraModule,
     PedidoCompraItemModule,
