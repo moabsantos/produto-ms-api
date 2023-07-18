@@ -22,8 +22,17 @@ export class User {
   realmId: number;
 
   @Column({default: 0})
+  realmName: string;
+
+  @Column({default: 0})
   empresaId: number;
 
   @Column({default: 0})
+  empresaName: string;
+
+  @Column({default: 0})
   grupoId: number;
+
+  @Column({default: 0})
+  grupoName: string;
 }

@@ -48,26 +48,18 @@ export class UserService extends TypeOrmCrudService<User>{
         const realms = await this.repoRealms.find({where:{created_by: user.id}})
 
         let data = []
-        let listRealms = {}
 
         realms.forEach(realm => {
             data.push({
-                id: realm.id,
+                id: 0,
                 name: realm.name,
-                description: "Proprietário do Grupo de Empresas"
+                description: "Proprietário"
             })
-            listRealms['id'+ realm.id] = realm.id
         });
 
         const grps = await this.repoGrupos.find({where: {userId: user.id}})
-        grps.forEach(realm => {
-            if (!listRealms['id'+ realm.realmId]){
-                data.push({
-                    id: realm.realmId 
-                    , name: realm.empresaName
-                    , description: realm.grupoAcessoName})
-                listRealms['id' + realm.id] = realm.id
-            }
+        grps.forEach(grp => {
+            data.push(grp)
         });
 
         return {
@@ -81,17 +73,39 @@ export class UserService extends TypeOrmCrudService<User>{
         return this.repo.find({where: where})
     }
 
-    async changePerfil(req: any, user: any, realmId: number){
+    async changePerfil(req: any, user: any, groupId: number){
 
-        const hasPerm = await this.hasPermissao(user.id, '*', realmId)
+        if (groupId == 0) {
+            const ownerRealm = await this.repoRealms.find({where:{created_by: user.id}})
 
-        if (hasPerm){
-            this.repo.save({
-                id: user.id, realmId: realmId
-            })
+            if (ownerRealm && ownerRealm.length == 1){
+                await this.repo.save({
+                    id: user.id
+                    , realmId: ownerRealm[0].id, realmName: ownerRealm[0].name
+                    , empresaId: 0, empresaName: ownerRealm[0].name
+                    , grupoId: 0, grupoName: 'Proprietário'
+                })
+
+                return {realmId: ownerRealm[0].id}
+            }
+
+            return
         }
 
-        return {realmId: realmId}
+        const grps = await this.repoGrupos.find({where: {userId: user.id, id: groupId}})
+
+        if (grps && grps.length == 1){
+            this.repo.save({
+                id: user.id
+                , realmId: grps[0].realmId, realmName: grps[0].realmName
+                , empresaId: grps[0].empresaId, empresaName: grps[0].empresaName
+                , grupoId: grps[0].grupoAcessoId, grupoName: grps[0].grupoAcessoName
+            })
+
+            return grps[0]
+        }
+
+        return
     }
 
 }
