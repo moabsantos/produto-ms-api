@@ -49,7 +49,24 @@ export class AuthController extends BaseController {
     @Get('profile')
     @UseInterceptors(CrudRequestInterceptor)
     async getProfile(@ParsedRequest() req: CrudRequest, @UserRequest() authToken: any) {
-        return this.getDetailToken(req, authToken.token);
+        
+        const profile: any = await this.getDetailToken(req, authToken.token);
+        
+        return {
+            userId: profile.userId,
+            id: profile.id,
+            name: profile.name,
+            picture: profile.picture,
+            email: profile.email,
+            checked: profile.checked,
+            realmId: profile.realmId,
+            realmName: profile.realmName,
+            empresaId: profile.empresaId,
+            empresaName: profile.empresaName,
+            grupoId: profile.grupoId,
+            grupoName: profile.grupoName,
+            showGroupOwner: profile.showGroupOwner,
+        }
     }
 
     @UseGuards(JwtAuthGuard)

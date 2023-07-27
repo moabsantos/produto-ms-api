@@ -53,6 +53,7 @@ export class BaseController {
             return {
                 userId: userCheck[0].id, 
                 ...userCheck[0],
+
                 hasPermissao: (permissaoCode: string) => {
                     return this.userService.hasPermissao(userCheck[0].id, permissaoCode, userCheck[0].realmId)
                 }

@@ -56,4 +56,40 @@ export class UserController extends BaseController{
         return result
     }
 
+    @Post('mostrar-grupo-owner')
+    @UseInterceptors(CrudRequestInterceptor)
+    async showGroupOwner(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.showGroupOwner(req, user, body.showGroupOwner)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+    }
+
+    @Get('modulo-sistema')
+    @UseInterceptors(CrudRequestInterceptor)
+    async moduloSistema(@ParsedRequest() req: CrudRequest, @UserRequest() authToken){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.getModulosSistema(req, user)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+    }
+
 }

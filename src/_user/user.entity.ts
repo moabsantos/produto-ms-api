@@ -35,4 +35,7 @@ export class User {
 
   @Column({default: 0})
   grupoName: string;
+
+  @Column({default: 1})
+  showGroupOwner: number;
 }

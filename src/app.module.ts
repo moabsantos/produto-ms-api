@@ -48,6 +48,8 @@ import { PedidoCompraModule } from './crud-simples/pedido-compra/module';
 import { PedidoCompraItemModule } from './crud-simples/pedido-compra-item/module';
 import { RequisicaoCompraModule } from './crud-simples/requisicao-compra/module';
 import { RequisicaoCompraItemModule } from './crud-simples/requisicao-compra-item/module';
+import { ModuloSistemaModule } from './crud-simples/modulo-sistema/module';
+import { GrupoAcessoModuloSistemaModule } from './crud-simples/grupo-acesso-modulo-sistema/module';
 
 
 
@@ -64,6 +66,8 @@ import { RequisicaoCompraItemModule } from './crud-simples/requisicao-compra-ite
     RealmModule,
     ClientAppModule,
 
+    GrupoAcessoModuloSistemaModule,
+    ModuloSistemaModule,
     PermissaoAcessoModule,
     GrupoAcessoModule,
     GrupoAcessoPermissaoModule,

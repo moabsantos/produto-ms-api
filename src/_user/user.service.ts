@@ -6,6 +6,7 @@ import { User } from "./user.entity";
 import { GrupoAcessoUsuario } from "./grupo-usuario.entity";
 import { GrupoAcessoPermissao } from "./grupo-permissao.entity";
 import { Realm } from "./realm.entity";
+import { GrupoAcessoModuloSistema } from "./grupo-modulo.entity";
 
 @Injectable()
 export class UserService extends TypeOrmCrudService<User>{
@@ -14,6 +15,7 @@ export class UserService extends TypeOrmCrudService<User>{
         @InjectRepository(User) repo,
         @InjectRepository(GrupoAcessoUsuario) protected repoGrupos,
         @InjectRepository(GrupoAcessoPermissao) protected repoPermissoes,
+        @InjectRepository(GrupoAcessoModuloSistema) protected repoModulos,
         @InjectRepository(Realm) protected repoRealms,
         private readonly mailerService: MailerService)
     {
@@ -49,7 +51,7 @@ export class UserService extends TypeOrmCrudService<User>{
 
         let data = []
 
-        realms.forEach(realm => {
+        if (user.showGroupOwner == 1) realms.forEach(realm => {
             data.push({
                 id: 0,
                 name: realm.name,
@@ -106,6 +108,27 @@ export class UserService extends TypeOrmCrudService<User>{
         }
 
         return
+    }
+
+    async showGroupOwner(req: any, user: any, showGroup: number){
+
+        return await this.repo.save({
+            id: user.id,
+            showGroupOwner: showGroup ? 1 : 0
+        })
+
+    }
+
+    async getModulosSistema(req, user){
+
+        const mds = await this.repoModulos.find({grupoAcessoId: user.grupoId, realmId: user.realmId})
+
+        let modulo = {}
+        mds.forEach(m => {
+            modulo[m.moduloSistemaCode] = 1
+        });
+
+        return modulo
     }
 
 }
