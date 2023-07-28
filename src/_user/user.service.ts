@@ -121,7 +121,7 @@ export class UserService extends TypeOrmCrudService<User>{
 
     async getModulosSistema(req, user){
 
-        const mds = await this.repoModulos.find({grupoAcessoId: user.grupoId, realmId: user.realmId})
+        const mds = await this.repoModulos.find({where: {grupoAcessoId: user.grupoId, realmId: user.realmId}})
 
         let modulo = {}
         mds.forEach(m => {
