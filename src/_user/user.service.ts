@@ -97,7 +97,7 @@ export class UserService extends TypeOrmCrudService<User>{
         const grps = await this.repoGrupos.find({where: {userId: user.id, id: groupId}})
 
         if (grps && grps.length == 1){
-            this.repo.save({
+            await this.repo.save({
                 id: user.id
                 , realmId: grps[0].realmId, realmName: grps[0].realmName
                 , empresaId: grps[0].empresaId, empresaName: grps[0].empresaName

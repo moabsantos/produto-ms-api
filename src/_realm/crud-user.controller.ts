@@ -31,13 +31,13 @@ export class RealmUserController extends BaseCrudController{
     @UseInterceptors(CrudRequestInterceptor)
     async createOne(@ParsedRequest() req: CrudRequest, @UserRequest() authToken: any, @Body() body: any){
 
-        const userAuth = await this.getDetailToken(req, authToken.token)
+        const userAuth: any = await this.getDetailToken(req, authToken.token)
   
         if (!userAuth.realmId || userAuth.realmId == 0){
             
             const realmUserAuth = await this.realmService.addRealmToUser(req, userAuth)
 
-            let user = await this.userService.findByWhere({id: userAuth.userId})
+            let user: any = await this.userService.findByWhere({id: userAuth.userId})
 
             user[0].realmId = realmUserAuth.id
             await this.userService.updateOne(req, user[0])

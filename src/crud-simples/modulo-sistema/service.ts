@@ -41,7 +41,7 @@ export class ModuloSistemaService extends BaseCrudService{
         return null
     }
 
-    async save(req: any, user: any, dto: any): Promise<number>{
+    async save(req: any, user: any, dto: any){
         return null
     }
 

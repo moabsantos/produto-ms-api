@@ -205,7 +205,14 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         this.afterSave(req, dto, user, modelRepo)
 
-        return modelRepo.id
+        const tipoEvento = dto.id ? "atualizado" : "incluído"
+
+        return { success: {
+            id: modelRepo.id,
+            messages: [
+                `${this.constructor.name}:Id ${modelRepo.id} ${tipoEvento} com sucesso.`
+            ]
+        }} 
 
     }
 
