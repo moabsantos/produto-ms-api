@@ -50,6 +50,7 @@ import { RequisicaoCompraModule } from './crud-simples/requisicao-compra/module'
 import { RequisicaoCompraItemModule } from './crud-simples/requisicao-compra-item/module';
 import { ModuloSistemaModule } from './crud-simples/modulo-sistema/module';
 import { GrupoAcessoModuloSistemaModule } from './crud-simples/grupo-acesso-modulo-sistema/module';
+import { DepositoItemModule } from './crud-simples/deposito-item/module';
 
 
 
@@ -78,6 +79,7 @@ import { GrupoAcessoModuloSistemaModule } from './crud-simples/grupo-acesso-modu
 
     DepositoModule,
     DepositoRequisicaoModule,
+    DepositoItemModule,
 
     PaisModule,
     UFModule,

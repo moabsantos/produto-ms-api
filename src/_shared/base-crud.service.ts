@@ -8,6 +8,8 @@ import { BaseModelUser } from './base-model-user';
 
 export class BaseCrudService extends CustomService<BaseModelCrud>{
 
+    protected modelsRequired = null
+
     constructor (
         @InjectRepository(BaseModelCrud) protected repo,
         @InjectRepository(BaseModelUser) protected repoUser)
@@ -54,6 +56,45 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         }
 
         return false
+    }
+
+    async validateModelsRequired(dto: any, user: any): Promise<boolean>{
+
+        if (!this.modelsRequired) return false
+
+        this.modelsRequired.forEach(async d => {
+
+            d.objeto = await this.validateId(d.service, dto[d.fieldName + 'Id'], user)
+            if (!d.objeto){
+                this.logger.error(`O atributo ${d.fieldName}Id informado não é válido!`)
+                return false
+            }
+
+        });
+
+        return true
+    }
+
+    getDataModelsFromDto(model){
+
+        if (!this.modelsRequired) return model
+
+        this.modelsRequired.forEach(d => {
+            model = this.getModelfromDto(model, d.objeto, d.fiedlName, '', d.fields) 
+        });
+
+        return model
+    }
+
+    getModelfromDto(model, dto, prefixFieldDestination, prefixFieldOrigin, fields){
+
+        if (!fields || !dto || !prefixFieldDestination || !prefixFieldOrigin) return model
+
+        fields.forEach(f => {
+            model[prefixFieldDestination + f] = dto[prefixFieldOrigin + f]
+        });
+
+        return model
     }
 
     getDataFromDto(dto: any, user: any, model: BaseModelCrud): BaseModelCrud{
