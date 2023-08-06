@@ -62,15 +62,19 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
         if (!this.modelsRequired) return false
 
-        this.modelsRequired.forEach(async d => {
+        for (let index = 0; index < this.modelsRequired.length; index++) {
+            const d = this.modelsRequired[index];
 
-            d.objeto = await this.validateId(d.service, dto[d.fieldName + 'Id'], user)
+            const idDto = dto[d.fieldName + 'Id'] ? dto[d.fieldName + 'Id'] : d.getId()
+
+            d.objeto = await this.validateId(d.service, idDto, user)
             if (!d.objeto){
                 this.logger.error(`O atributo ${d.fieldName}Id informado não é válido!`)
                 return false
             }
+            this[d.fieldName] = d.objeto
 
-        });
+        }
 
         return true
     }
@@ -78,20 +82,22 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
     getDataModelsFromDto(model){
 
         if (!this.modelsRequired) return model
-
+        
         this.modelsRequired.forEach(d => {
-            model = this.getModelfromDto(model, d.objeto, d.fiedlName, '', d.fields) 
+            model = this.getModelfromDto(model, d.objeto, d.fieldName, '', d.fields) 
         });
 
         return model
     }
 
-    getModelfromDto(model, dto, prefixFieldDestination, prefixFieldOrigin, fields){
+    getModelfromDto(model = null, dto = null, prefixFieldDestination = '', prefixFieldOrigin = '', fields = []){
 
-        if (!fields || !dto || !prefixFieldDestination || !prefixFieldOrigin) return model
+        if (!fields || !dto || !prefixFieldDestination) return model
 
         fields.forEach(f => {
-            model[prefixFieldDestination + f] = dto[prefixFieldOrigin + f]
+            const fieldDestino = prefixFieldDestination + f.charAt(0).toUpperCase() + f.slice(1)
+
+            model[fieldDestino] = dto[prefixFieldOrigin + f]
         });
 
         return model

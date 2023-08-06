@@ -3,25 +3,32 @@ import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
 @Unique("uniq_name", ["name", "realmId"])
-export class RequisicaoAlmoxarifadoItem extends BaseModelCrud {
+export class DepositoItem extends BaseModelCrud {
 
     @Column()
-    dataSolicitacao: Date;
+    empresaId: number;
 
     @Column()
-    dataAprovacao: Date;
+    empresaCode: string;
 
     @Column()
-    dataSeparacao: Date;
+    empresaName: string;
+
+    @Column({nullable: true})
+    empresaSigla: string;
+
 
     @Column()
-    dataEntrega: Date;
+    depositoId: number;
 
     @Column()
-    requisicaoAlmoxarifadoId: number;
+    depositoCode: string;
 
     @Column()
-    sequencia: number;
+    depositoName: string;
+
+    @Column({nullable: true})
+    depositoSigla: string;
 
 
     @Column()
@@ -40,6 +47,20 @@ export class RequisicaoAlmoxarifadoItem extends BaseModelCrud {
     itemDescription: string;
 
 
+
+    @Column()
+    itemGrupoId: number;
+
+    @Column()
+    itemGrupoCode: string;
+
+    @Column()
+    itemGrupoName: string;
+
+    @Column({nullable: true})
+    itemGrupoSigla: string;
+
+
     @Column()
     unidadeMedidaId: number;
 
@@ -50,26 +71,10 @@ export class RequisicaoAlmoxarifadoItem extends BaseModelCrud {
     unidadeMedidaSigla: string;
 
 
-    @Column()
-    setorId: number;
-
-    @Column()
-    setorName: string;
-
-    @Column({nullable: true})
-    setorSigla: string;
-
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeMinima: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
-    quantidadeSolicitada: number;
+    quantidadeMaxima: number;
 
-    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
-    quantidadeEntregue: number;
-
-
-    @Column({default: 'Pendente'})
-    statusItem: string;
-
-    @Column({default: 0})
-    idUserSelecao: number;
 }

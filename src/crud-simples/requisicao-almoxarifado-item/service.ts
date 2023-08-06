@@ -121,9 +121,9 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         for (let index = 0; index < itensRequisicao.length; index++) {
             const element = itensRequisicao[index];
             
-            if (element.statusItem == 'Pendente'){
+            if (element.statusItem == 'Pendente' && element.idUserSelecao > 0){
 
-                await this.repo.save({id: element.id, statusItem: 'Aprovado', dataAprovacao: new Date()})
+                await this.repo.save({id: element.id, statusItem: 'Aprovado', idUserSelecao: 0, dataAprovacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -174,9 +174,9 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         for (let index = 0; index < itensRequisicao.length; index++) {
             const element = itensRequisicao[index];
             
-            if (element.statusItem == 'Aprovado'){
+            if (element.statusItem == 'Aprovado' && element.idUserSelecao > 0){
 
-                await this.repo.save({id: element.id, statusItem: 'Pendente', dataAprovacao: new Date()})
+                await this.repo.save({id: element.id, statusItem: 'Pendente', idUserSelecao: 0, dataAprovacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -227,9 +227,9 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         for (let index = 0; index < itensRequisicao.length; index++) {
             const element = itensRequisicao[index];
             
-            if (element.statusItem == 'Aprovado'){
+            if (element.statusItem == 'Aprovado' && element.idUserSelecao > 0){
 
-                await this.repo.save({id: element.id, statusItem: 'Separado', dataSeparacao: new Date()})
+                await this.repo.save({id: element.id, statusItem: 'Separado', idUserSelecao: 0, dataSeparacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -279,9 +279,9 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         for (let index = 0; index < itensRequisicao.length; index++) {
             const element = itensRequisicao[index];
             
-            if (element.statusItem == 'Separado'){
+            if (element.statusItem == 'Separado' && element.idUserSelecao > 0){
 
-                await this.repo.save({id: element.id, statusItem: 'Aprovado', dataSeparacao: new Date()})
+                await this.repo.save({id: element.id, statusItem: 'Aprovado', idUserSelecao: 0, dataSeparacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -331,9 +331,9 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         for (let index = 0; index < itensRequisicao.length; index++) {
             const element = itensRequisicao[index];
             
-            if (element.statusItem == 'Separado'){
+            if (element.statusItem == 'Separado' && element.idUserSelecao > 0){
 
-                await this.repo.save({id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Entregue', dataEntrega: new Date()})
+                await this.repo.save({id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Entregue', idUserSelecao: 0, dataEntrega: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -408,6 +408,18 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         await this.setRequisicaoStatusItem(req, user, model.requisicaoAlmoxarifadoId)
 
         return await super.afterSave(req, dto, user, model)
+
+    }
+
+    async selecaoItem(req: CrudRequest, user: any, requisicaoAlmoxarifadoItemId: number): Promise<any>{
+
+        const itensRequisicao = await this.repo.find({where:{id: requisicaoAlmoxarifadoItemId}})
+
+        if (itensRequisicao.length < 1) return
+
+        itensRequisicao[0].idUserSelecao = itensRequisicao[0].idUserSelecao == 0 ? user.userId : 0
+
+        return await this.repo.save({id: itensRequisicao[0].id, idUserSelecao: itensRequisicao[0].idUserSelecao})
 
     }
 
