@@ -121,4 +121,22 @@ export class PedidoCompraItemController extends BaseCrudController{
 
         return result
     }
+
+    @Post('importar/requisicao-compra')
+    @UseInterceptors(CrudRequestInterceptor)
+    async selecaoItem(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.importarRequisicaoCompra(req, user, body.id)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+    }
 }

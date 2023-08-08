@@ -411,16 +411,4 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
     }
 
-    async selecaoItem(req: CrudRequest, user: any, requisicaoAlmoxarifadoItemId: number): Promise<any>{
-
-        const itensRequisicao = await this.repo.find({where:{id: requisicaoAlmoxarifadoItemId}})
-
-        if (itensRequisicao.length < 1) return
-
-        itensRequisicao[0].idUserSelecao = itensRequisicao[0].idUserSelecao == 0 ? user.userId : 0
-
-        return await this.repo.save({id: itensRequisicao[0].id, idUserSelecao: itensRequisicao[0].idUserSelecao})
-
-    }
-
 }

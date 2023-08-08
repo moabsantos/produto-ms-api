@@ -48,7 +48,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
             return false
         }
 
-        let modelRepo = await this.repo.findOne({where:{name:dto.name, realmId:user.realmId}})
+        let modelRepo = await this.repo.findOne({where:{name:dto.name, realmId: user.realmId}})
         
         if(modelRepo && (!dto.id || dto.id != modelRepo.id)){
 
@@ -132,6 +132,20 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         }
         
         return model
+    }
+
+    async selecaoItem(req: any, user: any, id: number): Promise<any>{
+
+        const itens = await this.repo.find({where:{id: id}})
+
+        if (itens.length < 1) return
+
+        itens[0].idUserSelecao = itens[0].idUserSelecao == 0 ? user.userId : 0
+
+        const item = await this.repo.save({id: itens[0].id, idUserSelecao: itens[0].idUserSelecao})
+
+        return {id: item.id, idUserSelecao: item.idUserSelecao}
+
     }
 
 }

@@ -14,9 +14,9 @@ import { ProdutoModule } from "../produto/module";
 import { UnidadeMedidaModule } from "../unidade-medida/module";
 import { EmpresaModule } from "../empresa/module";
 import { SetorModule } from "../setor/module";
-import { CustosDiaModule } from "../custos-dia/module";
 import { DepositoRequisicaoModule } from "../deposito-requisicao/module";
 import { PedidoCompraModule } from "../pedido-compra/module";
+import { RequisicaoCompraItemModule } from "../requisicao-compra-item/module";
 
 @Module({
     imports: [
@@ -27,8 +27,8 @@ import { PedidoCompraModule } from "../pedido-compra/module";
         ProdutoModule,
         UnidadeMedidaModule,
         SetorModule,
-        CustosDiaModule,
         PedidoCompraModule,
+        RequisicaoCompraItemModule,
         DepositoRequisicaoModule,
 
         TypeOrmModule.forFeature([PedidoCompraItem, PedidoCompraItemUser]),

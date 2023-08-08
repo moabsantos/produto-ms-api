@@ -65,4 +65,10 @@ export class RequisicaoCompraItem extends BaseModelCrud {
     @Column({default: 'Pendente'})
     statusItem: string;
 
+    @Column()
+    pedidoCompraId: number;
+
+    @Column()
+    pedidoCompraCode: string;
+
 }

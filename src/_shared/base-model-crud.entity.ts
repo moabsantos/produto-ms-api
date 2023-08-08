@@ -19,4 +19,7 @@ export class BaseModelCrud extends BaseModel {
     @Column({default: 0})
     realmId: number;
 
+    @Column({default: 0})
+    idUserSelecao: number;
+
 }

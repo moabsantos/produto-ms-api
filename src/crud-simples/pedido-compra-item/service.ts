@@ -9,10 +9,12 @@ import { SetorService } from "../setor/service";
 import { CrudRequest } from "@nestjsx/crud";
 import { DepositoRequisicaoService } from "../deposito-requisicao/service";
 import { PedidoCompraService } from "../pedido-compra/service";
+import { RequisicaoCompraItemService } from "../requisicao-compra-item/service";
 
 export class PedidoCompraItemService extends BaseCrudService{
 
     private pedidoCompra: any;
+    private reqCompraItem: any;
     private item: any;
     private setor: any;
     private unidadeMedida: any;
@@ -24,6 +26,7 @@ export class PedidoCompraItemService extends BaseCrudService{
         private unidadeMedidaServ: UnidadeMedidaService,
         private setorServ: SetorService,
         private pedidoServ: PedidoCompraService,
+        private reqCompraItemServ: RequisicaoCompraItemService,
         private depositoRequisicaoServ: DepositoRequisicaoService)
     {
         super(repo, repoUser)
@@ -473,6 +476,67 @@ export class PedidoCompraItemService extends BaseCrudService{
         await this.pedidoServ['repo'].save(reqAlmox[0])
 
     }
+
+
+    async importarRequisicaoCompra(req: any, user: any, idPedido: number): Promise<any>{
+
+        const pedidos = await this.pedidoServ['repo'].find({where: {
+            id: idPedido, 
+            statusItem: 'Pendente',
+            realmId: user.realmId
+        }})
+
+        if (pedidos.length < 1) return {}
+
+        const itens = await this.reqCompraItemServ['repo'].find({where:{
+            idUserSelecao: user.userId, 
+            pedidoCompraId: 0, 
+            statusItem: 'Aprovado',
+            realmId: user.realmId}})
+
+        if (itens.length < 1) return {}
+
+        for (let index = 0; index < itens.length; index++) {
+            const itemReq = itens[index];
+
+            const itensPedRef = await this.repo.find({where:{pedidoCompraId: idPedido, itemId: itemReq.itemId, realmId: user.realmId}})
+            let novoSeqItem = 1
+            for (let index = 0; index < itensPedRef.length; index++) {
+                const element = itensPedRef[index];
+                if (element.sequencia > novoSeqItem) novoSeqItem = element.sequencia +1
+            }
+
+            const itensPed = await this.repo.find({where:{
+                pedidoCompraId: idPedido, 
+                itemId: itemReq.itemId,
+                setorId: itemReq.setorId,
+                statusItem:'Pendente', 
+                realmId: user.realmId
+            }})
+            
+            let itemPedido = itensPed.length >= 1 ? itensPed[0] : null
+            if (itensPed.length < 1) itemPedido = {
+                pedidoCompraId: idPedido, itemId: itemReq.itemId, statusItem:'Pendente', realmId: user.realmId,
+                setorId: itemReq.setorId,
+                sequencia: novoSeqItem,
+                unidadeMedidaId: itemReq.unidadeMedidaId,
+                quantidadeSolicitada: 0.00000,
+            }
+
+            itemPedido.quantidadeSolicitada = Number(itemPedido.quantidadeSolicitada) + Number(itemReq.quantidadeSolicitada)
+            itemReq.idUserSelecao = 0
+            itemReq.pedidoCompraId = idPedido
+            itemReq.pedidoCompraCode = pedidos[0].code
+            itemReq.statusItem = 'Em Pedido'
+
+            await this.save(req, user, itemPedido)
+            await this.reqCompraItemServ['repo'].save(itemReq)
+        }
+
+        return {id: idPedido, idUserSelecao: itens}
+
+    }
+
 
     async afterSave(req: any, dto: any, user: any, model: PedidoCompraItem) {
 

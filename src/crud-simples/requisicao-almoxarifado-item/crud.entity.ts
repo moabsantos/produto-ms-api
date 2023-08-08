@@ -70,6 +70,4 @@ export class RequisicaoAlmoxarifadoItem extends BaseModelCrud {
     @Column({default: 'Pendente'})
     statusItem: string;
 
-    @Column({default: 0})
-    idUserSelecao: number;
 }

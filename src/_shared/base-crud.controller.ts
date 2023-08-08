@@ -1,5 +1,5 @@
-import { Body, HttpException, HttpStatus, Param, UseGuards } from "@nestjs/common";
-import { Crud, CrudRequest, Override, ParsedRequest } from "@nestjsx/crud";
+import { Body, HttpException, HttpStatus, Param, Post, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Crud, CrudRequest, CrudRequestInterceptor, Override, ParsedRequest } from "@nestjsx/crud";
 import { JwtAuthGuard } from "src/_auth/jwt-auth.guards";
 
 import { UserRequest } from "src/_auth/user.decorator";
@@ -102,6 +102,25 @@ export class BaseCrudController extends BaseController {
 
         return result
 
+    }
+
+
+    @Post('selecao/item')
+    @UseInterceptors(CrudRequestInterceptor)
+    async selecaoItem(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.selecaoItem(req, user, body.id)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
     }
 
 }

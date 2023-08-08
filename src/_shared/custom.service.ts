@@ -131,6 +131,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         if (!filtroRealm || !user.realmId) return {
             msgGeral: "Filtro sem Relm",
+            user: user,
             data: []
         }
 
