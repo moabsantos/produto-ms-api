@@ -103,7 +103,7 @@ export class RequisicaoCompraItemService extends BaseCrudService{
 
     async mudaStatusRequisicao(req: CrudRequest, user: any, requisicaoCompraId: number, statusOrigem: string, statusDestino: string): Promise<any>{
 
-        const itensRequisicao = await this.repo.find({where:{requisicaoCompraId: requisicaoCompraId, realmId: user.realmId}})
+        const itensRequisicao = await this.repo.find({where:{requisicaoCompraId: requisicaoCompraId, idUserSelecao: user.userId, realmId: user.realmId}})
 
         if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
 
@@ -119,7 +119,8 @@ export class RequisicaoCompraItemService extends BaseCrudService{
                 await this.repo.save({
                     id: element.id, 
                     statusItem: statusDestino, 
-                    dataAprovacao: new Date()
+                    dataAprovacao: new Date(),
+                    idUserSelecao: 0
                 })
 
             }
@@ -144,15 +145,9 @@ export class RequisicaoCompraItemService extends BaseCrudService{
 
     }
 
-    async pedidoFullList(req: CrudRequest, user: any, requisicaoCompraId: number): Promise<any>{
+    async cancelarRequisicaoFullList(req: CrudRequest, user: any, requisicaoCompraId: number): Promise<any>{
 
-        return this.mudaStatusRequisicao(req, user, requisicaoCompraId, 'Aprovado', 'Em Pedido')
-
-    }
-
-    async cancelarPedidoFullList(req: CrudRequest, user: any, requisicaoCompraId: number): Promise<any>{
-
-        return this.mudaStatusRequisicao(req, user, requisicaoCompraId, 'Em Pedido', 'Aprovado')
+        return this.mudaStatusRequisicao(req, user, requisicaoCompraId, 'Pendente', 'Cancelado')
 
     }
 

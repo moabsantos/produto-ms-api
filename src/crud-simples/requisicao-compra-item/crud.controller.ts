@@ -49,31 +49,13 @@ export class RequisicaoCompraItemController extends BaseCrudController{
         return result
     }
 
-    @Post('pedido/full-list')
+    @Post('cancelar-requisicao/full-list')
     @UseInterceptors(CrudRequestInterceptor)
-    async pedidoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+    async cancelarRequisicaoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
 
         const user = await this.getDetailToken(req, authToken.token)
 
-        let result = await this.service.pedidoFullList(req, user, body.requisicaoCompraId)
-
-        if (!result){
-            throw new HttpException({
-                status: HttpStatus.NOT_FOUND,
-                error: 'Não houve resposta para os dados informados',
-            }, HttpStatus.FORBIDDEN);
-        }
-
-        return result
-    }
-
-    @Post('cancelar-pedido/full-list')
-    @UseInterceptors(CrudRequestInterceptor)
-    async cancelarPedidoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
-
-        const user = await this.getDetailToken(req, authToken.token)
-
-        let result = await this.service.cancelarPedidoFullList(req, user, body.requisicaoCompraId)
+        let result = await this.service.cancelarRequisicaoFullList(req, user, body.requisicaoCompraId)
 
         if (!result){
             throw new HttpException({
