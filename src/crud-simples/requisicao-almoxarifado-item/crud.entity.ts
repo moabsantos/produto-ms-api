@@ -66,6 +66,8 @@ export class RequisicaoAlmoxarifadoItem extends BaseModelCrud {
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeEntregue: number;
 
+    @Column()
+    recebedor: string;
 
     @Column({default: 'Pendente'})
     statusItem: string;

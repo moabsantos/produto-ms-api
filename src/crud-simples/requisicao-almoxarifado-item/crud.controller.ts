@@ -92,7 +92,7 @@ export class RequisicaoAlmoxarifadoItemController extends BaseCrudController{
 
         const user = await this.getDetailToken(req, authToken.token)
 
-        let result = await this.service.atendimentoFullList(req, user, body.requisicaoAlmoxarifadoId)
+        let result = await this.service.atendimentoFullList(req, user, body)
 
         if (!result){
             throw new HttpException({

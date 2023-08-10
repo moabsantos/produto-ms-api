@@ -318,7 +318,9 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         return {}
     }
 
-    async atendimentoFullList(req: CrudRequest, user: any, requisicaoAlmoxarifadoId: number): Promise<any>{
+    async atendimentoFullList(req: CrudRequest, user: any, dto: any): Promise<any>{
+
+        const requisicaoAlmoxarifadoId = dto.requisicaoAlmoxarifadoId
 
         const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId}})
 
@@ -333,7 +335,13 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             
             if (element.statusItem == 'Separado' && element.idUserSelecao > 0){
 
-                await this.repo.save({id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Entregue', idUserSelecao: 0, dataEntrega: new Date()})
+                await this.repo.save({
+                    id: element.id, 
+                    quantidadeEntregue: Number(element.quantidadeSolicitada), 
+                    statusItem: 'Entregue', 
+                    idUserSelecao: 0,
+                    recebedor: dto.recebedor ? dto.recebedor : '-',
+                    dataEntrega: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 

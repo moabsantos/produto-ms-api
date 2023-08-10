@@ -69,7 +69,9 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
     getIdsAutorizados(w: any): Promise<BaseModel[]> {
   
-        return this.repo.find({where:w})
+        let ids = []
+        ids.push({id:0})
+        return Promise.resolve(ids)
     }
 
     async get(req: CrudRequest, user: any, id?: number): Promise<any>{
@@ -99,7 +101,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             }
         }
 
-        if (userModel.length > 0 && this.valorValido(id)){
+        if (this.valorValido(id)){
             
             const data = await this.repo.find({where:{id:id}})
 
@@ -109,6 +111,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
                     data: []
                 }
             }
+
             return {
                 msgGeral: `Resultado para o id ${id}`,
                 data: data
@@ -161,8 +164,15 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
             if (modelRepoFound.length > 1){
                 this.logger.error("found duplicated on save")
-                this.logger.error(modelRepoFound)
-                return 
+
+                return {
+                    success: {
+                        id: dto.id,
+                        messages: [
+                            `${this.constructor.name}:Id ${dto.id} não pode ser salvo por estar duplicado.`
+                        ]
+                    }
+                }
             }
 
             if (!modelRepoFound){

@@ -19,6 +19,13 @@ export class ProdutoService extends BaseCrudService{
         private produtoGrupoServ: ProdutoGrupoService )
     {
         super(repo, repoUser)
+
+        this.setRole({
+            create: "desen-prod-cad-dig",
+            update: "desen-prod-cad-dig",
+            delete: "desen-prod-cad-dig",
+            get: "desen-prod-cad-dig"
+        })
     }
 
     getDataFromDto(dto: any, user: any, model: Produto){
