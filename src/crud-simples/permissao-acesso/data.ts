@@ -29,8 +29,8 @@ export const dataCrud: {id: number, code: string,            name: string, descr
     getPermissaoAcesso({ code: 'com-vend-pedi-dig',        name: 'Comercial - Pedido de Venda (Digitação)', description: ''}),
 
     getPermissaoAcesso({ code: 'desen-prod-cad-dig',      name: 'Produto - Cadastro (Digitação)', description: ''}),
-    getPermissaoAcesso({ code: 'desen-prod-cad-del',      name: 'Produto - Ordem de Produção (Exclusão)', description: ''}),
-    getPermissaoAcesso({ code: 'desen-prod-cad-cons',      name: 'Produto - Ordem de Produção (Consulta)', description: ''}),
+    getPermissaoAcesso({ code: 'desen-prod-cad-del',      name: 'Produto - Cadastro (Exclusão)', description: ''}),
+    getPermissaoAcesso({ code: 'desen-prod-cad-cons',      name: 'Produto - Cadastro (Consulta)', description: ''}),
 
     getPermissaoAcesso({ code: 'prdt-desen-comp-dig',      name: 'Produto - Componentes da Ficha (Digitação)', description: ''}),
     getPermissaoAcesso({ code: 'prdt-prdc-ordem-dig',      name: 'Produto - Ordem de Produção (Digitação)', description: ''}),
