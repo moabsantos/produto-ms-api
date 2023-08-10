@@ -23,8 +23,8 @@ export class ProdutoService extends BaseCrudService{
         this.setRole({
             create: "desen-prod-cad-dig",
             update: "desen-prod-cad-dig",
-            delete: "desen-prod-cad-dig",
-            get: "desen-prod-cad-dig"
+            delete: "desen-prod-cad-del",
+            get: "desen-prod-cad-cons"
         })
     }
 
