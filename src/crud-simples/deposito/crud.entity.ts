@@ -21,10 +21,31 @@ export class Deposito extends BaseModelCrud {
     empresaSigla: string;
     
 
+
+    @Column()
+    setorId: number;
+
+    @Column()
+    setorCode: string;
+
+    @Column()
+    setorName: string;
+
+    @Column()
+    setorDescription: string;
+
+    @Column({nullable: true})
+    setorSigla: string;
+
+
+
     @Column({default: 0})
     flagPrincipal: number;
 
     @Column({default: 0})
     flagBaixaEstoque: number;
+
+    @Column({default: 0})
+    flagAjusteInventario: number;
 
 }

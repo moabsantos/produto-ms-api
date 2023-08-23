@@ -199,7 +199,6 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         let modelRepo: BaseModel
         
         if(dto.id){
-
             modelRepo = modelRepoFound[0]
             modelRepo.updated_by = user.userId
             modelRepo.updated_at = new Date()
@@ -258,5 +257,28 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         await this.repo.save(modelFound[0])
         
         return modelFound[0].id
+    }
+
+    dataFormatada(dto: any){
+        let date: Date = new Date(dto.data.split('-'));
+        let dt = date
+        let diaM = dt.getDate()
+        let ano = dt.getFullYear()
+        let mes = dt.getMonth()+1
+
+        let hora = dt.getHours()
+        let minuto = dt.getMinutes()
+        let segundo = dt.getSeconds()
+
+        let novaData = dto.formato
+        novaData = novaData.replace('dd', diaM.toString().padStart(2, '0'))
+        novaData = novaData.replace('mm', mes.toString().padStart(2, '0'))
+        novaData = novaData.replace('YYYY', ano)
+
+        novaData = novaData.replace('HH', hora)
+        novaData = novaData.replace('mi', minuto)
+        novaData = novaData.replace('ss', segundo)
+
+        return novaData
     }
 }

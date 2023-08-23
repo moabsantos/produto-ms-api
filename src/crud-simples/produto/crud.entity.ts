@@ -29,6 +29,9 @@ export class Produto extends BaseModelCrud {
     produtoGrupoId: number;
 
     @Column({nullable: true})
+    produtoGrupoCode: string;
+
+    @Column({nullable: true})
     produtoGrupoName: string;
 
     @Column({nullable: true})

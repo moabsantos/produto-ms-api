@@ -44,6 +44,21 @@ export class DepositoSaldo extends BaseModelCrud {
     itemDescription: string;
 
 
+
+    @Column()
+    itemGrupoId: number;
+
+    @Column()
+    itemGrupoCode: string;
+
+    @Column()
+    itemGrupoName: string;
+
+    @Column({nullable: true})
+    itemGrupoSigla: string;
+
+    
+
     @Column()
     unidadeMedidaId: number;
 

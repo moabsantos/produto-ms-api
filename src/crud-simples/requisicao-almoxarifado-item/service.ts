@@ -9,6 +9,7 @@ import { SetorService } from "../setor/service";
 import { CrudRequest } from "@nestjsx/crud";
 import { DepositoRequisicaoService } from "../deposito-requisicao/service";
 import { RequisicaoAlmoxarifadoService } from "../requisicao-almoxarifado/service";
+import { DepositoSaldoService } from "../deposito-saldo/service";
 
 export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
@@ -24,6 +25,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         private unidadeMedidaServ: UnidadeMedidaService,
         private setorServ: SetorService,
         private requisicaoAlmoxServ: RequisicaoAlmoxarifadoService,
+        private depositoSaldoServ: DepositoSaldoService,
         private depositoRequisicaoServ: DepositoRequisicaoService)
     {
         super(repo, repoUser)
@@ -110,18 +112,30 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
     async aprovacaoFullList(req: CrudRequest, user: any, requisicaoAlmoxarifadoId: number): Promise<any>{
 
-        const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId}})
+        const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId, realmId: user.realmId}})
 
         if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
 
         const reqAlmox = await this.requisicaoAlmoxServ['repo'].find({where:{id: itensRequisicao[0].requisicaoAlmoxarifadoId}})
 
-        if (reqAlmox.length < 1) throw new Error('Requisição não encontrada para o Id')
+        if (reqAlmox.length != 1) throw new Error('Requisição não encontrada para o Id')
 
         for (let index = 0; index < itensRequisicao.length; index++) {
             const element = itensRequisicao[index];
             
             if (element.statusItem == 'Pendente' && element.idUserSelecao > 0){
+
+                let saldo = await this.depositoSaldoServ.getUnico(req, user, {
+                    realmId: user.realmId,
+                    empresaId: reqAlmox[0].empresaId,
+                    depositoId: reqAlmox[0].depositoIdOrigem,
+                    itemId: element.itemId,
+                    loteId: 0
+                })
+
+                if (!saldo) continue;
+
+                if (Number(saldo['quantidadeDisponivel']) < Number(element.quantidadeSolicitada)) continue;
 
                 await this.repo.save({id: element.id, statusItem: 'Aprovado', idUserSelecao: 0, dataAprovacao: new Date()})
 

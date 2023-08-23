@@ -4,10 +4,10 @@ import { BaseCrudService } from "src/_shared/base-crud.service";
 import { DepositoRequisicao } from "./crud.entity";
 import { DepositoRequisicaoUser } from "./crud-user.entity";
 import { DepositoSaldoService } from "../deposito-saldo/service";
+import { ProdutoService } from "../produto/service";
 
 export class DepositoRequisicaoService extends BaseCrudService{
 
-    private saldo: any;
     private qtdsName = [
         'Fornecedor', 'Pedida', 'Faturada', 'Recebida' 
         , 'Disponivel', 'Requisitada', 'Separada', 'Entregue'
@@ -17,13 +17,14 @@ export class DepositoRequisicaoService extends BaseCrudService{
     constructor (
         @InjectRepository(DepositoRequisicao) protected repo,
         @InjectRepository(DepositoRequisicaoUser) protected repoUser,
+        private itemServ: ProdutoService,
         private saldoServ: DepositoSaldoService)
     {
         super(repo, repoUser)
     }
 
     getDataFromDto(dto: any, user: any, model: DepositoRequisicao){
-        
+
         model.code = dto.code
         model.name = dto.name
         
@@ -37,6 +38,13 @@ export class DepositoRequisicaoService extends BaseCrudService{
         model.itemSigla = dto.itemSigla
         model.itemDescription = dto.itemDescription
     
+
+        model.itemGrupoId = dto.itemGrupoId
+        model.itemGrupoCode = dto.itemGrupoCode
+        model.itemGrupoName = dto.itemGrupoName
+        model.itemGrupoSigla = dto.itemGrupoSigla
+
+
         model.unidadeMedidaId = dto.unidadeMedidaId
         model.unidadeMedidaName = dto.unidadeMedidaName
         model.unidadeMedidaSigla = dto.unidadeMedidaSigla
@@ -113,6 +121,12 @@ export class DepositoRequisicaoService extends BaseCrudService{
             itemSigla: model.itemSigla,
             itemDescription: model.itemDescription,
         
+
+            itemGrupoId: model.itemGrupoId,
+            itemGrupoCode: model.itemGrupoCode,
+            itemGrupoName: model.itemGrupoName,
+            itemGrupoSigla: model.itemGrupoSigla,
+
         
             unidadeMedidaId: model.unidadeMedidaId,
             unidadeMedidaName: model.unidadeMedidaName,
@@ -141,6 +155,23 @@ export class DepositoRequisicaoService extends BaseCrudService{
         }
     }
 
+    getDtoSaldoToModel(dto, model){
+
+        model.itemCode = dto.itemCode
+        model.itemName = dto.itemName
+        model.itemDescription = dto.itemDescription
+        model.itemSigla = dto.itemSigla
+
+        model.depositoCode = dto.depositoCodeOrigem
+
+        model.itemGrupoId = dto.itemGrupoId
+        model.itemGrupoCode = dto.itemGrupoCode
+        model.itemGrupoName = dto.itemGrupoName
+        model.itemGrupoSigla = dto.itemGrupoSigla
+
+        return model
+    }
+
     async setSaldoDepositoOrigem(req: any, dto: any, user: any, model: DepositoRequisicao) {
 
         const listSaldo = await this.saldoServ['repo'].find({where:{
@@ -157,9 +188,9 @@ export class DepositoRequisicaoService extends BaseCrudService{
         if (listSaldo.length > 1) return
 
         let saldo = listSaldo.length == 1 ? listSaldo[0] : await this.novoSaldoRequisicao(req, user, model, true)
-        saldo.itemCode = model.itemCode
-        saldo.depositoCode = model.depositoCodeOrigem
         
+        this.getDtoSaldoToModel(model, saldo)
+
         this.qtdsName.forEach(nomeDep => {
             saldo['quantidade'+ nomeDep] = this.baixaSaldo(Number(saldo['quantidade'+ nomeDep]), Number(dto['quantidade'+ nomeDep +'Origem']))
         })
@@ -194,8 +225,8 @@ export class DepositoRequisicaoService extends BaseCrudService{
         if (listSaldo.length > 1) return
 
         let saldo = listSaldo.length == 1 ? listSaldo[0] : await this.novoSaldoRequisicao(req, user, model, false)
-        saldo.itemCode = model.itemCode
-        saldo.depositoCode = model.depositoCodeDestino
+        
+        saldo = this.getDtoSaldoToModel(model, saldo)
 
         this.qtdsName.forEach(nomeDep => {
             saldo['quantidade'+ nomeDep] = this.adicionaSaldo(Number(saldo['quantidade'+ nomeDep]), Number(dto['quantidade'+ nomeDep +'Destino']))
@@ -205,6 +236,7 @@ export class DepositoRequisicaoService extends BaseCrudService{
     }
 
     async setSaldoDeposito(req: any, dto: any, user: any, model: DepositoRequisicao) {
+
 
         await this.setSaldoDepositoOrigem(req, dto, user, model)
 
@@ -221,6 +253,8 @@ export class DepositoRequisicaoService extends BaseCrudService{
     }
 
     async movimentacao(req: any, user: any, dto: any): Promise<any>{
+
+        const item = await this.itemServ['repo'].find({where:{id: dto.item.itemId, realmId: user.realmId}})
 
         const qtdsName = [
             'Disponivel', 'Requisitada', 'Separada', 'Entregue'
@@ -263,15 +297,22 @@ export class DepositoRequisicaoService extends BaseCrudService{
             empresaName: dto.capa.empresaName,
             empresaSigla: dto.capa.empresaSigla,
             
-            itemId: dto.item.itemId,
-            itemCode: dto.item.itemCode,
-            itemName: dto.item.itemName,
-            itemSigla: dto.item.itemSigla,
-            itemDescription: dto.item.itemDescription,
+
+            itemGrupoId: item[0].produtoGrupoId,
+            itemGrupoCode: item[0].produtoGrupoCode,
+            itemGrupoName: item[0].produtoGrupoName,
+            itemGrupoSigla: item[0].produtoGrupoSigla,
+
+
+            itemId: item[0].id,
+            itemCode: item[0].code,
+            itemName: item[0].name,
+            itemSigla: item[0].sigla,
+            itemDescription: item[0].description,
         
-            unidadeMedidaId: dto.item.unidadeMedidaId,
-            unidadeMedidaName: dto.item.unidadeMedidaName,
-            unidadeMedidaSigla: dto.item.unidadeMedidaSigla,
+            unidadeMedidaId: item[0].unidadeMedidaId,
+            unidadeMedidaName: item[0].unidadeMedidaName,
+            unidadeMedidaSigla: item[0].unidadeMedidaSigla,
         
             loteId: dto.lote.id,
             loteCodigo: dto.lote.code,
@@ -293,7 +334,7 @@ export class DepositoRequisicaoService extends BaseCrudService{
             origemRequisicaoName: dto.origemRequisicaoName,
             origemRequisicaoId: dto.id
         }
-        
+
         qtdsName.forEach(element => {
             objEvt['quantidade'+ element + 'Origem'] = 0
             objEvt['quantidade'+ element + 'Destino'] = 0

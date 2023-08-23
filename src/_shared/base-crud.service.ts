@@ -17,6 +17,24 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         super(repo)
     }
 
+    async getById(req: any, user: any, dto: any): Promise<any>{
+
+        const resId = await this.repo.find({where:{id: dto.id, realmId: user.realmId}})
+
+        if (!resId || resId.length != 1) return
+
+        return resId[0]
+    }
+
+    async getUnico(req: any, user: any, dto: any): Promise<any>{
+
+        const resId = await this.repo.find({where:{...dto, realmId: user.realmId}})
+
+        if (!resId || resId.length != 1) return
+
+        return resId[0]
+    }
+
     async validate(dto, user: number): Promise<boolean>{
 
         if (!dto.id && !dto.name){
@@ -48,6 +66,8 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
             return false
         }
 
+        if (!dto.name) return false
+
         let modelRepo = await this.repo.findOne({where:{name:dto.name, realmId: user.realmId}})
         
         if(modelRepo && (!dto.id || dto.id != modelRepo.id)){
@@ -65,7 +85,12 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         for (let index = 0; index < this.modelsRequired.length; index++) {
             const d = this.modelsRequired[index];
 
-            const idDto = dto[d.fieldName + 'Id'] ? dto[d.fieldName + 'Id'] : d.getId()
+            const idFunc = d.getId ? d.getId() : 0
+
+            const idDto = dto[d.fieldName + 'Id'] ? dto[d.fieldName + 'Id'] : idFunc
+
+            this[d.fieldName] = null
+            if (d.optional && !idDto) continue
 
             d.objeto = await this.validateId(d.service, idDto, user)
             if (!d.objeto){
@@ -92,12 +117,12 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
     getModelfromDto(model = null, dto = null, prefixFieldDestination = '', prefixFieldOrigin = '', fields = []){
 
-        if (!fields || !dto || !prefixFieldDestination) return model
+        if (!fields || !prefixFieldDestination) return model
 
         fields.forEach(f => {
             const fieldDestino = prefixFieldDestination + f.charAt(0).toUpperCase() + f.slice(1)
 
-            model[fieldDestino] = dto[prefixFieldOrigin + f]
+            model[fieldDestino] = dto ? dto[prefixFieldOrigin + f] : null
         });
 
         return model
@@ -115,6 +140,8 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
     }
 
     getIdsAutorizados(w: any): Promise<BaseModelUser[]> {
+
+        if (!w) return Promise.resolve([])
 
         return this.repoUser.find({where:w})
     }
@@ -136,6 +163,8 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
     async selecaoItem(req: any, user: any, id: number): Promise<any>{
 
+        if (!id) return {id: null, idUserSelecao: null}
+        
         const itens = await this.repo.find({where:{id: id}})
 
         if (itens.length < 1) return

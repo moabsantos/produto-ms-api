@@ -13,7 +13,6 @@ export const dataCrud: {id: number, code: string,            name: string, descr
     getPermissaoAcesso({ code: 'sup-compra-ped-dig',        name: 'Compras - Pedido de Compra (Digitaçao)', description: ''}),
 
     getPermissaoAcesso({ code: 'sup-compra-negoc-dig',      name: 'Compras - Negociação (Digitação)', description: ''}),
-
     getPermissaoAcesso({ code: 'sup-compra-req-adm',        name: 'Requisição de Compra - (Administração)', description: ''}),
     getPermissaoAcesso({ code: 'sup-compra-req-aprov',      name: 'Requisição de Compra - (Aprovação)', description: ''}),
     getPermissaoAcesso({ code: 'sup-compra-req-dig',        name: 'Requisição de Compra - (Digitação)', description: ''}),
@@ -34,6 +33,11 @@ export const dataCrud: {id: number, code: string,            name: string, descr
 
     getPermissaoAcesso({ code: 'prdt-desen-comp-dig',      name: 'Produto - Componentes da Ficha (Digitação)', description: ''}),
     getPermissaoAcesso({ code: 'prdt-prdc-ordem-dig',      name: 'Produto - Ordem de Produção (Digitação)', description: ''}),
+
+    getPermissaoAcesso({ code: 'sup-deposito-inventario-dig',      name: 'Estoque - Inventário (Digitação)', description: ''}),
+    getPermissaoAcesso({ code: 'sup-deposito-inventario-iniciar',      name: 'Estoque - Inventário (Aprovar/Iniciar)', description: ''}),
+    getPermissaoAcesso({ code: 'sup-deposito-inventario-contagem',      name: 'Estoque - Inventário (Informar Contagem)', description: ''}),
+    getPermissaoAcesso({ code: 'sup-deposito-inventario-processar',      name: 'Estoque - Inventário (Aplicar Ajuste)', description: ''}),
 
     getPermissaoAcesso({ code: 'sis-sec-perm-adm', name: 'Gestão das Permissões (Administração)', description: ''}),
     getPermissaoAcesso({ code: 'sis-sec-perm-lib', name: 'Gestão das Permissões (Liberação)', description: ''}),

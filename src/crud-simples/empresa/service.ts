@@ -11,6 +11,14 @@ export class EmpresaService extends BaseCrudService{
         @InjectRepository(EmpresaUser) protected repoUser)
     {
         super(repo, repoUser)
+
+        this.setRole({
+            create: "gerencial-empresa-parametros-dig",
+            update: "gerencial-empresa-parametros-dig",
+            delete: "gerencial-empresa-parametros-dig",
+            get: "gerencial-empresa-parametros-dig"
+        })
+
     }
 
     getDataFromDto(dto: any, user: any, model: Empresa){

@@ -39,6 +39,7 @@ export class ProdutoService extends BaseCrudService{
         model.unidadeMedidaCompraId = dto.unidadeMedidaCompraId
 
         model.produtoGrupoName = this.produtoGrupo.name
+        model.produtoGrupoCode = this.produtoGrupo.code
         model.produtoGrupoSigla = this.produtoGrupo.sigla
         model.produtoGrupoId = this.produtoGrupo.id
 

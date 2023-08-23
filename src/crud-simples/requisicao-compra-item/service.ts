@@ -158,6 +158,7 @@ export class RequisicaoCompraItemService extends BaseCrudService{
         if (itensRequisicao.length < 1) return
 
         let qtdsStatus = {
+            Cancelado: 0,
             Pendente: 0,
             Aprovado: 0,
             Pedido: 0
@@ -168,6 +169,7 @@ export class RequisicaoCompraItemService extends BaseCrudService{
         });
 
         let statusFinal = 'Pendente'
+        if (qtdsStatus.Cancelado == itensRequisicao.length) statusFinal = 'Cancelado'
         if (qtdsStatus.Aprovado > 0 && qtdsStatus.Pendente == 0) statusFinal = 'Aprovado'
         if (qtdsStatus.Pedido > 0 && qtdsStatus.Aprovado == 0 && qtdsStatus.Pendente == 0) statusFinal = 'Pedido'
         

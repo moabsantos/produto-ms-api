@@ -17,6 +17,7 @@ import { SetorModule } from "../setor/module";
 import { CustosDiaModule } from "../custos-dia/module";
 import { DepositoRequisicaoModule } from "../deposito-requisicao/module";
 import { RequisicaoAlmoxarifadoModule } from "../requisicao-almoxarifado/module";
+import { DepositoSaldoModule } from "../deposito-saldo/module";
 
 @Module({
     imports: [
@@ -28,6 +29,7 @@ import { RequisicaoAlmoxarifadoModule } from "../requisicao-almoxarifado/module"
         SetorModule,
         CustosDiaModule,
         RequisicaoAlmoxarifadoModule,
+        DepositoSaldoModule,
         DepositoRequisicaoModule,
 
         TypeOrmModule.forFeature([RequisicaoAlmoxarifadoItem, RequisicaoAlmoxarifadoItemUser]),

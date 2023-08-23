@@ -441,6 +441,37 @@ export class PedidoCompraItemService extends BaseCrudService{
 
     }
 
+
+
+    async cancelarFullList(req: CrudRequest, user: any, pedidoCompraId: number): Promise<any>{
+
+        if (!pedidoCompraId) return
+
+        const itens = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
+
+        if (itens.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+
+        const reqAlmox = await this.pedidoServ['repo'].find({where:{id: itens[0].pedidoCompraId}})
+
+        if (reqAlmox.length < 1) throw new Error('Requisição não encontrada para o Id')
+
+        for (let index = 0; index < itens.length; index++) {
+            const element = itens[index];
+            
+            if (element.statusItem == 'Pendente'){
+
+                await this.repo.save({id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Cancelado'})
+
+            }
+        }
+
+        await this.setRequisicaoStatusItem(req, user, pedidoCompraId)
+
+        return {}
+
+    }
+
+
     async setRequisicaoStatusItem(req: CrudRequest, user: any, pedidoCompraId: number): Promise<any>{
 
         if (!pedidoCompraId) return
@@ -450,6 +481,7 @@ export class PedidoCompraItemService extends BaseCrudService{
         if (itensRequisicao.length < 1) return
 
         let qtdsStatus = {
+            Cancelado: 0,
             Pendente: 0,
             Aprovado: 0,
             Faturado: 0,
@@ -462,6 +494,7 @@ export class PedidoCompraItemService extends BaseCrudService{
         });
 
         let statusFinal = 'Pendente'
+        if (qtdsStatus.Cancelado == itensRequisicao.length) statusFinal = 'Cancelado'
         if (qtdsStatus.Aprovado > 0 && qtdsStatus.Pendente == 0) statusFinal = 'Aprovado'
         if (qtdsStatus.Faturado > 0 && qtdsStatus.Aprovado == 0 && qtdsStatus.Pendente == 0) statusFinal = 'Faturado'
         if (qtdsStatus.Recebido > 0 && qtdsStatus.Faturado == 0 && qtdsStatus.Aprovado == 0 && qtdsStatus.Pendente == 0) statusFinal = 'Recebido'
