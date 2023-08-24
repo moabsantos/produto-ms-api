@@ -476,7 +476,7 @@ export class PedidoCompraItemService extends BaseCrudService{
 
         if (!pedidoCompraId) return
 
-        const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
+        const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId, realmId: user.realmId}})
 
         if (itensRequisicao.length < 1) return
 
@@ -499,8 +499,8 @@ export class PedidoCompraItemService extends BaseCrudService{
         if (qtdsStatus.Faturado > 0 && qtdsStatus.Aprovado == 0 && qtdsStatus.Pendente == 0) statusFinal = 'Faturado'
         if (qtdsStatus.Recebido > 0 && qtdsStatus.Faturado == 0 && qtdsStatus.Aprovado == 0 && qtdsStatus.Pendente == 0) statusFinal = 'Recebido'
         if (qtdsStatus.Enderecado > 0 && qtdsStatus.Recebido == 0 && qtdsStatus.Faturado == 0 && qtdsStatus.Aprovado == 0 && qtdsStatus.Pendente == 0) statusFinal = 'Enderecado'
-
-        const reqAlmox = await this.pedidoServ['repo'].find({where:{id: pedidoCompraId}})
+        
+        const reqAlmox = await this.pedidoServ['repo'].find({where:{id: pedidoCompraId, realmId: user.realmId}})
         if (reqAlmox[0].statusItem == statusFinal) return
 
         reqAlmox[0].statusItem = statusFinal
