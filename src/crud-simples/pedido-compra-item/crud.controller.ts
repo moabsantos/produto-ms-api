@@ -144,7 +144,7 @@ export class PedidoCompraItemController extends BaseCrudController{
 
     @Post('importar/requisicao-compra')
     @UseInterceptors(CrudRequestInterceptor)
-    async selecaoItem(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+    async importarItem(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
 
         const user = await this.getDetailToken(req, authToken.token)
 

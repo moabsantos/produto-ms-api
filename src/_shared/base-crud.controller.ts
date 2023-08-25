@@ -111,6 +111,11 @@ export class BaseCrudController extends BaseController {
 
         const user = await this.getDetailToken(req, authToken.token)
 
+        if (!body.id) throw new HttpException({
+            status: HttpStatus.BAD_REQUEST,
+            error: 'Informe o id para seleção',
+        }, HttpStatus.FORBIDDEN);
+
         let result = await this.service.selecaoItem(req, user, body.id)
 
         if (!result){
