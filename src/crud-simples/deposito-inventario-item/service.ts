@@ -142,15 +142,18 @@ export class DepositoInventarioItemService extends BaseCrudService{
             let item = await this.repo.find({where:filterSaldo})
             if (item.length > 0) itemInventario['id'] = item[0].id
 
-            itemInventario['realmId'] = inventario[0].realmId,
-            itemInventario['depositoInventarioId'] = inventario[0].id,
-            itemInventario['empresaId'] = inventario[0].empresaId,
-            itemInventario['depositoId'] = inventario[0].depositoId,
-            itemInventario['unidadeMedidaId'] = saldo.unidadeMedidaId,
-            itemInventario['itemId'] = saldo.itemId,
-            itemInventario['loteId'] = saldo.loteId,
-            itemInventario['loteCodigo'] = saldo.loteCodigo,
-            itemInventario['quantidadeImagem'] = Number(saldo.quantidadeDisponivel)
+            itemInventario['realmId'] = inventario[0].realmId
+            itemInventario['depositoInventarioId'] = inventario[0].id
+            itemInventario['empresaId'] = inventario[0].empresaId
+            itemInventario['depositoId'] = inventario[0].depositoId
+            itemInventario['unidadeMedidaId'] = saldo.unidadeMedidaId
+            itemInventario['itemId'] = saldo.itemId
+            itemInventario['loteId'] = saldo.loteId
+            itemInventario['loteCodigo'] = saldo.loteCodigo
+
+            if (Number(saldo.quantidadeDisponivel) >= 0) itemInventario['quantidadeImagem'] = Number(saldo.quantidadeDisponivel) + Number(saldos[0].quantidadeRequisitada) + Number(saldos[0].quantidadeSeparada)
+            if (Number(saldo.quantidadeDisponivel) < 0) itemInventario['quantidadeImagem'] = Number(saldo.quantidadeDisponivel) - Number(saldos[0].quantidadeRequisitada) - Number(saldos[0].quantidadeSeparada)
+            
             if (itemInventario['status'] == 'Excluido') itemInventario['status'] = 'Pendente'
 
             await this.save(req, user, itemInventario)

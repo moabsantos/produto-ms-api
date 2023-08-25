@@ -83,6 +83,9 @@ export class DepositoInventario extends BaseModelCrud {
     @Column()
     dataTermino: Date;
 
+    @Column({default: 1})
+    sequencia: number;
+
     @Column()
     status: string;
 

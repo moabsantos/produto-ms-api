@@ -43,6 +43,7 @@ export class DepositoInventarioService extends BaseCrudService{
             model = this.getDataModelsFromDto(model)
             model.dataInicio = dto.dataInicio
             model.status = 'Pendente'
+            model.sequencia = dto.sequencia
         }
 
         return super.getDataFromDto(dto, user, model)
@@ -55,7 +56,13 @@ export class DepositoInventarioService extends BaseCrudService{
 
         if (this['deposito'].empresaId != this['depositoInventario'].empresaId) return false
 
-        dto.name = 'RELM_'+ this['empresa'].realmId +'_EMP_'+ this['empresa'].id +'_DEP_'+ dto.depositoId +'_DT_'+ this.dataFormatada({data: dto.dataInicio, formato: 'YYYYmmddHHmiss'})
+        dto.name = 
+            'RELM_'+ this['empresa'].realmId +
+            '_EMP_'+ this['empresa'].id +
+            '_DEP_'+ dto.depositoId +
+            '_DT_'+ this.dataFormatada({data: dto.dataInicio, formato: 'YYYYmmddHHmiss'}) +
+            '_SEQ_'+ dto.sequencia
+            
         if (dto.itemGrupoId) dto.name = dto.name +'_ITEMGRUPO_'+ dto.itemGrupoId
         if (dto.itemId) dto.name = dto.name +'_ITEM_'+ dto.itemId
         dto.code = dto.name
