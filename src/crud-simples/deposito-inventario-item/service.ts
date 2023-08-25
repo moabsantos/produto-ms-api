@@ -13,6 +13,7 @@ import { CrudRequest } from "@nestjsx/crud";
 import { DepositoInventarioService } from "../deposito-inventario/service";
 import { DepositoSaldoService } from "../deposito-saldo/service";
 import { DepositoRequisicaoService } from "../deposito-requisicao/service";
+import { Like } from "typeorm";
 
 export class DepositoInventarioItemService extends BaseCrudService{
 
@@ -126,6 +127,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
 
         if (inventario[0].itemGrupoId) filterSaldo['itemGrupoId'] = inventario[0].itemGrupoId
         if (inventario[0].itemId && inventario[0].itemId != '0') filterSaldo['itemId'] = inventario[0].itemId
+        if (inventario[0].itemPartialName) filterSaldo['itemName'] = Like(`%${inventario[0].itemPartialName}%`)
 
         saldos = await this.saldoServ['repo'].find({where:filterSaldo})
 

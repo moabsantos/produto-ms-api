@@ -76,6 +76,10 @@ export class DepositoInventario extends BaseModelCrud {
     itemGrupoSigla: string;
 
 
+    @Column({nullable: true})
+    itemPartialName: string;
+
+
     
     @Column()
     dataInicio: Date;
