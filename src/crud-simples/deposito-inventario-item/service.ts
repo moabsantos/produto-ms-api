@@ -231,8 +231,6 @@ export class DepositoInventarioItemService extends BaseCrudService{
 
         if (!user.hasPermissao('sup-deposito-inventario-processar')) return
 
-        await this.importarSaldo(req, user, param)
-
         const inventario = await this.inventarioServ['repo'].find({where: {id: param.depositoInventarioId, realmId: user.realmId}})
         if (!inventario || inventario.length != 1) return {}
 
@@ -261,6 +259,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
                 empresaId: i.empresaId,
                 depositoId: i.depositoId,
                 itemId: i.itemId,
+                unidadeMedidaId: i.unidadeMedidaId,
                 loteId: i.loteId
             }})
 
@@ -268,7 +267,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
 
             let qtdAjuste = 0
             const qtdSaldo = Number(saldos[0].quantidadeDisponivel)
-            const qtdContagem = Number(i.quantidadeContagem) - Number(saldos[0].quantidadeAprovada) - Number(saldos[0].quantidadeSeparada)
+            const qtdContagem = Number(i.quantidadeContagem) - Number(saldos[0].quantidadeRequisitada) - Number(saldos[0].quantidadeSeparada)
             
             if (qtdSaldo < 0){
                 qtdAjuste = qtdSaldo *-1
@@ -314,7 +313,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
             i.status = 'Finalizado'
             await this.repo.save(i)
         }
-        
+
         await this.finalizarContagem(req, user, {depositoInventarioId: param.depositoInventarioId})
 
         return {}

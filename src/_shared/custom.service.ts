@@ -193,6 +193,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         
         if (await this.foundDuplicated(dto, user)){
             this.logger.error("found duplicated")
+            console.log(dto)
             return
         }
 
