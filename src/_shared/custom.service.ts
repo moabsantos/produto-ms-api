@@ -105,6 +105,11 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             
             const data = await this.repo.find({where:{id:id}})
 
+            if (!data || data.length == 0) return {
+                msgGeral: "Não há dados autorizados para visualização",
+                data: []
+            }
+
             if (data && data[0]['realmId'] != user.realmId){
                 return {
                     msgGeral: "Não há dados autorizados para visualização",
@@ -187,6 +192,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         const validated = await this.validate(dto, user)
         if (!validated){
             this.logger.error("validation basic")
+            console.log(dto)
             return
         }
 
@@ -248,16 +254,52 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             return
         }
 
-        if (!modelFound[0]){
+        if (!modelFound || !modelFound.data || modelFound.data.length != 1) return
+
+        if (modelFound.data[0].realmId != user.realmId) return
+
+        modelFound.data[0].deleted_at = new Date()
+        modelFound.data[0].deleted_by = user.userId
+
+        await this.repo.save(modelFound.data[0])
+        
+        return modelFound.data[0].id
+    }
+
+
+    async reActive(req: CrudRequest, user: any, id: number){
+
+        if (!user){
             return
         }
 
-        modelFound[0].deleted_at = new Date()
-        modelFound[0].deleted_by = user.userId
+        if (!user.userId){
+            return
+        }
 
-        await this.repo.save(modelFound[0])
+        if (!id){
+            return
+        }
+
+        let modelFound = await this.get(req, user, id)
+
+        if (!modelFound){
+            return
+        }
+
+        if (!modelFound || !modelFound.data || modelFound.data.length != 1) return
+
+        if (modelFound.data[0].realmId != user.realmId) return
+
+        modelFound.data[0].deleted_at = null
+        modelFound.data[0].deleted_by = null
+
+        modelFound.data[0].updated_at = new Date()
+        modelFound.data[0].updated_by = user.userId
+
+        await this.repo.save(modelFound.data[0])
         
-        return modelFound[0].id
+        return modelFound.data[0].id
     }
 
     dataFormatada(dto: any){

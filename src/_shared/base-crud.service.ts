@@ -94,7 +94,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
             d.objeto = await this.validateId(d.service, idDto, user)
             if (!d.objeto){
-                this.logger.error(`O atributo ${d.fieldName}Id informado não é válido!`)
+                this.logger.error(`O id ${idDto} informado no atributo ${d.fieldName}Id não é válido!`)
                 return false
             }
             this[d.fieldName] = d.objeto
@@ -134,6 +134,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         model.name = dto.name
         model.description = dto.description
         model.idImage = dto.idImage
+        model.sigla = dto.sigla ? dto.sigla : null
 
         model.realmId = user.realmId
         return model

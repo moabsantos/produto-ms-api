@@ -105,6 +105,26 @@ export class BaseCrudController extends BaseController {
     }
 
 
+    @Post('reactive/:id')
+    @UseInterceptors(CrudRequestInterceptor)
+    async reActive(@ParsedRequest() req: CrudRequest, @Param('id') id: number, @UserRequest() authToken){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.reActive(req, user, id)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não encontrado ou não autorizado',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+
+    }
+
+
     @Post('selecao/item')
     @UseInterceptors(CrudRequestInterceptor)
     async selecaoItem(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){

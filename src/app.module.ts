@@ -53,6 +53,8 @@ import { GrupoAcessoModuloSistemaModule } from './crud-simples/grupo-acesso-modu
 import { DepositoItemModule } from './crud-simples/deposito-item/module';
 import { DepositoInventarioModule } from './crud-simples/deposito-inventario/module';
 import { DepositoInventarioItemModule } from './crud-simples/deposito-inventario-item/module';
+import { RepresentanteModule } from './crud-simples/representante/module';
+import { RepresentanteUsuarioModule } from './crud-simples/representante-usuario/module';
 
 
 
@@ -122,7 +124,10 @@ import { DepositoInventarioItemModule } from './crud-simples/deposito-inventario
     CustosMensaisModule,
     CustosMensaisFacadeModule,
 
-    ProducaoDiaModule
+    ProducaoDiaModule,
+
+    RepresentanteModule,
+    RepresentanteUsuarioModule
   ],
   controllers: [AppController],
   providers: [AppService],

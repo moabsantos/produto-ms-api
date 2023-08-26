@@ -131,4 +131,13 @@ export class UserService extends TypeOrmCrudService<User>{
         return modulo
     }
 
+    async getByEmail(email: any): Promise<any>{
+
+        const resId = await this.repo.find({where:{email: email}})
+
+        if (!resId || resId.length != 1) return
+
+        return resId[0]
+    }
+
 }

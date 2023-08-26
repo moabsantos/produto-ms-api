@@ -13,6 +13,9 @@ export class BaseModelCrud extends BaseModel {
     @Column({nullable: true})
     description: string;
 
+    @Column({nullable: true})
+    sigla: string;
+
     @Column({nullable:true})
     idImage: string;
 

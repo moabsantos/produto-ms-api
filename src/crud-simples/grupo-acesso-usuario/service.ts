@@ -84,13 +84,4 @@ export class GrupoAcessoUsuarioService extends BaseCrudService{
         return super.validate(dto, user)
     }
 
-    async delete(req: any, user: any, id: number){
-
-        const item = await this.get(req, user, id)
-
-        const deleted = await this.repo.delete(item.data[0].id)
-
-        return {id}
-    }
-
 }
