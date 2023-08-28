@@ -2,7 +2,7 @@ import { BaseModelCrud } from "src/_shared/base-model-crud.entity";
 import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
-@Unique("uniq_name", ["name", "realmId"])
+@Unique("uniq_name", ["clienteId", "code", "realmId"])
 export class ClienteEstabelecimento extends BaseModelCrud {
 
     @Column()
@@ -13,6 +13,8 @@ export class ClienteEstabelecimento extends BaseModelCrud {
 
     @Column()
     clienteSigla: string;
+
+
 
     @Column()
     cnpj: string;
@@ -33,7 +35,12 @@ export class ClienteEstabelecimento extends BaseModelCrud {
     numero: string;
 
     @Column()
+    cep: string;
+
+    @Column()
     bairro: string;
+
+
 
     @Column()
     cidadeId: number;

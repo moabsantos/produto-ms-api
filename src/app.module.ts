@@ -55,6 +55,7 @@ import { DepositoInventarioModule } from './crud-simples/deposito-inventario/mod
 import { DepositoInventarioItemModule } from './crud-simples/deposito-inventario-item/module';
 import { RepresentanteModule } from './crud-simples/representante/module';
 import { RepresentanteUsuarioModule } from './crud-simples/representante-usuario/module';
+import { RepresentanteClienteModule } from './crud-simples/representante-cliente/module';
 
 
 
@@ -127,7 +128,8 @@ import { RepresentanteUsuarioModule } from './crud-simples/representante-usuario
     ProducaoDiaModule,
 
     RepresentanteModule,
-    RepresentanteUsuarioModule
+    RepresentanteUsuarioModule,
+    RepresentanteClienteModule
   ],
   controllers: [AppController],
   providers: [AppService],

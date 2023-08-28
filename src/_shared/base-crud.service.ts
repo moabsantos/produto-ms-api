@@ -104,6 +104,15 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         return true
     }
 
+    getModelFromInputs(model, dto, inputs){
+
+        inputs.forEach(f => {
+            model = dto[f] 
+        });
+
+        return model
+    }
+
     getDataModelsFromDto(model){
 
         if (!this.modelsRequired) return model

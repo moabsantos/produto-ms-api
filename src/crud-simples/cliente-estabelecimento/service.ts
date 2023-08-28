@@ -18,54 +18,40 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
         private cidadeServ: CidadeService)
     {
         super(repo, repoUser)
+
+        this.setRole({
+            create: "com-cliente-estabelecimento-dig",
+            update: "com-cliente-estabelecimento-dig",
+            delete: "com-cliente-estabelecimento-dig",
+            get: "com-cliente-estabelecimento-dig"
+        })
+
+        this.modelsRequired = [
+            {fieldName: 'cidade', service: this.cidadeServ, fields: ['name', 'sigla', 'id', 'code']},
+            {fieldName: 'cliente', service: this.clienteServ, fields: ['name', 'sigla', 'id', 'code']},
+        ]
     }
 
     getDataFromDto(dto: any, user: any, model: ClienteEstabelecimento){
+    
+        model = this.getDataModelsFromDto(model)
 
-        model.clienteId = this.cliente.id
-        model.clienteName = this.cliente.name
-        model.clienteSigla = this.cliente.sigla
-    
-        model.cnpj = dto.cnpj
-        model.inscricaoEstadual = dto.inscricaoEstadual
-    
-        model.email = dto.email
-        model.telefone = dto.telefone
-    
-        model.endereco = dto.endereco
-        model.numero = dto.numero
-        model.bairro = dto.bairro
-    
-        model.cidadeId = this.cidade.id
-        model.cidadeName = this.cidade.name
-        model.cidadeSigla = this.cidade.sigla
+        model = this.getModelFromInputs(model, dto, [
+            'code',
+            'cnpj', 'inscricaoEstadual',
+            'email', 'telefone',
+            'endereco', 'numero', 'bairro', 'cep'
+        ])
 
         return super.getDataFromDto(dto, user, model)
     }
 
     async validate(dto: any, user: any): Promise<boolean>{
         
-        const clientes = await this.clienteServ.findByWhere({
-            id: dto.clienteId,
-            realmId: user.realmId
-        })
+        const dtoValid = await this.validateModelsRequired(dto, user)
+        if (!dtoValid) return false
 
-        if (clientes.length == 0){
-            this.logger.error(`O Cliente ${dto.clienteId} não foi encontrado`)
-            return false
-        }
-        this.cliente = clientes[0]
-
-        const cidades = await this.cidadeServ.findByWhere({
-            id: dto.cidadeId,
-            realmId: user.realmId
-        })
-
-        if (cidades.length == 0){
-            this.logger.error(`A Cidade ${dto.cidadeId} não foi encontrada`)
-            return false
-        }
-        this.cidade = cidades[0]
+        dto.name = 'REALM_'+ user.realmId +'_CLI_'+ this['cliente'].id +'_COD_'+ dto.code
 
         return super.validate(dto, user)
 

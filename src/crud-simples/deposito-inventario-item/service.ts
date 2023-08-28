@@ -364,6 +364,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
             },
 
             item:{
+                id: dto.id,
                 itemId: dto.itemId,
                 setorId: dto.setorId,
                 setorName: dto.setorName,
