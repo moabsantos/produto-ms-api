@@ -310,9 +310,9 @@ export class DepositoRequisicaoService extends BaseCrudService{
             itemSigla: item[0].sigla,
             itemDescription: item[0].description,
         
-            unidadeMedidaId: item[0].unidadeMedidaId,
-            unidadeMedidaName: item[0].unidadeMedidaName,
-            unidadeMedidaSigla: item[0].unidadeMedidaSigla,
+            unidadeMedidaId: dto.item.unidadeMedidaId ? dto.item.unidadeMedidaId : item[0].unidadeMedidaId,
+            unidadeMedidaName: dto.item.unidadeMedidaName ? dto.item.unidadeMedidaName : item[0].unidadeMedidaName,
+            unidadeMedidaSigla: dto.item.unidadeMedidaSigla ? dto.item.unidadeMedidaSigla : item[0].unidadeMedidaSigla,
         
             loteId: dto.lote.id,
             loteCodigo: dto.lote.code,

@@ -44,7 +44,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
             {fieldName: 'deposito', service: this.depositoServ, fields: ['name', 'sigla', 'id', 'code']},
             {fieldName: 'empresa', service: this.empresaServ, fields: ['name', 'sigla', 'id', 'code'], getId: () => this['deposito'].empresaId},
             {fieldName: 'item', service: this.itemServ, fields: ['name', 'sigla', 'id', 'code', 'description']},
-            {fieldName: 'unidadeMedida', service: this.unidadeServ, fields: ['name', 'sigla', 'id', 'code'], getId: () => this['item'].unidadeMedidaId},
+            {fieldName: 'unidadeMedida', service: this.unidadeServ, fields: ['name', 'sigla', 'id', 'code']},
             {fieldName: 'itemGrupo', service: this.itemGrupoServ, fields: ['name', 'sigla', 'id', 'code'], getId: () => this['item'].produtoGrupoId}
         ]
     }
@@ -67,7 +67,9 @@ export class DepositoInventarioItemService extends BaseCrudService{
         const dtoValid = await this.validateModelsRequired(dto, user)
         if (!dtoValid) return false
 
-        dto.name = 'REALM_'+ this['empresa'].realmId +'_EMP'+ this['empresa'].id +'_DEPINVENT_'+ this['depositoInventario'].id +'_DEP_'+ this['deposito'].id +'_ITEM_'+ dto.itemId +'_LOTE_'+ dto.loteId
+        dto.name = 'REALM_'+ this['empresa'].realmId +'_EMP'+ this['empresa'].id +
+                   '_DEPINVENT_'+ this['depositoInventario'].id +'_DEP_'+ this['deposito'].id +
+                   '_ITEM_'+ dto.itemId +'_UND_'+ dto.unidadeMedidaId +'_LOTE_'+ dto.loteId
         dto.code = dto.name
 
         return super.validate(dto, user)
@@ -153,9 +155,9 @@ export class DepositoInventarioItemService extends BaseCrudService{
             itemInventario['loteId'] = saldo.loteId
             itemInventario['loteCodigo'] = saldo.loteCodigo
 
-            if (Number(saldo.quantidadeDisponivel) >= 0) itemInventario['quantidadeImagem'] = Number(saldo.quantidadeDisponivel) + Number(saldos[0].quantidadeRequisitada) + Number(saldos[0].quantidadeSeparada)
-            if (Number(saldo.quantidadeDisponivel) < 0) itemInventario['quantidadeImagem'] = Number(saldo.quantidadeDisponivel) - Number(saldos[0].quantidadeRequisitada) - Number(saldos[0].quantidadeSeparada)
-            
+            if (Number(saldo.quantidadeDisponivel) >= 0) itemInventario['quantidadeImagem'] = Number(saldo.quantidadeDisponivel) + Number(saldo.quantidadeRequisitada) + Number(saldo.quantidadeSeparada)
+            if (Number(saldo.quantidadeDisponivel) < 0) itemInventario['quantidadeImagem'] = Number(saldo.quantidadeDisponivel) - Number(saldo.quantidadeRequisitada) - Number(saldo.quantidadeSeparada)
+
             if (itemInventario['status'] == 'Excluido') itemInventario['status'] = 'Pendente'
 
             await this.save(req, user, itemInventario)
@@ -290,6 +292,12 @@ export class DepositoInventarioItemService extends BaseCrudService{
                     loteId: i.loteId,
                     loteCodigo: i.loteCodigo,
                     itemId: i.itemId,
+
+                    unidadeMedidaId: i.unidadeMedidaId,
+                    unidadeMedidaCode: i.unidadeMedidaCode,
+                    unidadeMedidaName: i.unidadeMedidaName,
+                    unidadeMedidaSigla: i.unidadeMedidaSigla,
+
                     setorId: depContagem[0].setorId,
                     setorName: depContagem[0].setorName,
                     setorSigla: depContagem[0].setorSigla,
@@ -306,6 +314,12 @@ export class DepositoInventarioItemService extends BaseCrudService{
                     loteId: i.loteId,
                     loteCodigo: i.loteCodigo,
                     itemId: i.itemId,
+
+                    unidadeMedidaId: i.unidadeMedidaId,
+                    unidadeMedidaCode: i.unidadeMedidaCode,
+                    unidadeMedidaName: i.unidadeMedidaName,
+                    unidadeMedidaSigla: i.unidadeMedidaSigla,
+                    
                     setorId: depContagem[0].setorId,
                     setorName: depContagem[0].setorName,
                     setorSigla: depContagem[0].setorSigla,
@@ -353,7 +367,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
     }
 
     async ajustaSaldoDeposito(req, user, dto){
-        
+
         await this.depositoRequisicaoServ.movimentacao(req, user, {
             id: dto.id, 
 
@@ -366,6 +380,12 @@ export class DepositoInventarioItemService extends BaseCrudService{
             item:{
                 id: dto.id,
                 itemId: dto.itemId,
+
+                unidadeMedidaId: dto.unidadeMedidaId,
+                unidadeMedidaCode: dto.unidadeMedidaCode,
+                unidadeMedidaName: dto.unidadeMedidaName,
+                unidadeMedidaSigla: dto.unidadeMedidaSigla,
+
                 setorId: dto.setorId,
                 setorName: dto.setorName,
                 setorSigla: dto.setorSigla,
