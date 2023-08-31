@@ -129,6 +129,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
                     realmId: user.realmId,
                     empresaId: reqAlmox[0].empresaId,
                     depositoId: reqAlmox[0].depositoIdOrigem,
+                    unidadeMedidaId: element.unidadeMedidaId,
                     itemId: element.itemId,
                     loteId: 0
                 })
