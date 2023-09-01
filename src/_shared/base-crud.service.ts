@@ -90,7 +90,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
             const idDto = dto[d.fieldName + 'Id'] ? dto[d.fieldName + 'Id'] : idFunc
 
             this[d.fieldName] = {}
-            if (d.optional && !idDto) continue
+            if (d.optional && (!idDto || idDto == "")) continue
 
             d.objeto = await this.validateId(d.service, idDto, user)
             if (!d.objeto){
