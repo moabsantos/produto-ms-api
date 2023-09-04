@@ -57,6 +57,9 @@ import { RepresentanteModule } from './crud-simples/representante/module';
 import { RepresentanteUsuarioModule } from './crud-simples/representante-usuario/module';
 import { RepresentanteClienteModule } from './crud-simples/representante-cliente/module';
 
+import { DominioColecaoModule } from './crud-simples/dominio-colecao/module';
+import { DominioImagemModule } from './crud-simples/dominio-imagem/module';
+
 
 
 @Module({
@@ -129,7 +132,10 @@ import { RepresentanteClienteModule } from './crud-simples/representante-cliente
 
     RepresentanteModule,
     RepresentanteUsuarioModule,
-    RepresentanteClienteModule
+    RepresentanteClienteModule,
+
+    DominioColecaoModule,
+    DominioImagemModule
   ],
   controllers: [AppController],
   providers: [AppService],

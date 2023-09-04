@@ -82,6 +82,8 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
         if (!this.modelsRequired) return false
 
+        if (this.modelsRequired.length == 0) return true
+
         for (let index = 0; index < this.modelsRequired.length; index++) {
             const d = this.modelsRequired[index];
 
