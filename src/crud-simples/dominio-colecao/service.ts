@@ -26,7 +26,7 @@ export class DominioColecaoService extends BaseCrudService{
 
         if (!model.id) {
             model = this.getDataModelsFromDto(model)
-            model.dominioName = dto.dataInicio
+            model.dominioName = dto.dominioName
             model.dominioId = dto.dominioId
         }
 
