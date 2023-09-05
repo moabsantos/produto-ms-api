@@ -64,8 +64,8 @@ export class DepositoInventarioService extends BaseCrudService{
             '_DT_'+ this.dataFormatada({data: dto.dataInicio, formato: 'YYYYmmddHHmiss'}) +
             '_SEQ_'+ dto.sequencia
 
-        if (dto.itemGrupoId) dto.name = dto.name +'_ITEMGRUPO_'+ dto.itemGrupoId
-        if (dto.itemId) dto.name = dto.name +'_ITEM_'+ dto.itemId
+        dto.name = dto.name +'_ITEMGRUPO_'+ dto.itemGrupoId
+        dto.name = dto.name +'_ITEM_'+ dto.itemId
         dto.code = dto.name
 
         return super.validate(dto, user)
