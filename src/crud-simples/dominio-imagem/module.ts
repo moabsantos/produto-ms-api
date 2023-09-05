@@ -10,11 +10,14 @@ import { DominioImagemUser } from "./crud-user.entity";
 import { DominioImagemUserController } from "./crud-user.controller";
 import { DominioImagemService } from "./service";
 import { DominioImagemUserService } from "./crud-user.service";
+import { DominioColecaoModule } from "../dominio-colecao/module";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
+
+        DominioColecaoModule,
 
         TypeOrmModule.forFeature([DominioImagem, DominioImagemUser]),
         BaseCrudModule
