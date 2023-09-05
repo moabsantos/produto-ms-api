@@ -75,6 +75,16 @@ export class UserService extends TypeOrmCrudService<User>{
         return this.repo.find({where: where})
     }
 
+    async checkRealmUser(req: any, user: any){
+
+        const ownerRealm = await this.repoRealms.find({where:{created_by: user.id}})
+
+        if (ownerRealm.length == 0) await this.repoRealms['repo'].save({
+                name: user.name,
+                created_by: user.id
+        })
+    }
+
     async changePerfil(req: any, user: any, groupId: number){
 
         if (groupId == 0) {

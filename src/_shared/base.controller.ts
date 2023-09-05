@@ -34,6 +34,8 @@ export class BaseController {
             this.userService.updateOne(req, userCheck[0])
         }
 
+        if (userCheck.length == 1) await this.userService.checkRealmUser(req, userCheck[0])
+
         if (userCheck.length == 0){
 
             let newUser = await this.userService.createOne(req, {
