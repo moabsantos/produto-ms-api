@@ -64,6 +64,11 @@ export class ProdutoComponenteService extends BaseCrudService{
             return false
         }
 
+        if (dto.produtoId == dto.componenteId) {
+            this.logger.error(`O Produto ${dto.produtoId} é o mesmo que o componente`)
+            return false
+        }
+
         this.produto = await this.validateId(this.produtoServ, dto.produtoId, user)
         if (!this.produto){
             this.logger.error(`O Produto ${dto.produtoId} não foi encontrado`)
@@ -91,6 +96,36 @@ export class ProdutoComponenteService extends BaseCrudService{
         dto.name = this.produto.id +' - '+ dto.numeroAlternativa +' - '+ dto.sequencia +' - '+ this.componente.id +' - '+ this.estagio.id
         return super.validate(dto, user)
 
+    }
+
+    async replicarComponentes(req: any, user: any, dto: any): Promise<any>{
+
+        const itemOrigem = await this.getById(req, user, dto.itemOrigemId)
+        if (!itemOrigem) return
+
+        const itemDestino = await this.getById(req, user, dto.itemDestinoId)
+        if (!itemDestino) return
+
+        const compsOrigem = await this.repo.find({where: {realmId: user.realmId, produtoId: dto.itemOrigemId}})
+        if (compsOrigem.length == 0) return
+
+        const compsDestino = await this.repo.find({where:{realmId: user.realmId, produtoId: dto.itemDestinoId}})
+        if (compsDestino.length != 0) return
+
+        for (let index = 0; index < compsOrigem.length; index++) {
+            const c = compsOrigem[index];
+
+            let compD = {
+                ...c
+            }
+
+            delete compD.id
+            compD.produtoId = dto.itemDestinoId
+
+            this.save(req, user, compD)            
+        }
+
+        return dto
     }
 
 }
