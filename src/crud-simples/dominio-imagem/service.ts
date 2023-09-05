@@ -3,12 +3,14 @@ import { BaseCrudService } from "src/_shared/base-crud.service";
 
 import { DominioImagem } from "./crud.entity";
 import { DominioImagemUser } from "./crud-user.entity";
+import { DominioColecaoService } from "../dominio-colecao/service";
 
 export class DominioImagemService extends BaseCrudService{
 
     constructor (
         @InjectRepository(DominioImagem) protected repo,
-        @InjectRepository(DominioImagemUser) protected repoUser)
+        @InjectRepository(DominioImagemUser) protected repoUser,
+        private dominioColecaoServ: DominioColecaoService)
     {
         super(repo, repoUser)
 
@@ -19,7 +21,9 @@ export class DominioImagemService extends BaseCrudService{
             get: "sup-dominio-imagem-dig"
         })
 
-        this.modelsRequired = []
+        this.modelsRequired = [
+            {fieldName: 'deposito', service: this.dominioColecaoServ, fields: ['id']}
+        ]
     }
 
     getDataFromDto(dto: any, user: any, model: DominioImagem){
