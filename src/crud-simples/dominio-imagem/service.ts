@@ -22,7 +22,7 @@ export class DominioImagemService extends BaseCrudService{
         })
 
         this.modelsRequired = [
-            {fieldName: 'deposito', service: this.dominioColecaoServ, fields: ['id']}
+            {fieldName: 'dominioColecao', service: this.dominioColecaoServ, fields: ['id']}
         ]
     }
 
