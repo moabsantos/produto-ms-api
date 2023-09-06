@@ -411,4 +411,40 @@ export class DepositoInventarioItemService extends BaseCrudService{
 
     }
 
+    async deleteInventario(req: CrudRequest, user: any, inventarioId: any): Promise<any>{   
+
+        if (!inventarioId) return
+
+        const itens = await this.repo.find({where:{depositoInventarioId: inventarioId, realmId: user.realmId}})
+
+        let qtdExclusoes = 0
+        for (let index = 0; index < itens.length; index++) {
+            const item = itens[index];
+
+            if (item['status'] == 'Excluido') qtdExclusoes = qtdExclusoes +1
+            
+            if (item['status'] != 'Pendente' || item.realmId != user.realmId) continue
+
+            item.status = 'Excluido'
+
+            await this.save(req, user, item)
+
+            qtdExclusoes = qtdExclusoes +1
+        }
+
+        if (itens.length != qtdExclusoes) return {inventarioId: inventarioId}
+
+        let inventario = await this.inventarioServ.getById(req, user, {id: inventarioId})
+        if (!inventario) return
+
+        if (inventario['status'] != 'Pendente') return {}
+
+        inventario['status'] = 'Excluido'
+        inventario['dataInicio'] = this.dataFormatada({data: inventario['dataInicio'], isDate: true, formato: 'YYYY-mm-dd'})
+
+        await this.inventarioServ.save(req, user, inventario)
+
+        return {inventarioId: inventarioId}
+    }
+
 }

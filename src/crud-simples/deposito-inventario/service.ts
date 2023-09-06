@@ -42,7 +42,7 @@ export class DepositoInventarioService extends BaseCrudService{
         if (!model.status || model.status == 'Pendente') {
             model = this.getDataModelsFromDto(model)
             model.dataInicio = dto.dataInicio
-            model.status = 'Pendente'
+            model.status = dto.status == 'Excluido' ? 'Excluido' : 'Pendente'
             model.itemPartialName = dto.itemPartialName
             model.sequencia = dto.sequencia
         }

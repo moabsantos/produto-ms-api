@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Post, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, HttpException, HttpStatus, Param, Post, UseInterceptors } from "@nestjs/common";
 import { BaseCrudController } from "src/_shared/base-crud.controller";
 import { UserService } from "src/_user/user.service";
 
@@ -84,6 +84,25 @@ export class DepositoInventarioItemController extends BaseCrudController{
         }
 
         return result
+    }
+
+    @Post('delete/inventario/:id')
+    @UseInterceptors(CrudRequestInterceptor)
+    async reActive(@ParsedRequest() req: CrudRequest, @Param('id') id: number, @UserRequest() authToken){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.deleteInventario(req, user, id)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não encontrado ou não autorizado',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+
     }
 
 }

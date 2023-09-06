@@ -303,7 +303,8 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
     }
 
     dataFormatada(dto: any){
-        let date: Date = new Date(dto.data.split('-'));
+        if (!dto.data) return ''
+        let date: Date = dto.isDate ? dto.data : new Date(dto.data.split('-'));
         let dt = date
         let diaM = dt.getDate()
         let ano = dt.getFullYear()
