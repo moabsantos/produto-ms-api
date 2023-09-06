@@ -96,6 +96,28 @@ export class DepositoInventarioItemService extends BaseCrudService{
             await this.save(req, user, i)
         }
 
+
+        // atualizando grupo dos itens que inseridos em deposito-saldo
+        const itensGrupo = await this.itemServ['repo'].find({where:{produtoGrupoId: inventario[0].itemGrupoId, realmId: user.realmId}})
+
+        for (let indexIG = 0; indexIG < itensGrupo.length; indexIG++) {
+            const itemGrupo = itensGrupo[indexIG];
+            
+            const itensSaldo = await this.saldoServ['repo'].find({where:{itemId: itemGrupo.id, depositoId: inventario[0].depositoId, realmId: user.realmId}})
+            for (let indexIS = 0; indexIS < itensSaldo.length; indexIS++) {
+                const itemSaldo = itensSaldo[indexIS];
+                if (itemSaldo.itemGrupoId == itemGrupo.produtoGrupoId) continue
+
+                itemSaldo.itemGrupoId = itemGrupo.produtoGrupoId
+                itemSaldo.itemGrupoName = itemGrupo.produtoGrupoName
+                itemSaldo.itemGrupoCode = itemGrupo.produtoGrupoCode
+                itemSaldo.itemGrupoSigla = itemGrupo.produtoGrupoSigla
+                
+                await this.saldoServ.save(req, user, itemSaldo)
+            }
+        }
+
+
         let filterSaldo = {
             realmId: inventario[0].realmId,
             empresaId: inventario[0].empresaId,
