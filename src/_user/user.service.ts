@@ -79,7 +79,7 @@ export class UserService extends TypeOrmCrudService<User>{
 
         const ownerRealm = await this.repoRealms.find({where:{created_by: user.id}})
 
-        if (ownerRealm.length == 0) await this.repoRealms['repo'].save({
+        if (ownerRealm.length == 0) await this.repoRealms.save({
                 name: user.name,
                 created_by: user.id
         })
