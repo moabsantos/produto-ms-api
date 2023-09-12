@@ -63,4 +63,24 @@ export class DominioImagemService extends BaseCrudService{
         return super.validate(dto, user)
     }
 
+    async setFlagCapa(req: any, user: any, dto: any): Promise<any>{
+
+        let img = await this.getById(req, user, {id: dto.id})
+        if (!img) return
+
+        img.flagCapa = dto.flagCapa == 1 ? 1 : 0
+        await this.save(req, user, img)
+
+        const imgs = await this.repo.find({where:{realmId: user.realmId, dominioName: img.dominioName, dominioId: img.dominioId}})
+        for (let index = 0; index < imgs.length; index++) {
+            const imagem = imgs[index];
+            if (imagem.flagCapa == 0 || imagem.id == img.id) continue
+
+            imagem.flagCapa = 0
+            await this.save(req, user, imagem)
+        }
+
+        return img
+    }
+
 }

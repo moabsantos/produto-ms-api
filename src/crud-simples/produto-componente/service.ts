@@ -100,10 +100,10 @@ export class ProdutoComponenteService extends BaseCrudService{
 
     async replicarComponentes(req: any, user: any, dto: any): Promise<any>{
 
-        const itemOrigem = await this.getById(req, user, dto.itemOrigemId)
+        const itemOrigem = await this.produtoServ.getById(req, user, {id: dto.itemOrigemId})
         if (!itemOrigem) return
 
-        const itemDestino = await this.getById(req, user, dto.itemDestinoId)
+        const itemDestino = await this.produtoServ.getById(req, user, {id: dto.itemDestinoId})
         if (!itemDestino) return
 
         const compsOrigem = await this.repo.find({where: {realmId: user.realmId, produtoId: dto.itemOrigemId}})
@@ -121,8 +121,8 @@ export class ProdutoComponenteService extends BaseCrudService{
 
             delete compD.id
             compD.produtoId = dto.itemDestinoId
-
-            this.save(req, user, compD)            
+            
+            await this.save(req, user, compD)          
         }
 
         return dto
