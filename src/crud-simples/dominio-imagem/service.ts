@@ -68,7 +68,7 @@ export class DominioImagemService extends BaseCrudService{
         let img = await this.getById(req, user, {id: dto.id})
         if (!img) return
 
-        img.flagCapa = dto.flagCapa == 1 ? 1 : 0
+        img.flagCapa = dto.flagCapa == 1 ? true : false
         await this.save(req, user, img)
 
         const imgs = await this.repo.find({where:{realmId: user.realmId, dominioName: img.dominioName, dominioId: img.dominioId}})
