@@ -56,7 +56,8 @@ export class DominioImagemService extends BaseCrudService{
             '_COL_ID_'+ dto.dominioColecaoId +
             '_DOM_'+ dto.dominioName +
             '_DOM_ID_'+ dto.dominioId +
-            '_FILE_NAME_'+ dto.fileName
+            '_FILE_NAME_'+ dto.fileName +
+            '_DATE_'+ this.dataFormatada({data: new Date(), isDate: true, formato: 'YYYYmmddHHmiss'})
 
         dto.code = dto.name
 
