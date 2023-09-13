@@ -73,8 +73,8 @@ export class DominioImagemService extends BaseCrudService{
 
         const imgs = await this.repo.find({where:{realmId: user.realmId, dominioName: img.dominioName, dominioId: img.dominioId}})
         for (let index = 0; index < imgs.length; index++) {
-            const imagem = imgs[index];
-            if (imagem.flagCapa == 0 || imagem.id == img.id) continue
+            const imagem = imgs[index]
+            if (imagem.id == img.id) continue
 
             imagem.flagCapa = 0
             await this.save(req, user, imagem)
