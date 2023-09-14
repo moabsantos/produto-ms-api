@@ -124,36 +124,42 @@ export class DepositoInventarioItemService extends BaseCrudService{
             depositoId: inventario[0].depositoId
         }
 
-        let saldos = await this.saldoServ['repo'].find({where:{
-            ...filterSaldo,
-            itemGrupoId: 0
-        }})
+        const itensGrupoIventario = await this.itemServ['repo'].find({where:{produtoGrupoId: inventario[0].produtoGrupoId, realmId: inventario[0].realmId}})
+        for (let index = 0; index < itensGrupoIventario.length; index++) {
+            const item = itensGrupoIventario[index];
+            
+            let saldos = await this.saldoServ['repo'].find({where:{
+                ...filterSaldo,
+                itemId: item.id
+            }})
 
-        for (let index = 0; index < saldos.length; index++) {
-            const saldo = saldos[index];
-            const item = await this.itemServ['repo'].find({where:{id: saldo.itemId, realmId: saldo.realmId}})
+            for (let index = 0; index < saldos.length; index++) {
+                const saldo = saldos[index];
+    
+                await this.saldoServ['repo'].save({
+                    id: saldo.id,
+    
+                    itemGrupoId: item.produtoGrupoId,
+                    itemGrupoCode: item.produtoGrupoCode,
+                    itemGrupoName: item.produtoGrupoName,
+                    itemGrupoSigla: item.produtoGrupoSigla,
+                    
+                    itemCode: item.code,
+                    itemName: item.name,
+                    itemSigla: item.sigla,
+                    itemDescription: item.description
+                })
+            }
 
-            if (item.length != 1) continue
-
-            saldo.itemGrupoId = item[0].produtoGrupoId
-            saldo.itemGrupoCode = item[0].produtoGrupoCode
-            saldo.itemGrupoName = item[0].produtoGrupoName 
-            saldo.itemGrupoSigla = item[0].produtoGrupoSigla
-
-            await this.saldoServ['repo'].save({
-                id: saldo.id,
-                itemGrupoId: item[0].produtoGrupoId,
-                itemGrupoCode: item[0].produtoGrupoCode,
-                itemGrupoName: item[0].produtoGrupoName,
-                itemGrupoSigla: item[0].produtoGrupoSigla  
-            })
         }
+
+
 
         if (inventario[0].itemGrupoId) filterSaldo['itemGrupoId'] = inventario[0].itemGrupoId
         if (inventario[0].itemId && inventario[0].itemId != '0') filterSaldo['itemId'] = inventario[0].itemId
         if (inventario[0].itemPartialName) filterSaldo['itemName'] = Like(`%${inventario[0].itemPartialName}%`)
 
-        saldos = await this.saldoServ['repo'].find({where:filterSaldo})
+        let saldos = await this.saldoServ['repo'].find({where:filterSaldo})
 
         for (let index = 0; index < saldos.length; index++) {
             const saldo = saldos[index];
