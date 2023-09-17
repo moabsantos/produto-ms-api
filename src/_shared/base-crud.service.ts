@@ -133,7 +133,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         fields.forEach(f => {
             const fieldDestino = prefixFieldDestination + f.charAt(0).toUpperCase() + f.slice(1)
 
-            model[fieldDestino] = dto ? dto[prefixFieldOrigin + f] : null
+            model[fieldDestino] = dto && dto[prefixFieldOrigin + f] ? dto[prefixFieldOrigin + f] : null
         });
 
         return model
