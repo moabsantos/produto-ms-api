@@ -10,6 +10,7 @@ import { CrudRequest } from "@nestjsx/crud";
 import { DepositoRequisicaoService } from "../deposito-requisicao/service";
 import { RequisicaoAlmoxarifadoService } from "../requisicao-almoxarifado/service";
 import { DepositoSaldoService } from "../deposito-saldo/service";
+import { ProdutoComponenteService } from "../produto-componente/service";
 
 export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
@@ -26,7 +27,8 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         private setorServ: SetorService,
         private requisicaoAlmoxServ: RequisicaoAlmoxarifadoService,
         private depositoSaldoServ: DepositoSaldoService,
-        private depositoRequisicaoServ: DepositoRequisicaoService)
+        private depositoRequisicaoServ: DepositoRequisicaoService,
+        private produtoComponenteServ: ProdutoComponenteService)
     {
         super(repo, repoUser)
 
@@ -42,11 +44,17 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: RequisicaoAlmoxarifadoItem){
  
-        if (!model.statusItem || model.statusItem == 'Pendente'){
+        if (!model.statusItem || model.statusItem == 'Pendente' || model.statusItem == 'KIT'){
+            if (dto.itemAgrupador == 1) model.statusItem = 'KIT'
 
             model.requisicaoAlmoxarifadoId = dto.requisicaoAlmoxarifadoId
+            model.requisicaoAlmoxarifadoItemIdOrigem = dto.requisicaoAlmoxarifadoItemIdOrigem
 
             model.itemDescription = this.item.description
+            
+            model.itemAgrupador = dto.itemAgrupador
+            model.sequenciaFicha = dto.sequenciaFicha
+
             model.itemCode = this.item.code
             model.itemName = this.item.name
             model.itemSigla = this.item.sigla
@@ -104,7 +112,14 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             }
         }
 
-        dto.name = dto.requisicaoAlmoxarifadoId +' - '+this.setor.id +' - '+ this.item.id +' - '+  this.unidadeMedida.id +' - '+ dto.sequencia  
+        dto.name = 'realm'+ user.realmId +
+            ' - Req'+ dto.requisicaoAlmoxarifadoId +
+            ' - Set'+ this.setor.id +
+            ' - Item'+ this.item.id +
+            ' - Unid'+  this.unidadeMedida.id +
+            ' - Seq'+ dto.sequencia +
+            ' - ReqItemOrigem'+ dto.requisicaoAlmoxarifadoItemIdOrigem +
+            ' - SeqFicha'+ dto.sequenciaFicha
         dto.code = dto.name
 
         return super.validate(dto, user)
@@ -428,9 +443,58 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
     async afterSave(req: any, dto: any, user: any, model: RequisicaoAlmoxarifadoItem) {
 
+        if (model.itemAgrupador == 1 && model.statusItem == 'KIT') {
+            await super.afterSave(req, dto, user, model)
+
+            this.salvaComponentesItemKit(req, dto, user, model)
+        }
+
         await this.setRequisicaoStatusItem(req, user, model.requisicaoAlmoxarifadoId)
 
         return await super.afterSave(req, dto, user, model)
+
+    }
+
+    async salvaComponentesItemKit(req: any, dto: any, user: any, model: RequisicaoAlmoxarifadoItem) {
+
+        const comps = await this.produtoComponenteServ.getLista(req, user, {produtoId: dto.itemId})
+
+        for (let index = 0; index < comps.length; index++) {
+            const comp = comps[index];
+            
+            let itemReq = await this.getUnico(req, user, {
+                requisicaoAlmoxarifadoId: model.requisicaoAlmoxarifadoId,
+                requisicaoAlmoxarifadoItemIdOrigem: model.id,
+                sequenciaFicha: comp.sequencia
+            })
+
+            if (!itemReq) itemReq = {
+                ...model
+            }
+
+            if (itemReq.id == model.id) delete itemReq.id
+
+            if (model.itemId == comp.componenteId) continue
+
+            if (itemReq.statusItem && itemReq.statusItem != 'Pendente' && itemReq.statusItem != 'KIT') continue
+
+            itemReq.itemId = comp.componenteId
+            itemReq.itemAgrupador = 0
+            itemReq.sequenciaFicha = comp.sequencia
+            itemReq.requisicaoAlmoxarifadoItemIdOrigem = model.id
+
+            itemReq.dataSolicitacao = this.dataFormatada({data: new Date(), isDate: true, formato: 'YYYY-mm-dd'})
+            itemReq.dataAprovacao = null
+            itemReq.dataSeparacao = null
+            itemReq.dataEntrega = null
+            itemReq.quantidadeSolicitada = Number(model.quantidadeSolicitada) * Number(comp.consumoProducao)
+            itemReq.quantidadeEntregue = 0
+            itemReq.unidadeMedidaId = comp.unidadeMedidaConsumoId
+
+            itemReq.statusItem = 'Pendente'
+
+            await super.save(req, user, itemReq)
+        }
 
     }
 

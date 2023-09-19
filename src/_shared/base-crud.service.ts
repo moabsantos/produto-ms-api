@@ -35,6 +35,13 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         return resId[0]
     }
 
+    async getLista(req: any, user: any, dto: any): Promise<any>{
+
+        const res = await this.repo.find({where:{...dto, realmId: user.realmId}})
+
+        return res
+    }
+
     async validate(dto, user: number): Promise<boolean>{
 
         if (!dto.id && !dto.name){
@@ -76,6 +83,17 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         }
 
         return false
+    }
+
+    async validateFieldsRequireds(roler, dto): Promise<boolean>{
+
+        if (!roler) return true
+
+        roler.forEach(f => {
+            if (!dto[f.name]) return false
+        });
+
+        return true
     }
 
     async validateModelsRequired(dto: any, user: any): Promise<boolean>{

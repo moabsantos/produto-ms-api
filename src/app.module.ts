@@ -60,6 +60,7 @@ import { RepresentanteClienteModule } from './crud-simples/representante-cliente
 import { DominioColecaoModule } from './crud-simples/dominio-colecao/module';
 import { DominioImagemModule } from './crud-simples/dominio-imagem/module';
 import { ProdutoComponenteParteModule } from './crud-simples/produto-componente-parte/module';
+import { PedidoCompraContratoModule } from './crud-simples/pedido-compra-contrato/module';
 
 
 
@@ -125,6 +126,7 @@ import { ProdutoComponenteParteModule } from './crud-simples/produto-componente-
 
     PedidoCompraModule,
     PedidoCompraItemModule,
+    PedidoCompraContratoModule,
 
     CustosDiaModule,
     CustosMensaisModule,

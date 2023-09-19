@@ -18,6 +18,7 @@ import { CustosDiaModule } from "../custos-dia/module";
 import { DepositoRequisicaoModule } from "../deposito-requisicao/module";
 import { RequisicaoAlmoxarifadoModule } from "../requisicao-almoxarifado/module";
 import { DepositoSaldoModule } from "../deposito-saldo/module";
+import { ProdutoComponenteModule } from "../produto-componente/module";
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { DepositoSaldoModule } from "../deposito-saldo/module";
         UserModule,
         
         ProdutoModule,
+        ProdutoComponenteModule,
         UnidadeMedidaModule,
         SetorModule,
         CustosDiaModule,

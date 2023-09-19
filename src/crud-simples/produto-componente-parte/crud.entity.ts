@@ -11,10 +11,10 @@ export class ProdutoComponenteParte extends BaseModelCrud {
     @Column()
     sequencia: number;
 
-    @Column()
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidade: number;
 
-    @Column()
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     consumo: number;
 
     @Column()
