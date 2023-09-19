@@ -80,6 +80,8 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
     async validate(dto: any, user: any): Promise<boolean>{
 
+        if (dto.itemAgrupador && dto.itemAgrupador == 1 && dto.requisicaoAlmoxarifadoItemIdOrigem) return false
+
         if (dto.requisicaoAlmoxarifadoId){
             this.requisicaoAlmoxarifado = await this.validateId(this.setorServ, dto.setorId, user)
             if (!this.requisicaoAlmoxarifado){
