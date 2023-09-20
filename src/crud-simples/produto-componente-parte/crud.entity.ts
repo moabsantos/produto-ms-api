@@ -15,6 +15,12 @@ export class ProdutoComponenteParte extends BaseModelCrud {
     quantidade: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    consumoX: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    consumoY: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     consumo: number;
 
     @Column()

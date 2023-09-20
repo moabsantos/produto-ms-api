@@ -31,7 +31,11 @@ export class ProdutoComponenteParteService extends BaseCrudService{
         model = this.getDataModelsFromDto(model)
         model.sequencia = dto.sequencia
         model.quantidade = dto.quantidade
-        model.consumo = dto.consumo
+
+        model.consumoX = dto.consumoX
+        model.consumoY = dto.consumoY
+        model.consumo = Number(dto.quantidade) * ( Number(dto.consumoX) * Number(dto.consumoY) )
+
         model.nomeParte = dto.nomeParte
         model.description = dto.description
 
@@ -42,7 +46,8 @@ export class ProdutoComponenteParteService extends BaseCrudService{
 
         if (!dto.sequencia) return false
         if (!dto.quantidade) return false
-        if (!dto.consumo) return false
+        if (!dto.consumoX) return false
+        if (!dto.consumoY) return false
         if (!dto.nomeParte) return false
 
         const dtoValid = await this.validateModelsRequired(dto, user)

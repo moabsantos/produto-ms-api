@@ -446,7 +446,6 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
     async afterSave(req: any, dto: any, user: any, model: RequisicaoAlmoxarifadoItem) {
 
         if (model.itemAgrupador == 1 && model.statusItem == 'KIT') {
-            await super.afterSave(req, dto, user, model)
 
             this.salvaComponentesItemKit(req, dto, user, model)
         }
