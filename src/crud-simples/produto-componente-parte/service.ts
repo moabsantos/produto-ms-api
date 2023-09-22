@@ -58,6 +58,8 @@ export class ProdutoComponenteParteService extends BaseCrudService{
             '_PRODCOMP_'+ this['produtoComponente'].id +
             '_SEQ_'+ dto.sequencia +
             '_QTD_'+ dto.quantidade +
+            '_CONSX_'+ dto.consumoX +
+            '_CONSY_'+ dto.consumoY +
             '_CONS_'+ dto.consumo +
             '_PARTE_'+ dto.nomeParte
 
