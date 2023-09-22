@@ -466,6 +466,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             let itemReq = await this.getUnico(req, user, {
                 requisicaoAlmoxarifadoId: model.requisicaoAlmoxarifadoId,
                 requisicaoAlmoxarifadoItemIdOrigem: model.id,
+                itemId: comp.componenteId,
                 sequenciaFicha: comp.sequencia
             })
 
