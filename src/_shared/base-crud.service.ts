@@ -103,20 +103,23 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         if (this.modelsRequired.length == 0) return true
 
         for (let index = 0; index < this.modelsRequired.length; index++) {
+            
             const d = this.modelsRequired[index];
+
+            this[d.fieldName] = {}
 
             const idFunc = d.getId ? d.getId() : 0
 
             const idDto = dto[d.fieldName + 'Id'] ? dto[d.fieldName + 'Id'] : idFunc
 
-            this[d.fieldName] = {}
             if (d.optional && (!idDto || idDto == "")) continue
-
+            
             d.objeto = await this.validateId(d.service, idDto, user)
             if (!d.objeto){
                 this.logger.error(`O id ${idDto} informado no atributo ${d.fieldName}Id não é válido!`)
                 return false
             }
+
             this[d.fieldName] = d.objeto
 
         }
