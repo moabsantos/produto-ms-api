@@ -52,7 +52,7 @@ export class DepositoInventarioItem extends BaseModelCrud {
     @Column()
     itemId: number;
 
-    @Column()
+    @Column({nullable: true})
     itemCode: string;
 
     @Column()
