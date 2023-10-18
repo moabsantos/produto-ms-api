@@ -61,6 +61,7 @@ import { DominioColecaoModule } from './crud-simples/dominio-colecao/module';
 import { DominioImagemModule } from './crud-simples/dominio-imagem/module';
 import { ProdutoComponenteParteModule } from './crud-simples/produto-componente-parte/module';
 import { PedidoCompraContratoModule } from './crud-simples/pedido-compra-contrato/module';
+import { TipoDocumentoModule } from './crud-simples/tipo-documento/module';
 
 
 
@@ -84,6 +85,7 @@ import { PedidoCompraContratoModule } from './crud-simples/pedido-compra-contrat
     GrupoAcessoPermissaoModule,
     GrupoAcessoUsuarioModule,
 
+    TipoDocumentoModule,
     PedidoStatusModule,
     PrioridadeModule,
 

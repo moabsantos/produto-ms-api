@@ -5,7 +5,7 @@ import { Column, Entity, Unique } from "typeorm";
 @Unique("uniq_name", ["name", "realmId"])
 export class PedidoCompraContrato extends BaseModelCrud {
 
-    @Column()
+    @Column({nullable: true})
     pedidoCompraId: number;
 
     @Column()
@@ -14,9 +14,23 @@ export class PedidoCompraContrato extends BaseModelCrud {
     fornecedorName: string;
 
     @Column()
+    tipoDocumentoId: number;
+    @Column()
+    tipoDocumentoName: string;
+    @Column()
+    tipoDocumentoSigla: string;
+
+    @Column()
+    numeroDocumento: string;
+    @Column()
+    dataDocumento: Date;
+
+    @Column()
     formaPagamentoId: number;
     @Column()
     formaPagamentoName: string;
+    @Column()
+    formaPagamentoSigla: string;
 
     @Column()
     qtdParcelas: number;

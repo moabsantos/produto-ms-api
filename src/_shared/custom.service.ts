@@ -20,14 +20,18 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         this.roleService = role
     }
 
-    valorValido(valor: any){
+    valorValido(valor: any, valorRetorno: any = false): any{
+
         if (valor == undefined)
-            return false
+            return valorRetorno
 
         if (valor == null)
-            return false
+            return valorRetorno
 
-        return true
+        if (isNaN(valor))
+            return valorRetorno
+
+        return valorRetorno === false ? true : valor
     }
 
     async validate(dto: any, user: any): Promise<boolean>{
