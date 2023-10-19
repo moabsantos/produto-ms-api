@@ -106,7 +106,9 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
             
             const d = this.modelsRequired[index];
 
-            this[d.fieldName] = {}
+            this[d.fieldName] = {
+                id: null, name: null
+            }
 
             const idFunc = d.getId ? d.getId() : 0
 
