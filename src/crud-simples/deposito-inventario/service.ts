@@ -47,7 +47,7 @@ export class DepositoInventarioService extends BaseCrudService{
             model.sequencia = dto.sequencia
         }
 
-        this.logger.error(model)
+        this.logger.error(JSON.stringify(model))
 
         return super.getDataFromDto(dto, user, model)
     }
