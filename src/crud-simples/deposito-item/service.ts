@@ -27,7 +27,7 @@ export class DepositoItemService extends BaseCrudService{
             create: "sup-deposito-item-dig",
             update: "sup-deposito-item-dig",
             delete: "sup-deposito-item-dig",
-            get: "sup-deposito-item-dig"
+            //get: "sup-deposito-item-get"
         })
 
         this.modelsRequired = [
