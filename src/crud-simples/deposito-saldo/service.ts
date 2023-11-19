@@ -40,12 +40,15 @@ export class DepositoSaldoService extends BaseCrudService{
 
         const item = await this.get(req, user, id)
 
-        if (!item?.data[0]) return 
-        
+        if (!item?.data[0]) return -1
+
         let hasQuantityValid = false
+
         fieldsQuantidade.forEach(element => {
-            hasQuantityValid = hasQuantityValid || Number(item.data[0]['quantidade'+element]) != 0
+            if (element != 'Entregue') hasQuantityValid = hasQuantityValid || Number(item.data[0]['quantidade'+element]) != 0
         });
+
+        if (Number(item?.data[0]['unidadeMedidaId']) == 0) hasQuantityValid = false
 
         if (!hasQuantityValid) await this.repo.delete(item.data[0].id)
 

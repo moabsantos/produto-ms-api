@@ -100,7 +100,7 @@ export class BaseCrudController extends BaseController {
             }, HttpStatus.FORBIDDEN);
         }
 
-        return result
+        return { res: result }
 
     }
 
