@@ -304,6 +304,9 @@ export class DepositoInventarioItemService extends BaseCrudService{
             if (saldos.length != 1) return
 
             let qtdAjuste = 0
+
+            if (Number(saldos[0].quantidadeRequisitada) < 0) saldos[0].quantidadeRequisitada = 0
+            if (Number(saldos[0].quantidadeSeparada) < 0) saldos[0].quantidadeSeparada = 0
             const qtdSaldo = Number(saldos[0].quantidadeDisponivel)
             const qtdContagem = Number(i.quantidadeContagem) - Number(saldos[0].quantidadeRequisitada) - Number(saldos[0].quantidadeSeparada)
             
