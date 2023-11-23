@@ -183,6 +183,9 @@ export class DepositoInventarioItemService extends BaseCrudService{
             itemInventario['loteId'] = saldo.loteId
             itemInventario['loteCodigo'] = saldo.loteCodigo
 
+            if (Number(saldo.quantidadeRequisitada) < 0) saldo.quantidadeRequisitada = 0
+            if (Number(saldo.quantidadeSeparada) < 0) saldo.quantidadeSeparada = 0
+
             if (Number(saldo.quantidadeDisponivel) >= 0) itemInventario['quantidadeImagem'] = Number(saldo.quantidadeDisponivel) + Number(saldo.quantidadeRequisitada) + Number(saldo.quantidadeSeparada)
             if (Number(saldo.quantidadeDisponivel) < 0) itemInventario['quantidadeImagem'] = Number(saldo.quantidadeDisponivel) - Number(saldo.quantidadeRequisitada) - Number(saldo.quantidadeSeparada)
 
