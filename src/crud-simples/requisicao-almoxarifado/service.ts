@@ -3,12 +3,14 @@ import { BaseCrudService } from "src/_shared/base-crud.service";
 
 import { RequisicaoAlmoxarifado } from "./crud.entity";
 import { RequisicaoAlmoxarifadoUser } from "./crud-user.entity";
+import { ClienteService } from "../cliente/service";
 import { EmpresaService } from "../empresa/service";
 import { DepositoService } from "../deposito/service";
 
 export class RequisicaoAlmoxarifadoService extends BaseCrudService{
 
     private empresa: any;
+    private cliente: any;
     private depositoOrigem: any;
     private depositoDestino: any;
     
@@ -16,6 +18,7 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         @InjectRepository(RequisicaoAlmoxarifado) protected repo,
         @InjectRepository(RequisicaoAlmoxarifadoUser) protected repoUser,
         private empresaServ: EmpresaService,
+        private clienteServ: ClienteService,
         private depositoServ: DepositoService)
     {
         super(repo, repoUser)
@@ -38,6 +41,10 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         model.empresaSigla = this.empresa.sigla
         model.empresaId = dto.empresaId
 
+        model.clienteName = dto.clienteId && dto.clienteId > 0 ? this.cliente.name : null
+        model.clienteSigla = dto.clienteId && dto.clienteId > 0 ? this.cliente.sigla : null
+        model.clienteId = dto.clienteId && dto.clienteId > 0 ? dto.clienteId : null
+
         model.depositoNameOrigem = this.depositoOrigem.name
         model.depositoCodeOrigem = this.depositoOrigem.code
         model.depositoSiglaOrigem = this.depositoOrigem.sigla
@@ -56,6 +63,12 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         this.empresa = await this.validateId(this.empresaServ, dto.empresaId, user)
         if (!this.empresa){
             this.logger.error(`A empresa ${dto.empresaId} não foi encontrada`)
+            return false
+        }
+
+        if (dto.clienteId && dto.clienteId > 0) this.cliente = await this.validateId(this.clienteServ, dto.clienteId, user)
+        if (dto.clienteId && dto.clienteId > 0 && !this.cliente){
+            this.logger.error(`O cliente ${dto.clienteId} não foi encontrada`)
             return false
         }
 
