@@ -45,9 +45,12 @@ export class ClienteEstabelecimento extends BaseModelCrud {
     @Column()
     cidadeId: number;
 
-    @Column()
+    @Column({nullable: true})
     cidadeName: string;
 
-    @Column()
+    @Column({nullable: true})
     cidadeSigla: string;
+
+    @Column({nullable: true})
+    cidadeUfSigla: string;
 }

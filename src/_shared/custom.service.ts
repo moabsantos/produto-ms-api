@@ -100,7 +100,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         if (!userModel){
             return {
-                msgGeral: "Não há dados autorizados para visualização",
+                msgGeral: "Não há dados autorizados para visualização (R1)",
                 data: []
             }
         }
@@ -110,13 +110,13 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             const data = await this.repo.find({where:{id:id}})
 
             if (!data || data.length == 0) return {
-                msgGeral: "Não há dados autorizados para visualização",
+                msgGeral: "Não há dados autorizados para visualização (R2)",
                 data: []
             }
 
             if (data && data[0]['realmId'] != user.realmId){
                 return {
-                    msgGeral: "Não há dados autorizados para visualização",
+                    msgGeral: "Não há dados autorizados para visualização (R3)",
                     data: []
                 }
             }

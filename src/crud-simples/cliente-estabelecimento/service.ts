@@ -27,7 +27,7 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
         })
 
         this.modelsRequired = [
-            {fieldName: 'cidade', service: this.cidadeServ, fields: ['name', 'sigla', 'id', 'code']},
+            {fieldName: 'cidade', service: this.cidadeServ, fields: ['name', 'sigla', 'id', 'code', 'ufSigla']},
             {fieldName: 'cliente', service: this.clienteServ, fields: ['name', 'sigla', 'id', 'code']},
         ]
     }
@@ -46,12 +46,30 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
         return super.getDataFromDto(dto, user, model)
     }
 
+    async foundDuplicated(dto: any, user: any): Promise<boolean> {
+
+        if (!dto.name){
+            return false
+        }
+
+        if (!dto.name) return false
+
+        let modelRepo = await this.repo.findOne({where:{name:dto.name, clienteId: dto.clienteId, realmId: user.realmId}})
+        
+        if(modelRepo && (!dto.id || dto.id != modelRepo.id)){
+
+            return true
+        }
+
+        return false
+    }
+
     async validate(dto: any, user: any): Promise<boolean>{
         
         const dtoValid = await this.validateModelsRequired(dto, user)
         if (!dtoValid) return false
 
-        dto.name = 'REALM_'+ user.realmId +'_CLI_'+ this['cliente'].id +'_COD_'+ dto.code
+        if (!dto.name) dto.name = 'REALM_'+ user.realmId +'_CLI_'+ this['cliente'].id +'_COD_'+ dto.code
 
         return super.validate(dto, user)
 

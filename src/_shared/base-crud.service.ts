@@ -131,7 +131,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
     getModelFromInputs(model, dto, inputs){
 
         inputs.forEach(f => {
-            model = dto[f] 
+            model[f] = dto[f] 
         });
 
         return model

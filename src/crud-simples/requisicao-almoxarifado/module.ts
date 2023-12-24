@@ -13,6 +13,7 @@ import { RequisicaoAlmoxarifadoUserService } from "./crud-user.service";
 import { EmpresaModule } from "../empresa/module";
 import { DepositoModule } from "../deposito/module";
 import { ClienteModule } from "../cliente/module";
+import { ClienteEstabelecimentoModule } from "../cliente-estabelecimento/module";
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { ClienteModule } from "../cliente/module";
         UserModule,
         EmpresaModule,
         ClienteModule,
+        ClienteEstabelecimentoModule,
         DepositoModule,
         
         TypeOrmModule.forFeature([RequisicaoAlmoxarifado, RequisicaoAlmoxarifadoUser]),
