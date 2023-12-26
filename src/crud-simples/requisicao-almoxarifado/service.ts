@@ -82,7 +82,7 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         }
 
         if (dto.clienteEstabelecimentoId && dto.clienteEstabelecimentoId > 0) this.clienteEstab = await this.validateId(this.clienteEstabServ, dto.clienteEstabelecimentoId, user)
-        if (dto.clienteEstabId && dto.clienteEstabId > 0 && !this.clienteEstab){
+        if (dto.clienteEstabelecimentoId && dto.clienteEstabelecimentoId > 0 && !this.clienteEstab){
             this.logger.error(`O estabelecimento do cliente ${dto.clienteEstabId} não foi encontrado`)
             return false
         }
