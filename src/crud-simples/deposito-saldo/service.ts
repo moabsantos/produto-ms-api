@@ -45,6 +45,8 @@ export class DepositoSaldoService extends BaseCrudService{
         let hasQuantityValid = false
 
         fieldsQuantidade.forEach(element => {
+            if (element == 'Requisitada' && item.data[0]['quantidade'+element] < 0) item.data[0]['quantidade'+element] = 0
+
             if (element != 'Entregue') hasQuantityValid = hasQuantityValid || Number(item.data[0]['quantidade'+element]) != 0
         });
 
