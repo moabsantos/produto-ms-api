@@ -46,6 +46,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
  
         if (!model.statusItem || model.statusItem == 'Pendente' || model.statusItem == 'KIT'){
             if (dto.itemAgrupador == 1) model.statusItem = 'KIT'
+            if (dto.itemAgrupador == 0 && model.statusItem == 'KIT') model.statusItem = 'Pendente'
 
             model.requisicaoAlmoxarifadoId = dto.requisicaoAlmoxarifadoId
             model.requisicaoAlmoxarifadoItemIdOrigem = dto.requisicaoAlmoxarifadoItemIdOrigem
