@@ -506,7 +506,7 @@ export class PedidoCompraItemService extends BaseCrudService{
         reqAlmox[0].statusItem = statusFinal
         reqAlmox[0].dataEntrega = statusFinal == 'Recebido' ? new Date() : reqAlmox[0].dataEntrega
 
-        await this.pedidoServ['repo'].save(reqAlmox[0])
+        return await this.pedidoServ['repo'].save(reqAlmox[0])
 
     }
 
