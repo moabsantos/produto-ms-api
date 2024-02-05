@@ -159,4 +159,22 @@ export class PedidoCompraItemController extends BaseCrudController{
 
         return result
     }
+
+    @Post('capa/refresh-status')
+    @UseInterceptors(CrudRequestInterceptor)
+    async refreshStatusPedido(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.setRequisicaoStatusItem(req, user, body.id)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+    }
 }
