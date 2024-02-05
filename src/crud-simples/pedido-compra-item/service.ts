@@ -501,7 +501,7 @@ export class PedidoCompraItemService extends BaseCrudService{
         if (qtdsStatus.Enderecado > 0 && qtdsStatus.Recebido == 0 && qtdsStatus.Faturado == 0 && qtdsStatus.Aprovado == 0 && qtdsStatus.Pendente == 0) statusFinal = 'Enderecado'
         
         const reqAlmox = await this.pedidoServ['repo'].find({where:{id: pedidoCompraId, realmId: user.realmId}})
-        if (reqAlmox[0].statusItem == statusFinal) return
+        if (reqAlmox[0].statusItem == statusFinal) return {}
 
         reqAlmox[0].statusItem = statusFinal
         reqAlmox[0].dataEntrega = statusFinal == 'Recebido' ? new Date() : reqAlmox[0].dataEntrega
