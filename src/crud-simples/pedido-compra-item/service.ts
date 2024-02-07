@@ -386,6 +386,61 @@ export class PedidoCompraItemService extends BaseCrudService{
 
     }
 
+    async recebimentoFullListCancelado(req: CrudRequest, user: any, pedidoCompraId: number): Promise<any>{
+
+        if (!pedidoCompraId) return
+
+        const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
+
+        if (itensRequisicao.length < 1) throw new Error('Itens para o Id do Pedido de Compra não encontrados')
+
+        const reqAlmox = await this.pedidoServ['repo'].find({where:{id: itensRequisicao[0].pedidoCompraId}})
+
+        if (reqAlmox.length < 1) throw new Error('Requisição não encontrada para o Id')
+
+        for (let index = 0; index < itensRequisicao.length; index++) {
+            const element = itensRequisicao[index];
+            
+            if (element.statusItem == 'Recebido'){
+
+                await this.repo.save({id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Faturado', dataEntrega: new Date()})
+
+                await this.depositoRequisicaoServ.movimentacao(req, user, {
+                    id: element.id, 
+                    capa: reqAlmox[0],
+                    lote: {
+                        id: 0,
+                        code: "*"
+                    },
+                    
+                    item: element,
+                    quantidadeEntregue: Number(element.quantidadeSolicitada),
+
+                    depositoIdOrigem: reqAlmox[0].depositoIdDestino,
+                    depositoCodeOrigem: reqAlmox[0].depositoCodeDestino,
+                    depositoNameOrigem: reqAlmox[0].depositoNameDestino,
+                    depositoSiglaOrigem: reqAlmox[0].depositoSiglaDestino,
+    
+                    depositoIdDestino: reqAlmox[0].depositoIdOrigem,
+                    depositoCodeDestino: reqAlmox[0].depositoCodeOrigem,
+                    depositoNameDestino: reqAlmox[0].depositoNameOrigem,
+                    depositoSiglaDestino: reqAlmox[0].depositoSiglaOrigem,
+
+                    quantidadeOrigemName: 'Recebida',
+                    quantidadeDestinoName: 'Faturada',
+
+                    origemRequisicaoName: 'PedidoCompraItem'
+                })
+
+            }
+        }
+
+        await this.setRequisicaoStatusItem(req, user, pedidoCompraId)
+
+        return {}
+
+    }
+
     async enderecadoFullList(req: CrudRequest, user: any, pedidoCompraId: number): Promise<any>{
 
         if (!pedidoCompraId) return

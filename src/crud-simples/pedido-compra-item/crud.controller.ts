@@ -104,6 +104,25 @@ export class PedidoCompraItemController extends BaseCrudController{
         return result
     }
 
+
+    @Post('cancelar-recebimento/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async recebimentoFullListCancelado(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.recebimentoFullListCancelado(req, user, body.pedidoCompraId)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+    }
+
     @Post('enderecado/full-list')
     @UseInterceptors(CrudRequestInterceptor)
     async enderecadoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
