@@ -11,7 +11,7 @@ async function bootstrap() {
     cors: {
       origin: [
         'http://localhost:3000',
-        'https://erp-v2024.queavanca.com/',
+        'https://erp-v2024.queavanca.com',
         'https://produto.queavanca.com',
         'https://images.queavanca.com'
       ],
