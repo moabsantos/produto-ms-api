@@ -138,23 +138,45 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
         if (reqAlmox.length != 1) throw new Error('Requisição não encontrada para o Id')
 
+        let resProcesso = {
+            erros: []
+        }
+
         for (let index = 0; index < itensRequisicao.length; index++) {
             const element = itensRequisicao[index];
             
             if (element.statusItem == 'Pendente' && element.idUserSelecao > 0){
 
-                let saldo = await this.depositoSaldoServ.getUnico(req, user, {
+                const filtroSaldo = {
                     realmId: user.realmId,
                     empresaId: reqAlmox[0].empresaId,
                     depositoId: reqAlmox[0].depositoIdOrigem,
                     unidadeMedidaId: element.unidadeMedidaId,
                     itemId: element.itemId,
                     loteId: 0
-                })
+                }
 
-                if (!saldo) continue;
+                let saldo = await this.depositoSaldoServ.getUnico(req, user, filtroSaldo)
 
-                if (Number(saldo['quantidadeDisponivel']) < Number(element.quantidadeSolicitada)) continue;
+                if (!saldo) {
+
+                    resProcesso.erros.push({
+                        titulo: "Saldo Inexistente",
+                        filtro: filtroSaldo
+                    })
+
+                    continue;
+                }
+
+                if (Number(saldo['quantidadeDisponivel']) < Number(element.quantidadeSolicitada)) {
+
+                    resProcesso.erros.push({
+                        titulo: "Saldo Insuficiente",
+                        filtro: saldo
+                    })
+
+                    continue;
+                }
 
                 await this.repo.save({id: element.id, statusItem: 'Aprovado', idUserSelecao: 0, dataAprovacao: new Date()})
 
@@ -191,7 +213,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
         await this.setRequisicaoStatusItem(req, user, requisicaoAlmoxarifadoId)
 
-        return {}
+        return resProcesso
     }
 
     async cancelarAprovacaoFullList(req: CrudRequest, user: any, requisicaoAlmoxarifadoId: number): Promise<any>{
