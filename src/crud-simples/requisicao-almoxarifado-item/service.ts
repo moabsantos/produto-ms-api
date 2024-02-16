@@ -128,6 +128,36 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         return super.validate(dto, user)
     }
 
+
+    async cancelarFullList(req: CrudRequest, user: any, requisicaoId: number): Promise<any>{
+
+        if (!requisicaoId) return
+
+        const itens = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoId, statusItem: 'Pendente', idUserSelecao: user.userId}})
+
+        if (itens.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+
+        const reqAlmox = await this.requisicaoAlmoxServ['repo'].find({where:{id: itens[0].requisicaoAlmoxarifadoId}})
+
+        if (reqAlmox.length < 1) throw new Error('Requisição não encontrada para o Id')
+
+        for (let index = 0; index < itens.length; index++) {
+            const element = itens[index];
+            
+            if (element.statusItem == 'Pendente'){
+
+                await this.repo.save({id: element.id, quantidadeEntregue: 0, statusItem: 'Cancelado'})
+
+            }
+        }
+
+        await this.setRequisicaoStatusItem(req, user, requisicaoId)
+
+        return {}
+
+    }
+
+
     async aprovacaoFullList(req: CrudRequest, user: any, requisicaoAlmoxarifadoId: number): Promise<any>{
 
         const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId, realmId: user.realmId}})

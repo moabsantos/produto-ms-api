@@ -13,6 +13,24 @@ export class RequisicaoAlmoxarifadoItemController extends BaseCrudController{
         super(service, userService)
     }
 
+    @Post('cancelar/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async cancelarFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.cancelarFullList(req, user, body.requisicaoAlmoxarifadoId)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+    }
+
     @Post('aprovacao/full-list')
     @UseInterceptors(CrudRequestInterceptor)
     async aprovacaoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
