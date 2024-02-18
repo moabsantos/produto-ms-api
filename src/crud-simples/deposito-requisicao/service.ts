@@ -162,7 +162,11 @@ export class DepositoRequisicaoService extends BaseCrudService{
         model.itemDescription = dto.itemDescription
         model.itemSigla = dto.itemSigla
 
-        model.depositoCode = dto.depositoCodeOrigem
+        if (dto.depositoIdOrigem == model.depositoId) model.depositoCode = dto.depositoCodeOrigem
+        if (dto.depositoIdOrigem == model.depositoId) model.depositoName = dto.depositoNameOrigem
+
+        if (dto.depositoIdDestino == model.depositoId) model.depositoCode = dto.depositoCodeDestino
+        if (dto.depositoIdDestino == model.depositoId) model.depositoName = dto.depositoNameDestino
 
         model.itemGrupoId = dto.itemGrupoId
         model.itemGrupoCode = dto.itemGrupoCode
