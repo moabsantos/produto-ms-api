@@ -303,66 +303,29 @@ export class DepositoInventarioItemService extends BaseCrudService{
 
             if (saldos.length != 1) return
 
-            let qtdAjuste = 0
+            await this.ajustaSaldoDeposito(req, user, {
+                id: i.id,
+                capa: inventario[0],
+                loteId: i.loteId,
+                loteCodigo: i.loteCodigo,
+                itemId: i.itemId,
 
-            if (Number(saldos[0].quantidadeRequisitada) < 0) saldos[0].quantidadeRequisitada = 0
-            if (Number(saldos[0].quantidadeSeparada) < 0) saldos[0].quantidadeSeparada = 0
-            const qtdSaldo = Number(saldos[0].quantidadeDisponivel)
-            let qtdContagem = Number(i.quantidadeContagem) - Number(saldos[0].quantidadeRequisitada) - Number(saldos[0].quantidadeSeparada)
-            
-            if (qtdSaldo < 0){
-                qtdAjuste = qtdSaldo *-1
-                if (qtdContagem < 0) qtdContagem = 0
-                qtdAjuste = qtdAjuste + qtdContagem
-            }
+                unidadeMedidaId: i.unidadeMedidaId,
+                unidadeMedidaCode: i.unidadeMedidaCode,
+                unidadeMedidaName: i.unidadeMedidaName,
+                unidadeMedidaSigla: i.unidadeMedidaSigla,
 
-            if (qtdSaldo >= 0){
-                qtdAjuste = qtdContagem - qtdSaldo
-            }
+                setorId: depContagem[0].setorId,
+                setorName: depContagem[0].setorName,
+                setorSigla: depContagem[0].setorSigla,
+                
+                depOrigem: depContagem[0],
+                depDestino: depInventario[0],
 
-            if (qtdAjuste > 0){
-                await this.ajustaSaldoDeposito(req, user, {
-                    id: i.id,
-                    capa: inventario[0],
-                    loteId: i.loteId,
-                    loteCodigo: i.loteCodigo,
-                    itemId: i.itemId,
-
-                    unidadeMedidaId: i.unidadeMedidaId,
-                    unidadeMedidaCode: i.unidadeMedidaCode,
-                    unidadeMedidaName: i.unidadeMedidaName,
-                    unidadeMedidaSigla: i.unidadeMedidaSigla,
-
-                    setorId: depContagem[0].setorId,
-                    setorName: depContagem[0].setorName,
-                    setorSigla: depContagem[0].setorSigla,
-                    depOrigem: depInventario[0],
-                    depDestino: depContagem[0],
-                    quantidade: qtdAjuste,
-                })
-            }
-
-            if (qtdAjuste < 0){
-                await this.ajustaSaldoDeposito(req, user, {
-                    id: i.id,
-                    capa: inventario[0],
-                    loteId: i.loteId,
-                    loteCodigo: i.loteCodigo,
-                    itemId: i.itemId,
-
-                    unidadeMedidaId: i.unidadeMedidaId,
-                    unidadeMedidaCode: i.unidadeMedidaCode,
-                    unidadeMedidaName: i.unidadeMedidaName,
-                    unidadeMedidaSigla: i.unidadeMedidaSigla,
-                    
-                    setorId: depContagem[0].setorId,
-                    setorName: depContagem[0].setorName,
-                    setorSigla: depContagem[0].setorSigla,
-                    depOrigem: depContagem[0],
-                    depDestino: depInventario[0],
-                    quantidade: qtdAjuste * -1,
-                })
-            }
+                quantidadeDisponivel: Number(saldos[0].quantidadeDisponivel) - Number(i.quantidadeContagem),
+                quantidadeRequisitada: Number(saldos[0].quantidadeRequisitada),
+                quantidadeSeparada: Number(saldos[0].quantidadeSeparada),
+            })
             
             i.status = 'Finalizado'
             await this.repo.save(i)
@@ -401,9 +364,24 @@ export class DepositoInventarioItemService extends BaseCrudService{
         await this.inventarioServ['repo'].save(inventario)
     }
 
+    async ajustaDepositoMovimentacao(payload, depOrigem, depDestino){
+
+        payload.depositoIdOrigem = depOrigem.id
+        payload.depositoCodeOrigem = depOrigem.code
+        payload.depositoNameOrigem = depOrigem.name
+        payload.depositoSiglaOrigem = depOrigem.sigla
+
+        payload.depositoIdDestino = depDestino.id
+        payload.depositoCodeDestino = depDestino.code
+        payload.depositoNameDestino = depDestino.name
+        payload.depositoSiglaDestino = depDestino.sigla
+     
+        return payload
+    }
+
     async ajustaSaldoDeposito(req, user, dto){
 
-        await this.depositoRequisicaoServ.movimentacao(req, user, {
+        let objMovimentacao = {
             id: dto.id, 
 
             capa: dto.capa,
@@ -426,23 +404,30 @@ export class DepositoInventarioItemService extends BaseCrudService{
                 setorSigla: dto.setorSigla,
             },
 
-            quantidadeEntregue: dto.quantidade,
-
-            depositoIdOrigem: dto.depOrigem.id,
-            depositoCodeOrigem: dto.depOrigem.code,
-            depositoNameOrigem: dto.depOrigem.name,
-            depositoSiglaOrigem: dto.depOrigem.sigla,
-
-            depositoIdDestino: dto.depDestino.id,
-            depositoCodeDestino: dto.depDestino.code,
-            depositoNameDestino: dto.depDestino.name,
-            depositoSiglaDestino: dto.depDestino.sigla,
-
-            quantidadeOrigemName: 'Disponivel',
-            quantidadeDestinoName: 'Disponivel',
+            quantidadeEntregue: 0,
+            quantidadeOrigemName: '*',
+            quantidadeDestinoName: '*',
 
             origemRequisicaoName: 'DepositoInventarioItem'
-        })
+        }
+
+        objMovimentacao.quantidadeEntregue =  dto.quantidadeDisponivel
+        objMovimentacao.quantidadeOrigemName =  'Disponivel'
+        objMovimentacao.quantidadeDestinoName =  'Disponivel'
+        objMovimentacao = dto.quantidadeDisponivel < 0 ? await this.ajustaDepositoMovimentacao(objMovimentacao, dto.depDestino, dto.depOrigem) : await this.ajustaDepositoMovimentacao(objMovimentacao, dto.depOrigem, dto.depDestino)
+        if (dto.quantidadeDisponivel != 0) await this.depositoRequisicaoServ.movimentacao(req, user, objMovimentacao)
+
+        objMovimentacao.quantidadeEntregue =  dto.quantidadeRequisitada
+        objMovimentacao.quantidadeOrigemName =  'Requisitada'
+        objMovimentacao.quantidadeDestinoName =  'Requisitada'
+        objMovimentacao = dto.quantidadeRequisitada < 0 ? await this.ajustaDepositoMovimentacao(objMovimentacao, dto.depDestino, dto.depOrigem) : await this.ajustaDepositoMovimentacao(objMovimentacao, dto.depOrigem, dto.depDestino)
+        if (dto.quantidadeRequisitada != 0) await this.depositoRequisicaoServ.movimentacao(req, user, objMovimentacao)
+
+        objMovimentacao.quantidadeEntregue =  dto.quantidadeSeparada
+        objMovimentacao.quantidadeOrigemName =  'Separada'
+        objMovimentacao.quantidadeDestinoName =  'Separada'
+        objMovimentacao = dto.quantidadeSeparada < 0 ? await this.ajustaDepositoMovimentacao(objMovimentacao, dto.depDestino, dto.depOrigem) : await this.ajustaDepositoMovimentacao(objMovimentacao, dto.depOrigem, dto.depDestino)
+        if (dto.quantidadeSeparada != 0) await this.depositoRequisicaoServ.movimentacao(req, user, objMovimentacao)
 
     }
 
