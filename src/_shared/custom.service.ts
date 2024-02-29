@@ -144,6 +144,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         if (!filtroRealm || !user.realmId) return {
             msgGeral: "Filtro sem Relm",
             user: user,
+            andRuler: req.parsed.search['$and'],
             data: []
         }
 
