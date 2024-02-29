@@ -137,6 +137,15 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         if (req.parsed.search['$or']) req.parsed.search['$or'] = null
         let filtroRealm = false
 
+        for (let index = 0; index < req.parsed.search['$and'].length; index++) {
+            
+            const element = req.parsed.search[index];
+
+            if (element["realmId"]) req.parsed.search['$and'][index] = {
+                $eq:user.realmId
+            }
+        }
+
         req.parsed.search['$and'].forEach(element => {
             if (!filtroRealm) filtroRealm = element && element["realmId"] && JSON.stringify(element["realmId"]) == JSON.stringify({$eq:user.realmId})
         });
