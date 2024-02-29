@@ -142,7 +142,15 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             const element = req.parsed.search[index];
 
             if (element && element["realmId"]) req.parsed.search['$and'][index] = {
-                $eq:user.realmId
+                realmId:{
+                    $eq:user.realmId
+                }
+            }
+
+            if (!element) req.parsed.search['$and'][index] = {
+                realmId:{
+                    $eq:user.realmId
+                }
             }
         }
 
