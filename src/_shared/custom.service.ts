@@ -145,6 +145,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             msgGeral: "Filtro sem Relm",
             user: user,
             andRuler: req.parsed.search['$and'],
+            filterRealm: req.options.query.filter,
             data: []
         }
 
