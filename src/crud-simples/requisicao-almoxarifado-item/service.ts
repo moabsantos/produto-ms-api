@@ -146,7 +146,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             
             if (element.statusItem == 'Pendente'){
 
-                await this.repo.save({id: element.id, quantidadeEntregue: 0, statusItem: 'Cancelado'})
+                await this.updateRepo(req, user, {id: element.id, quantidadeEntregue: 0, statusItem: 'Cancelado'})
 
             }
         }
@@ -208,7 +208,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
                     continue;
                 }
 
-                await this.repo.save({id: element.id, statusItem: 'Aprovado', idUserSelecao: 0, dataAprovacao: new Date()})
+                await this.updateRepo(req, user, {id: element.id, statusItem: 'Aprovado', idUserSelecao: 0, dataAprovacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -261,7 +261,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             
             if (element.statusItem == 'Aprovado' && element.idUserSelecao > 0){
 
-                await this.repo.save({id: element.id, statusItem: 'Pendente', idUserSelecao: 0, dataAprovacao: new Date()})
+                await this.updateRepo(req, user, {id: element.id, statusItem: 'Pendente', idUserSelecao: 0, dataAprovacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -314,7 +314,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             
             if (element.statusItem == 'Aprovado' && element.idUserSelecao > 0){
 
-                await this.repo.save({id: element.id, statusItem: 'Separado', idUserSelecao: 0, dataSeparacao: new Date()})
+                await this.updateRepo(req, user, {id: element.id, statusItem: 'Separado', idUserSelecao: 0, dataSeparacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -366,7 +366,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             
             if (element.statusItem == 'Separado' && element.idUserSelecao > 0){
 
-                await this.repo.save({id: element.id, statusItem: 'Aprovado', idUserSelecao: 0, dataSeparacao: new Date()})
+                await this.updateRepo(req, user, {id: element.id, statusItem: 'Aprovado', idUserSelecao: 0, dataSeparacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -420,7 +420,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             
             if (element.statusItem == 'Separado' && element.idUserSelecao > 0){
 
-                await this.repo.save({
+                await this.updateRepo(req, user, {
                     id: element.id, 
                     quantidadeEntregue: Number(element.quantidadeSolicitada), 
                     statusItem: 'Entregue', 

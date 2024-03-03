@@ -257,6 +257,12 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
     }
 
+    async updateRepo(req: CrudRequest, user: any, payload: any) {
+
+        payload.updated_at = new Date()
+        await this.repo.save(payload)
+    }
+
 
     async delete(req: CrudRequest, user: any, id: number){
 
