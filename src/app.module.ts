@@ -62,6 +62,8 @@ import { DominioImagemModule } from './crud-simples/dominio-imagem/module';
 import { ProdutoComponenteParteModule } from './crud-simples/produto-componente-parte/module';
 import { PedidoCompraContratoModule } from './crud-simples/pedido-compra-contrato/module';
 import { TipoDocumentoModule } from './crud-simples/tipo-documento/module';
+import { PedidoCompraContratoParcelaModule } from './crud-simples/pedido-compra-contrato-parcela/module';
+import { RequisicaoGrupoModule } from './crud-simples/requisicao-grupo/module';
 
 
 
@@ -120,6 +122,7 @@ import { TipoDocumentoModule } from './crud-simples/tipo-documento/module';
     ProdutoComponenteModule,
     ProdutoComponenteParteModule,
 
+    RequisicaoGrupoModule,
     RequisicaoAlmoxarifadoModule,
     RequisicaoAlmoxarifadoItemModule,
 
@@ -129,6 +132,7 @@ import { TipoDocumentoModule } from './crud-simples/tipo-documento/module';
     PedidoCompraModule,
     PedidoCompraItemModule,
     PedidoCompraContratoModule,
+//    PedidoCompraContratoParcelaModule,
 
     CustosDiaModule,
     CustosMensaisModule,
