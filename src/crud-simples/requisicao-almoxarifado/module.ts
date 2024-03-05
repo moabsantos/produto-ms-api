@@ -14,12 +14,15 @@ import { EmpresaModule } from "../empresa/module";
 import { DepositoModule } from "../deposito/module";
 import { ClienteModule } from "../cliente/module";
 import { ClienteEstabelecimentoModule } from "../cliente-estabelecimento/module";
+import { RequisicaoGrupoModule } from "../requisicao-grupo/module";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
+
         EmpresaModule,
+        RequisicaoGrupoModule,
         ClienteModule,
         ClienteEstabelecimentoModule,
         DepositoModule,

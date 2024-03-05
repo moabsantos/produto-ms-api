@@ -7,10 +7,12 @@ import { ClienteService } from "../cliente/service";
 import { EmpresaService } from "../empresa/service";
 import { DepositoService } from "../deposito/service";
 import { ClienteEstabelecimentoService } from "../cliente-estabelecimento/service";
+import { RequisicaoGrupoService } from "../requisicao-grupo/service";
 
 export class RequisicaoAlmoxarifadoService extends BaseCrudService{
 
     private empresa: any;
+    private requisicaoGrupo: any;
     private cliente: any;
     private clienteEstab: any;
     private depositoOrigem: any;
@@ -20,6 +22,7 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         @InjectRepository(RequisicaoAlmoxarifado) protected repo,
         @InjectRepository(RequisicaoAlmoxarifadoUser) protected repoUser,
         private empresaServ: EmpresaService,
+        private requisicaoGrupoServ: RequisicaoGrupoService,
         private clienteServ: ClienteService,
         private clienteEstabServ: ClienteEstabelecimentoService,
         private depositoServ: DepositoService)
@@ -43,6 +46,10 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         model.empresaName = this.empresa.name
         model.empresaSigla = this.empresa.sigla
         model.empresaId = dto.empresaId
+
+        model.requisicaoGrupoName = this.requisicaoGrupo.name
+        model.requisicaoGrupoSigla = this.requisicaoGrupo.sigla
+        model.requisicaoGrupoId = dto.requisicaoGrupoId
 
         model.clienteName = dto.clienteId && dto.clienteId > 0 ? this.cliente.name : null
         model.clienteSigla = dto.clienteId && dto.clienteId > 0 ? this.cliente.sigla : null
@@ -72,6 +79,12 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         this.empresa = await this.validateId(this.empresaServ, dto.empresaId, user)
         if (!this.empresa){
             this.logger.error(`A empresa ${dto.empresaId} não foi encontrada`)
+            return false
+        }
+
+        this.requisicaoGrupo = await this.validateId(this.requisicaoGrupoServ, dto.requisicaoGrupoId, user)
+        if (!this.requisicaoGrupo){
+            this.logger.error(`Requisicao Grupo ${dto.requisicaoGrupoId} não foi encontrado`)
             return false
         }
 

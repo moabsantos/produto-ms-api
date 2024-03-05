@@ -16,6 +16,18 @@ export class RequisicaoAlmoxarifado extends BaseModelCrud {
     empresaSigla: string;
 
 
+
+    @Column()
+    requisicaoGrupoId: number;
+
+    @Column()
+    requisicaoGrupoName: string;
+
+    @Column({nullable: true})
+    requisicaoGrupoSigla: string;
+
+
+
     @Column({nullable: true})
     clienteId: number;
 
