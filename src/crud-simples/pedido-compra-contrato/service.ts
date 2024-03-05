@@ -38,25 +38,30 @@ export class PedidoCompraContratoService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: PedidoCompraContrato){
 
-        model = this.getDataModelsFromDto(model)
+        if (!model.status || model.status == 'Pendente'){
+            model.status = 'Pendente'
+            model = this.getDataModelsFromDto(model)
 
-        model.numeroDocumento = dto.numeroDocumento
-        model.dataDocumento = dto.dataDocumento
+            model.numeroDocumento = dto.numeroDocumento
+            model.dataDocumento = dto.dataDocumento
 
-        model.qtdParcelas = dto.qtdParcelas
-        model.valorMercadoria = dto.valorMercadoria
-        model.valorServico = dto.valorServico
-        model.valorDesconto = dto.valorDesconto
-        model.valorFrete = dto.valorFrete
-        model.valorOutrosAcrescimos = dto.valorOutrosAcrescimos
-        model.valorOutrasDeducoes = dto.valorOutrasDeducoes
-        model.valorTotal = this.valorValido(Number(dto.valorMercadoria),0)
-            + this.valorValido(Number(dto.valorServico),0)
-            - this.valorValido(Number(dto.valorDesconto),0)
-            + this.valorValido(Number(dto.valorFrete),0)
-            + this.valorValido(Number(dto.valorOutrosAcrescimos),0)
-            - this.valorValido(Number(dto.valorOutrasDeducoes),0)
-        console.log(model.valorTotal)
+            model.qtdParcelas = dto.qtdParcelas
+            model.primeiroVencimento = dto.primeiroVencimento
+
+            model.valorMercadoria = dto.valorMercadoria
+            model.valorServico = dto.valorServico
+            model.valorDesconto = dto.valorDesconto
+            model.valorFrete = dto.valorFrete
+            model.valorOutrosAcrescimos = dto.valorOutrosAcrescimos
+            model.valorOutrasDeducoes = dto.valorOutrasDeducoes
+            model.valorTotal = this.valorValido(Number(dto.valorMercadoria),0)
+                + this.valorValido(Number(dto.valorServico),0)
+                - this.valorValido(Number(dto.valorDesconto),0)
+                + this.valorValido(Number(dto.valorFrete),0)
+                + this.valorValido(Number(dto.valorOutrosAcrescimos),0)
+                - this.valorValido(Number(dto.valorOutrasDeducoes),0)
+        }
+
         return super.getDataFromDto(dto, user, model)
     }
 

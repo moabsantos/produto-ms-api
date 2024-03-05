@@ -3,10 +3,13 @@ import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
 @Unique("uniq_name", ["name", "realmId"])
-export class PedidoCompraContrato extends BaseModelCrud {
+export class PedidoCompraContratoParcela extends BaseModelCrud {
 
     @Column({nullable: true})
     pedidoCompraId: number;
+
+    @Column({nullable: true})
+    pedidoCompraContratoId: number;
 
     @Column()
     fornecedorId: number;
@@ -33,33 +36,39 @@ export class PedidoCompraContrato extends BaseModelCrud {
     formaPagamentoSigla: string;
 
     @Column()
-    qtdParcelas: number;
+    numeroParcela: number;
     @Column()
-    primeiroVencimento: Date;
+    dataVencimento: Date;
+
+    @Column()
+    contaBaixaId: number;
+    @Column()
+    contaBaixaName: string;
+    @Column()
+    contaBaixaSigla: string;
+    @Column()
+    dataBaixa: Date;
+
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
-    valorMercadoria: number;
-
-    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
-    valorServico: number;
+    valorParcela: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorDesconto: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
-    valorFrete: number;
+    valorAcrescimo: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
-    valorOutrosAcrescimos: number;
+    valorPago: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
-    valorOutrasDeducoes: number;
+    valorEstornado: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
-    valorTotal: number;
+    valorSaldo: number;
 
-
-    @Column()
-    status: string;
-
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    valorCredito: number;
+    
 }
