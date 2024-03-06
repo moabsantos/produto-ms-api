@@ -44,9 +44,11 @@ export class ProdutoService extends BaseCrudService{
         model.produtoGrupoId = this.produtoGrupo.id
 
         model.flagServico = 0
-        if (dto.flagServico > 0)
-            model.flagServico = 1
-        
+        if (dto.flagServico > 0) model.flagServico = 1
+
+        model.flagProdutoAcabado = 0
+        if (dto.flagProdutoAcabado > 0) model.flagProdutoAcabado = 1
+
         return super.getDataFromDto(dto, user, model)
     }
 

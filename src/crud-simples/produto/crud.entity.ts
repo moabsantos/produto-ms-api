@@ -40,4 +40,7 @@ export class Produto extends BaseModelCrud {
     @Column({default: 0})
     flagServico: number;
 
+    @Column({default: 0})
+    flagProdutoAcabado: number;
+
 }
