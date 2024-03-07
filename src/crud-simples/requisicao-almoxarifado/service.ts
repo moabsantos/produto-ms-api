@@ -74,6 +74,21 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         return super.getDataFromDto(dto, user, model)
     }
 
+
+    async foundDuplicated(dto: any, user: any): Promise<boolean> {
+
+        if (!dto.name || !dto.code) return false
+
+        let modelRepo = await this.repo.findOne({where:{name:dto.name, code: dto.code, realmId: user.realmId}})
+        
+        if(modelRepo && (!dto.id || dto.id != modelRepo.id)){
+
+            return true
+        }
+
+        return false
+    }
+
     async validate(dto: any, user: any): Promise<boolean>{
 
         this.empresa = await this.validateId(this.empresaServ, dto.empresaId, user)
