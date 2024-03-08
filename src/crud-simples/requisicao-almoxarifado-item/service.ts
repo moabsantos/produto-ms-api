@@ -49,6 +49,10 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             if (dto.itemAgrupador == 0 && model.statusItem == 'KIT') model.statusItem = 'Pendente'
 
             model.requisicaoAlmoxarifadoId = dto.requisicaoAlmoxarifadoId
+            model.requisicaoAlmoxarifadoCode = this.requisicaoAlmoxarifado.code
+            model.requisicaoAlmoxarifadoName = this.requisicaoAlmoxarifado.name
+            model.requisicaoAlmoxarifadoDescription = this.requisicaoAlmoxarifado.description
+
             model.requisicaoAlmoxarifadoItemIdOrigem = dto.requisicaoAlmoxarifadoItemIdOrigem
 
             model.itemDescription = this.item.description

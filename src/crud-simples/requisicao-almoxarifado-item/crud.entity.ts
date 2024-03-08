@@ -20,6 +20,18 @@ export class RequisicaoAlmoxarifadoItem extends BaseModelCrud {
     @Column()
     requisicaoAlmoxarifadoId: number;
 
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoCode: string;
+
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoName: string;
+
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoSigla: string;
+
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoDescription: string;
+
     @Column()
     sequencia: number;
 
