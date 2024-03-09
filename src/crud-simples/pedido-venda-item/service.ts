@@ -18,6 +18,25 @@ export class PedidoVendaItemService extends BaseCrudService{
         private itemVendaServ: ProdutoService)
     {
         super(repo, repoUser)
+
+        this.setRole({
+            create: "com-pedido-venda-dig",
+            update: "com-pedido-venda-dig",
+            delete: "com-pedido-venda-dig",
+            get: "com-pedido-venda-dig"
+        })
+
+        this.modelsRequired = [
+            {fieldKey: 'clienteId', fieldName: '', service: this.pedidoVendaServ, fields: [
+                'clienteId', 'clienteName', 'clienteSigla',
+                'cnpj', 'inscricaoEstadual',
+                'email', 'telefone',
+                'endereco', 'numero', 'bairro',
+                'cidadeId', 'cidadeName', 'cidadeSigla']},
+
+            {fieldKey: 'itemVendaId', fieldName: '', service: this.itemVendaServ, fields: [
+                'id', 'name', 'sigla']},
+        ]
     }
 
     getDataFromDto(dto: any, user: any, model: PedidoVendaItem){

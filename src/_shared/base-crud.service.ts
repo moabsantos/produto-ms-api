@@ -69,11 +69,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
     async foundDuplicated(dto: any, user: any): Promise<boolean> {
 
-        if (!dto.name){
-            return false
-        }
-
-        if (!dto.name) return false
+        if (!dto.name) return true
 
         let modelRepo = await this.repo.findOne({where:{name:dto.name, realmId: user.realmId}})
         
@@ -81,6 +77,18 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
             return true
         }
+
+        return false
+    }
+
+
+    async foundDuplicatedCodeName(dto: any, user: any): Promise<boolean> {
+
+        if (!dto.name || !dto.code) return true
+
+        let modelRepo = await this.repo.findOne({where:{name:dto.name, code:dto.code, realmId: user.realmId}})
+        
+        if(modelRepo && (!dto.id || dto.id != modelRepo.id)) return true
 
         return false
     }
@@ -111,7 +119,9 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
             const idFunc = d.getId ? d.getId() : 0
 
-            const idDto = dto[d.fieldName + 'Id'] ? dto[d.fieldName + 'Id'] : idFunc
+            const fieldKey = d.fieldKey ? d.fieldKey : d.fieldName + 'Id'
+
+            const idDto = dto[fieldKey] ? dto[fieldKey] : idFunc
 
             if (d.optional && (!idDto || idDto == "")) continue
             
@@ -142,6 +152,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         if (!this.modelsRequired) return model
         
         this.modelsRequired.forEach(d => {
+
             model = this.getModelfromDto(model, d.objeto, d.fieldName, '', d.fields) 
         });
 
@@ -150,10 +161,10 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
     getModelfromDto(model = null, dto = null, prefixFieldDestination = '', prefixFieldOrigin = '', fields = []){
 
-        if (!fields || !prefixFieldDestination) return model
-
+        if (!fields) return model
+        
         fields.forEach(f => {
-            const fieldDestino = prefixFieldDestination + f.charAt(0).toUpperCase() + f.slice(1)
+            const fieldDestino = prefixFieldDestination ? prefixFieldDestination + f.charAt(0).toUpperCase() + f.slice(1) : f
 
             model[fieldDestino] = dto && dto[prefixFieldOrigin + f] ? dto[prefixFieldOrigin + f] : null
         });

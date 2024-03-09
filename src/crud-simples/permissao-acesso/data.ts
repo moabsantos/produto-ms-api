@@ -42,4 +42,6 @@ export const dataCrud: {id: number, code: string,            name: string, descr
     getPermissaoAcesso({ code: 'sis-sec-perm-adm', name: 'Gestão das Permissões (Administração)', description: ''}),
     getPermissaoAcesso({ code: 'sis-sec-perm-lib', name: 'Gestão das Permissões (Liberação)', description: ''}),
 
+    getPermissaoAcesso({ code: 'gerencial-empresa-parametros-cons', name: 'Gestão de Empresas (Consulta)', description: ''}),
+
 ]

@@ -14,6 +14,8 @@ import { ClienteModule } from "../cliente/module";
 import { ClienteEstabelecimentoModule } from "../cliente-estabelecimento/module";
 import { PrioridadeModule } from "../prioridade/module";
 import { PedidoStatusModule } from "../pedido-status/module";
+import { EmpresaModule } from "../empresa/module";
+import { FormaPagamentoModule } from "../forma-pagamento/module";
 
 @Module({
     imports: [
@@ -21,10 +23,11 @@ import { PedidoStatusModule } from "../pedido-status/module";
         UserModule,
     
         TypeOrmModule.forFeature([PedidoVenda, PedidoVendaUser]),
+        EmpresaModule,
         ClienteModule,
         ClienteEstabelecimentoModule,
         PrioridadeModule,
-        PedidoStatusModule,
+        FormaPagamentoModule,
         
         BaseCrudModule
     ],

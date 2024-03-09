@@ -2,8 +2,18 @@ import { BaseModelCrud } from "src/_shared/base-model-crud.entity";
 import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
-@Unique("uniq_name", ["name", "realmId"])
+@Unique("uniq_name", ["code", "name", "realmId"])
 export class PedidoVenda extends BaseModelCrud {
+
+    @Column()
+    empresaId: number;
+
+    @Column()
+    empresaName: string;
+
+    @Column({nullable: true})
+    empresaSigla: string;
+
 
     @Column()
     clienteId: number;
@@ -14,9 +24,32 @@ export class PedidoVenda extends BaseModelCrud {
     @Column({nullable: true})
     clienteSigla: string;
 
+
+
+    @Column()
+    formaPagamentoId: number;
+
+    @Column({nullable: true})
+    formaPagamentoCode: string;
+
+    @Column()
+    formaPagamentoName: string;
+
+    @Column({nullable: true})
+    formaPagamentoSigla: string;
+
+
+
     @Column()
     clienteEstabelecimentoId: number;
 
+    @Column()
+    clienteEstabelecimentoCode: string;
+
+    @Column()
+    clienteEstabelecimentoName: string;
+
+    
     @Column({nullable: true})
     cnpj: string;
 
@@ -46,6 +79,8 @@ export class PedidoVenda extends BaseModelCrud {
 
     @Column({nullable: true})
     cidadeSigla: string;
+
+
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeItens: number; 
@@ -104,5 +139,16 @@ export class PedidoVenda extends BaseModelCrud {
 
     @Column({nullable: true})
     pedidoStatusCor: string;
+
+
+
+    @Column()
+    dataSolicitacao: Date;
+
+    @Column({nullable: true})
+    dataEntrega: Date;
+
+    @Column({default: 'Pendente'})
+    statusItem: string;
 
 }

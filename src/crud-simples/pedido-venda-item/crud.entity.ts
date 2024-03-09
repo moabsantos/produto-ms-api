@@ -73,7 +73,7 @@ export class PedidoVendaItem extends BaseModelCrud {
 
 
 
-    @Column()
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeSolicitada: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
@@ -91,4 +91,13 @@ export class PedidoVendaItem extends BaseModelCrud {
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorTotalItem: number;
 
+
+    @Column()
+    dataSolicitacao: Date;
+
+    @Column({nullable: true})
+    dataEntrega: Date;
+
+    @Column({default: 'Pendente'})
+    statusItem: string;
 }

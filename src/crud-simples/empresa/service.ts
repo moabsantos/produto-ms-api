@@ -16,7 +16,7 @@ export class EmpresaService extends BaseCrudService{
             create: "gerencial-empresa-parametros-dig",
             update: "gerencial-empresa-parametros-dig",
             delete: "gerencial-empresa-parametros-dig",
-            get: "gerencial-empresa-parametros-dig"
+            get: "gerencial-empresa-parametros-cons"
         })
 
     }
