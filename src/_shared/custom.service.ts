@@ -355,4 +355,12 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         return novaData
     }
+
+    getMessage(req, user, origin, payload){
+
+        return {
+            status: payload.status,
+            message: payload.message,
+        }
+    }
 }

@@ -34,45 +34,18 @@ export class PedidoVendaItemService extends BaseCrudService{
                 'endereco', 'numero', 'bairro',
                 'cidadeId', 'cidadeName', 'cidadeSigla']},
 
-            {fieldKey: 'itemVendaId', fieldName: '', service: this.itemVendaServ, fields: [
-                'id', 'name', 'sigla']},
+            {fieldKey: 'itemVendaId', fieldName: 'itemVenda', service: this.itemVendaServ, fields: [
+                'id', 'name', 'sigla', 'description']},
         ]
     }
 
     getDataFromDto(dto: any, user: any, model: PedidoVendaItem){
 
-        model.pedidoVendaId = this.pedidoVenda.id
+        model = this.getDataModelsFromDto(model)
 
-        model.clienteId = this.pedidoVenda.clienteId
-        model.clienteName = this.pedidoVenda.clienteName
-        model.clienteSigla = this.pedidoVenda.clienteSigla
-    
-        model.cnpj = this.pedidoVenda.cnpj
-        model.inscricaoEstadual = this.pedidoVenda.inscricaoEstadual
-    
-        model.email = this.pedidoVenda.email
-        model.telefone = this.pedidoVenda.telefone
-    
-        model.endereco = this.pedidoVenda.endereco
-        model.numero = this.pedidoVenda.numero
-        model.bairro = this.pedidoVenda.bairro
-    
-        model.cidadeId = this.pedidoVenda.cidadeId
-        model.cidadeName = this.pedidoVenda.cidadeName
-        model.cidadeSigla = this.pedidoVenda.cidadeSigla
+        model = this.getModelFromInputs(model, dto, [
+            'quantidadeSolicitada', 'valorInicialItem', 'percentDescontoItem'])
 
-        model.itemVendaId = this.itemVenda.id;
-        model.itemVendaName = this.itemVenda.name;
-        model.itemVendaSigla = this.itemVenda.sigla;
-        model.itemVendaDescription = this.itemVenda.description;
-
-        model.unidadeMedidaId = this.itemVenda.unidadeMedidaId;
-        model.unidadeMedidaName = this.itemVenda.unidadeMedidaName;
-        model.unidadeMedidaSigla = this.itemVenda.unidadeMedidaSigla;
-
-        model.quantidadeSolicitada = dto.quantidadeSolicitada;
-        model.valorInicialItem = dto.valorInicialItem;
-        model.percentDescontoItem = dto.percentDescontoItem;
         model.valorItem = dto.valorInicialItem * (1 - (dto.percentDescontoItem/100));
         model.valorTotalItem = model.valorItem * model.quantidadeSolicitada;
 

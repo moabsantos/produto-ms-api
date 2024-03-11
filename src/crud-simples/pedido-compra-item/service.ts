@@ -32,12 +32,12 @@ export class PedidoCompraItemService extends BaseCrudService{
         super(repo, repoUser)
 
         this.setRole({
-            create: "sup-compr-ped-dig",
-            update: "sup-compr-ped-dig",
-            delete: "sup-compr-ped-dig",
-            get: "sup-compr-ped-dig",
-            aprovar: "sup-compr-ped-aprov",
-            atender: "sup-compr-ped-aten",
+            create: "sup-compra-ped-dig",
+            update: "sup-compra-ped-dig",
+            delete: "sup-compra-ped-dig",
+            get: "sup-compra-ped-dig",
+            aprovar: "sup-compra-ped-aprov",
+            atender: "sup-compra-ped-aten",
         })
     }
 
@@ -119,7 +119,7 @@ export class PedidoCompraItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where: {pedidoCompraId: pedidoCompraId, statusItem: 'Pendente', idUserSelecao: user.userId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id do Pedido não encontrados'})
 
         const reqAlmox = await this.pedidoServ['repo'].find({where:{id: itensRequisicao[0].pedidoCompraId}})
 
@@ -174,7 +174,7 @@ export class PedidoCompraItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId, statusItem: 'Aprovado', idUserSelecao: user.userId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id do Pedido não encontrados'})
 
         const reqAlmox = await this.pedidoServ['repo'].find({where:{id: itensRequisicao[0].pedidoCompraId}})
 
@@ -229,7 +229,7 @@ export class PedidoCompraItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId, statusItem: 'Aprovado', idUserSelecao: user.userId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id do Pedido não encontrados'})
 
         const reqAlmox = await this.pedidoServ['repo'].find({where:{id: itensRequisicao[0].pedidoCompraId}})
 
@@ -283,7 +283,7 @@ export class PedidoCompraItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId, statusItem: 'Faturado', idUserSelecao: user.userId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id do Pedido não encontrados'})
 
         const reqAlmox = await this.pedidoServ['repo'].find({where:{id: itensRequisicao[0].pedidoCompraId}})
 
@@ -337,7 +337,7 @@ export class PedidoCompraItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id do Pedido não encontrados'})
 
         const reqAlmox = await this.pedidoServ['repo'].find({where:{id: itensRequisicao[0].pedidoCompraId}})
 
@@ -392,7 +392,7 @@ export class PedidoCompraItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where:{pedidoCompraId: pedidoCompraId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id do Pedido de Compra não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id do Pedido não encontrados'})
 
         const reqAlmox = await this.pedidoServ['repo'].find({where:{id: itensRequisicao[0].pedidoCompraId}})
 
@@ -447,7 +447,7 @@ export class PedidoCompraItemService extends BaseCrudService{
 
         const itens = await this.repo.find({where:{pedidoCompraId: pedidoCompraId, statusItem: 'Recebido', idUserSelecao: user.userId}})
 
-        if (itens.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itens.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id do Pedido não encontrados'})
 
         const reqAlmox = await this.pedidoServ['repo'].find({where:{id: itens[0].pedidoCompraId}})
 
@@ -504,7 +504,7 @@ export class PedidoCompraItemService extends BaseCrudService{
 
         const itens = await this.repo.find({where:{pedidoCompraId: pedidoCompraId, statusItem: 'Pendente', idUserSelecao: user.userId}})
 
-        if (itens.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itens.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id do Pedido não encontrados'})
 
         const reqAlmox = await this.pedidoServ['repo'].find({where:{id: itens[0].pedidoCompraId}})
 

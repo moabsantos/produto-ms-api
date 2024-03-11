@@ -139,7 +139,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
         const itens = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoId, statusItem: 'Pendente', idUserSelecao: user.userId}})
 
-        if (itens.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itens.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id da Requisição não encontrados'})
 
         const reqAlmox = await this.requisicaoAlmoxServ['repo'].find({where:{id: itens[0].requisicaoAlmoxarifadoId}})
 
@@ -166,7 +166,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId, realmId: user.realmId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id da Requisição não encontrados'})
 
         const reqAlmox = await this.requisicaoAlmoxServ['repo'].find({where:{id: itensRequisicao[0].requisicaoAlmoxarifadoId}})
 
@@ -254,7 +254,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id da Requisição não encontrados'})
 
         const reqAlmox = await this.requisicaoAlmoxServ['repo'].find({where:{id: itensRequisicao[0].requisicaoAlmoxarifadoId}})
 
@@ -307,7 +307,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id da Requisição não encontrados'})
 
         const reqAlmox = await this.requisicaoAlmoxServ['repo'].find({where:{id: itensRequisicao[0].requisicaoAlmoxarifadoId}})
 
@@ -359,7 +359,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id da Requisição não encontrados'})
 
         const reqAlmox = await this.requisicaoAlmoxServ['repo'].find({where:{id: itensRequisicao[0].requisicaoAlmoxarifadoId}})
 
@@ -413,7 +413,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id da Requisição não encontrados'})
 
         const reqAlmox = await this.requisicaoAlmoxServ['repo'].find({where:{id: itensRequisicao[0].requisicaoAlmoxarifadoId}})
 

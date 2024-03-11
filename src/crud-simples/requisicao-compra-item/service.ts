@@ -105,7 +105,7 @@ export class RequisicaoCompraItemService extends BaseCrudService{
 
         const itensRequisicao = await this.repo.find({where:{requisicaoCompraId: requisicaoCompraId, idUserSelecao: user.userId, realmId: user.realmId}})
 
-        if (itensRequisicao.length < 1) throw new Error('Itens para o Id da Requisição não encontrados')
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id da Requisição não encontrados'})
 
         const reqCompra = await this.reqCompraServ['repo'].find({where:{id: itensRequisicao[0].requisicaoCompraId, realmId: user.realmId}})
 
