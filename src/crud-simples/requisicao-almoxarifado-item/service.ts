@@ -88,7 +88,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         if (dto.itemAgrupador && dto.itemAgrupador == 1 && dto.requisicaoAlmoxarifadoItemIdOrigem) return false
 
         if (dto.requisicaoAlmoxarifadoId){
-            this.requisicaoAlmoxarifado = await this.validateId(this.setorServ, dto.setorId, user)
+            this.requisicaoAlmoxarifado = await this.validateId(this.requisicaoAlmoxServ, dto.requisicaoAlmoxarifadoId, user)
             if (!this.requisicaoAlmoxarifado){
                 this.logger.error(`A Requisição de Almoxarifado ${dto.requisicaoAlmoxarifadoId} não foi encontrada`)
                 return false
