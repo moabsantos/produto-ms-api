@@ -7,10 +7,12 @@ import { EmpresaService } from "../empresa/service";
 import { DepositoService } from "../deposito/service";
 import { FornecedorService } from "../fornecedor/service";
 import { FormaPagamentoService } from "../forma-pagamento/service";
+import { SetorService } from "../setor/service";
 
 export class PedidoCompraService extends BaseCrudService{
 
     private empresa: any;
+    private setor: any;
     private depositoOrigem: any;
     private depositoDestino: any;
     private fornecedor: any;
@@ -20,6 +22,7 @@ export class PedidoCompraService extends BaseCrudService{
         @InjectRepository(PedidoCompra) protected repo,
         @InjectRepository(PedidoCompraUser) protected repoUser,
         private empresaServ: EmpresaService,
+        private setorServ: SetorService,
         private fornecedorServ: FornecedorService,
         private formaPagamentoServ: FormaPagamentoService,
         private depositoServ: DepositoService)
@@ -49,7 +52,9 @@ export class PedidoCompraService extends BaseCrudService{
         model.fornecedorSigla = this.fornecedor.sigla
         model.fornecedorId = dto.fornecedorId
 
-
+        model.setorId = this.setor.id
+        model.setorName = this.setor.name
+        model.setorSigla = this.setor.sigla
 
         model.formaPagamentoName = this.formaPagamento.name
         model.formaPagamentoCode = this.formaPagamento.code
@@ -88,6 +93,12 @@ export class PedidoCompraService extends BaseCrudService{
         this.empresa = await this.validateId(this.empresaServ, dto.empresaId, user)
         if (!this.empresa){
             this.logger.error(`A empresa ${dto.empresaId} não foi encontrada`)
+            return false
+        }
+
+        this.setor = await this.validateId(this.setorServ, dto.setorId, user)
+        if (!this.setor){
+            this.logger.error(`O setor ${dto.setorId} não foi encontrado`)
             return false
         }
 

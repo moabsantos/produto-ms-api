@@ -14,12 +14,14 @@ import { EmpresaModule } from "../empresa/module";
 import { DepositoModule } from "../deposito/module";
 import { FormaPagamentoModule } from "../forma-pagamento/module";
 import { FornecedorModule } from "../fornecedor/module";
+import { SetorModule } from "../setor/module";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
         EmpresaModule,
+        SetorModule,
         DepositoModule,
         FormaPagamentoModule,
         FornecedorModule,

@@ -72,6 +72,16 @@ export class PedidoCompra extends BaseModelCrud {
 
 
     @Column()
+    setorId: number;
+
+    @Column()
+    setorName: string;
+
+    @Column({nullable: true})
+    setorSigla: string;
+
+
+    @Column()
     dataSolicitacao: Date;
 
     @Column({nullable: true})
