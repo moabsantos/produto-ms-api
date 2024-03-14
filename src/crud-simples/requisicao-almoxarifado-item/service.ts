@@ -53,6 +53,18 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             model.requisicaoAlmoxarifadoName = this.requisicaoAlmoxarifado.name
             model.requisicaoAlmoxarifadoDescription = this.requisicaoAlmoxarifado.description
 
+
+            model.requisicaoAlmoxarifadoClienteId = this.requisicaoAlmoxarifado.clienteId
+            model.requisicaoAlmoxarifadoClienteName = this.requisicaoAlmoxarifado.clienteName
+            model.requisicaoAlmoxarifadoClienteSigla = this.requisicaoAlmoxarifado.clienteSigla
+        
+            model.requisicaoAlmoxarifadoClienteEstabelecimentoId = this.requisicaoAlmoxarifado.clienteEstabelecimentoId
+            model.requisicaoAlmoxarifadoClienteEstabelecimentoName = this.requisicaoAlmoxarifado.clienteEstabelecimentoName
+            model.requisicaoAlmoxarifadoClienteCep = this.requisicaoAlmoxarifado.clienteCep
+            model.requisicaoAlmoxarifadoClienteCidadeName = this.requisicaoAlmoxarifado.clienteCidadeName
+            model.requisicaoAlmoxarifadoClienteCidadeUfSigla = this.requisicaoAlmoxarifado.clienteCidadeUfSigla
+
+
             model.requisicaoAlmoxarifadoItemIdOrigem = dto.requisicaoAlmoxarifadoItemIdOrigem
 
             model.itemDescription = this.item.description

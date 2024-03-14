@@ -23,7 +23,7 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
             create: "com-cliente-estabelecimento-dig",
             update: "com-cliente-estabelecimento-dig",
             delete: "com-cliente-estabelecimento-dig",
-            get: "com-cliente-estabelecimento-dig"
+            get: "com-cliente-estabelecimento-cons"
         })
 
         this.modelsRequired = [

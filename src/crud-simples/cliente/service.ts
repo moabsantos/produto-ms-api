@@ -11,6 +11,13 @@ export class ClienteService extends BaseCrudService{
         @InjectRepository(ClienteUser) protected repoUser)
     {
         super(repo, repoUser)
+
+        this.setRole({
+            create: "com-cliente-dig",
+            update: "com-cliente-dig",
+            delete: "com-cliente-dig",
+            get: "com-cliente-cons"
+        })
     }
 
     getDataFromDto(dto: any, user: any, model: Cliente){

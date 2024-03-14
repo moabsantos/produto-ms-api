@@ -5,17 +5,7 @@ import { Column, Entity, Unique } from "typeorm";
 @Unique("uniq_name", ["name", "realmId"])
 export class RequisicaoAlmoxarifadoItem extends BaseModelCrud {
 
-    @Column()
-    dataSolicitacao: Date;
 
-    @Column()
-    dataAprovacao: Date;
-
-    @Column()
-    dataSeparacao: Date;
-
-    @Column()
-    dataEntrega: Date;
 
     @Column()
     requisicaoAlmoxarifadoId: number;
@@ -31,6 +21,49 @@ export class RequisicaoAlmoxarifadoItem extends BaseModelCrud {
 
     @Column({nullable: true})
     requisicaoAlmoxarifadoDescription: string;
+
+
+
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoClienteId: number;
+
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoClienteName: string;
+
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoClienteSigla: string;
+
+
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoClienteEstabelecimentoId: number;
+
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoClienteEstabelecimentoName: string;
+
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoClienteCep: string;
+
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoClienteCidadeName: string;
+
+    @Column({nullable: true})
+    requisicaoAlmoxarifadoClienteCidadeUfSigla: string;
+
+
+
+    @Column()
+    dataSolicitacao: Date;
+
+    @Column()
+    dataAprovacao: Date;
+
+    @Column()
+    dataSeparacao: Date;
+
+    @Column()
+    dataEntrega: Date;
+
+
 
     @Column()
     sequencia: number;

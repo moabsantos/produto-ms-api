@@ -16,7 +16,7 @@ export class RequisicaoGrupoService extends BaseCrudService{
             create: "sup-requisicao-grupo-dig",
             update: "sup-requisicao-grupo-dig",
             delete: "sup-requisicao-grupo-dig",
-            get: "sup-requisicao-grupo-dig"
+            get: null
         })
     }
 

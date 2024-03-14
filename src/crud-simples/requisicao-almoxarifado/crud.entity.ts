@@ -81,6 +81,16 @@ export class RequisicaoAlmoxarifado extends BaseModelCrud {
 
 
     @Column()
+    setorId: number;
+
+    @Column()
+    setorName: string;
+
+    @Column({nullable: true})
+    setorSigla: string;
+
+
+    @Column()
     dataSolicitacao: Date;
 
     @Column({nullable: true})

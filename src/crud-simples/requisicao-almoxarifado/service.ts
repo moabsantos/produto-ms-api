@@ -8,10 +8,12 @@ import { EmpresaService } from "../empresa/service";
 import { DepositoService } from "../deposito/service";
 import { ClienteEstabelecimentoService } from "../cliente-estabelecimento/service";
 import { RequisicaoGrupoService } from "../requisicao-grupo/service";
+import { SetorService } from "../setor/service";
 
 export class RequisicaoAlmoxarifadoService extends BaseCrudService{
 
     private empresa: any;
+    private setor: any;
     private requisicaoGrupo: any;
     private cliente: any;
     private clienteEstab: any;
@@ -22,6 +24,7 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         @InjectRepository(RequisicaoAlmoxarifado) protected repo,
         @InjectRepository(RequisicaoAlmoxarifadoUser) protected repoUser,
         private empresaServ: EmpresaService,
+        private setorServ: SetorService,
         private requisicaoGrupoServ: RequisicaoGrupoService,
         private clienteServ: ClienteService,
         private clienteEstabServ: ClienteEstabelecimentoService,
@@ -70,6 +73,10 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         model.depositoCodeDestino = this.depositoDestino.code
         model.depositoSiglaDestino = this.depositoDestino.sigla
         model.depositoIdDestino = dto.depositoIdDestino
+
+        model.setorName = this.setor.name
+        model.setorSigla = this.setor.sigla
+        model.setorId = dto.setorId
 
         return super.getDataFromDto(dto, user, model)
     }
@@ -124,6 +131,12 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         this.depositoDestino = await this.validateId(this.depositoServ, dto.depositoIdDestino, user)
         if (!this.depositoDestino){
             this.logger.error(`O Depósito ${dto.depositoIdDestino} não foi encontrado`)
+            return false
+        }
+
+        this.setor = await this.validateId(this.setorServ, dto.setorId, user)
+        if (!this.setor){
+            this.logger.error(`O Setor ${dto.setorId} não foi encontrado`)
             return false
         }
 
