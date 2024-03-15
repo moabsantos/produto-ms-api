@@ -22,16 +22,15 @@ export const dataCrud: {id: number, code: string,            name: string, descr
     getPermissaoAcesso({ code: 'sup-almox-req-dig',        name: 'Almoxarifado - Requisição (Digitação)', description: ''}),
     getPermissaoAcesso({ code: 'sup-almox-req-aten',       name: 'Almoxarifado - Requisição (Atendimento)', description: ''}),
 
-
+    getPermissaoAcesso({ code: 'com-cliente-adm',      name: 'Comercial - Clientes (Administração)', description: ''}),
     getPermissaoAcesso({ code: 'com-cliente-dig',      name: 'Comercial - Clientes (Cadastro)', description: ''}),
     getPermissaoAcesso({ code: 'com-cliente-cons',      name: 'Comercial - Clientes (Consulta)', description: ''}),
     getPermissaoAcesso({ code: 'com-cliente-estabelecimento-dig',      name: 'Comercial - Clientes / Estabelecimento (Cadastro)', description: ''}),
     getPermissaoAcesso({ code: 'com-cliente-estabelecimento-cons',      name: 'Comercial - Clientes / Estabelecimento (Consulta)', description: ''}),
 
-    getPermissaoAcesso({ code: 'com-vend-client-adm',      name: 'Comercial - Clientes (Administração)', description: ''}),
-    getPermissaoAcesso({ code: 'com-vend-pedi-adm',        name: 'Comercial - Pedido de Venda (Administração)', description: ''}),
-    getPermissaoAcesso({ code: 'com-vend-pedi-aprov',      name: 'Comercial - Pedido de Venda (Aprovação)', description: ''}),
-    getPermissaoAcesso({ code: 'com-vend-pedi-dig',        name: 'Comercial - Pedido de Venda (Digitação)', description: ''}),
+    getPermissaoAcesso({ code: 'com-pedido-venda-adm',        name: 'Comercial - Pedido de Venda (Administração)', description: ''}),
+    getPermissaoAcesso({ code: 'com-pedido-venda-aprov',      name: 'Comercial - Pedido de Venda (Aprovação)', description: ''}),
+    getPermissaoAcesso({ code: 'com-pedido-venda-dig',        name: 'Comercial - Pedido de Venda (Digitação)', description: ''}),
 
     getPermissaoAcesso({ code: 'desen-prod-cad-dig',      name: 'Produto - Cadastro (Digitação)', description: ''}),
     getPermissaoAcesso({ code: 'desen-prod-cad-del',      name: 'Produto - Cadastro (Exclusão)', description: ''}),

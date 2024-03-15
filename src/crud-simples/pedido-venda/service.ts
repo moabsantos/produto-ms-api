@@ -65,46 +65,14 @@ export class PedidoVendaService extends BaseCrudService{
     }
 
 
-    async validate(dto: any, user: any): Promise<boolean>{
+    async validate(dto: any, user: any): Promise<any>{
 
-        if (!this.validateFieldsRequireds([
-            {name: "dataSolicitacao"}
-        ], dto)) return false
+        const checkFields = this.validateFieldsRequireds([{name: "dataSolicitacao"}], dto)
+        if (!checkFields.status) return checkFields
 
         const dtoValid = await this.validateModelsRequired(dto, user)
-        if (!dtoValid) return false
+        if (!dtoValid.status) return dtoValid
 
-        /*
-        this.empresa = await this.validateId(this.empresaServ, dto.empresaId, user)
-        if (!this.empresa){
-            this.logger.error(`A Empresa ${dto.empresaId} não foi encontrada`)
-            return false
-        }
-
-        this.cliente = await this.validateId(this.clienteServ, dto.clienteId, user)
-        if (!this.cliente){
-            this.logger.error(`O Cliente ${dto.clienteId} não foi encontrado`)
-            return false
-        }
-
-        this.estabelecimento = await this.validateId(this.estabelecimentoServ, dto.clienteEstabelecimentoId, user)
-        if (!this.estabelecimento){
-            this.logger.error(`O Estabelecimento ${dto.clienteEstabelecimentoId} não foi encontrado`)
-            return false
-        }
-
-        this.formaPagamento = await this.validateId(this.formaPagamentoServ, dto.formaPagamentoId, user)
-        if (!this.formaPagamento){
-            this.logger.error(`A Forma de Pagamento ${dto.formaPagamentoId} não foi encontrada`)
-            return false
-        }
-
-        this.prioridade = await this.validateId(this.prioridadeServ, dto.prioridadeId, user)
-        if (!this.prioridade){
-            this.logger.error(`A prioridade ${dto.prioridadeId} não foi encontrada`)
-            return false
-        }
-*/
         return super.validate(dto, user)
     }
 

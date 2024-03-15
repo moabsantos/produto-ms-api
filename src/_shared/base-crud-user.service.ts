@@ -10,20 +10,15 @@ export class BaseCrudUserService extends CustomService<BaseModelUser>{
         super(repo)
     }
 
-    async foundDuplicated(dto: any, user: any): Promise<boolean> {
+    async foundDuplicated(dto: any, user: any): Promise<any> {
 
-        if (!dto.name){
-            return false
-        }
+        if (!dto.name) return {status: false, error: true, message: "Nome não informado"}
 
         let modelRepo = await this.repo.find({where:{userId:user.userId, originId: dto.originId}})
         
-        if(modelRepo && modelRepo.length > 0){
+        if(modelRepo && modelRepo.length > 0) return {status: true, message: "Id cadastrado para o usuario"}
 
-            return true
-        }
-
-        return false
+        return {status: false, message: "Não encontrada duplicação"}
     }
 
 }

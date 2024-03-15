@@ -26,23 +26,23 @@ export class UserService extends TypeOrmCrudService<User>{
 
         const realm = await this.repoRealms.findOne({where:{id: realmId}})
         
-        if (!realm) return false
+        if (!realm) return {status: false, message: "Realm é exigido"}
    
-        if (realm.created_by === iduser) return true
+        if (realm.created_by === iduser) return {status: true, message: "Usuário administrador"}
 
         const grps = await this.repoGrupos.find({where: {userId: iduser, realmId: realmId}})
 
-        if (permissaoCode == '*') return grps.length > 0 ? true : false
+        if (permissaoCode == '*') return grps.length > 0 ? {status: true, message: "ok"} : {status: false, message:"Usuário fora de grupo"}
 
         for (let index = 0; index < grps.length; index++) {
             const grp = grps[index];
             
             const perm = await this.repoPermissoes.findOne({where: {permissaoAcessoCode:permissaoCode, grupoAcessoId: grp.grupoAcessoId, realmId: realmId}})
 
-            if (perm) return true
+            if (perm) return {status: true, message: "Permissão encontrada"}
         }
 
-        return false
+        return {status: false, message: `Permissão ${permissaoCode} não encontrada para este usuário`}
     }
 
     async perfilsAcesso(req: any, user: any){

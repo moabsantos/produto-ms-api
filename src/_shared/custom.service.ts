@@ -34,33 +34,24 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         return valorRetorno === false ? true : valor
     }
 
-    async validate(dto: any, user: any): Promise<boolean>{
+    async validate(dto: any, user: any): Promise<any>{
 
-        if (!user){
-            this.logger.error("login is requerid")
-            return
-        }
+        if (!user) return this.getMessage(null, user, this, {status: false, message: "Login é exigido"})
 
-        if (!user.userId){
-            this.logger.error("id do login is requerid")
-            return
-        }
+        if (!user.userId) this.getMessage(null, user, this, {status: false, message: "Id do Login é exigido"})
 
-        if (!user.realmId){
-            this.logger.error("login in Realm is requerid")
-            return
-        }
+        if (!user.realmId) this.getMessage(null, user, this, {status: false, message: "Realm é exigido"})
 
         if (!dto.id) return user.hasPermissao(this.roleService.create)
         if (dto.id) return user.hasPermissao(this.roleService.update)
 
-        return true
+        return this.getMessage(null, user, this, {status: true, message: "validação ok"})
         
     }
 
-    async foundDuplicated(dto: any, user: any): Promise<boolean>{
-        console.log('dto custom')
-        return false
+    async foundDuplicated(dto: any, user: any): Promise<any>{
+
+        return {status: false, message: "Custom DTO"}
     }
 
     getDataFromDto(dto: any, user: any, model: BaseModel){
@@ -82,11 +73,12 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         const userHasPermissao = await user.hasPermissao(this.roleService.get)
   
-        if (!userHasPermissao){
-            return {
-                msgGeral: "Usuário "+ user.id +" não autorizado ("+this.roleService.get+") a esta busca no contexto "+ user.realmId,
+        if (userHasPermissao == false || userHasPermissao.status == false){
+            return this.getMessage(req, user, this, {
+                status: false,
+                message: "Usuário "+ user.id +" não autorizado ("+this.roleService.get+") a esta busca no contexto "+ user.realmId,
                 data: []
-            }
+            })
         }
 
         let w: any;
@@ -204,28 +196,19 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
                 }
             }
 
-            if (!modelRepoFound){
-                return
-            }
+            if (!modelRepoFound || !modelRepoFound[0]) return this.getMessage(req, user, this, {status: false, message: "Não encontrado cadastro para o id informado"})
 
-            if (!modelRepoFound[0]){
-                return
-            }
         }
 
         const validated = await this.validate(dto, user)
-        if (!validated){
-            this.logger.error("validation basic")
-            console.log(dto)
-            return
-        }
 
-        
-        if (await this.foundDuplicated(dto, user)){
-            this.logger.error("found duplicated")
-            console.log(dto)
-            return
-        }
+        if (validated == false) return this.getMessage(req, user, this, {status: false, message: "Id e nome não informado"})
+
+        if (validated != true && !validated.status) return validated
+
+        const checkDuplicacao = await this.foundDuplicated(dto, user)
+
+        if (checkDuplicacao.status || checkDuplicacao.error) return checkDuplicacao
 
         let modelRepo: BaseModel
         

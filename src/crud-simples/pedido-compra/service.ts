@@ -74,18 +74,15 @@ export class PedidoCompraService extends BaseCrudService{
         return super.getDataFromDto(dto, user, model)
     }
 
-    async foundDuplicated(dto: any, user: any): Promise<boolean> {
+    async foundDuplicated(dto: any, user: any): Promise<any> {
 
-        if (!dto.name || !dto.code) return false
+        if (!dto.name || !dto.code) return {status: false, error: true, message: "Código ou Nome não encontrado"}
 
         let modelRepo = await this.repo.findOne({where:{name:dto.name, code: dto.code, realmId: user.realmId}})
         
-        if(modelRepo && (!dto.id || dto.id != modelRepo.id)){
+        if(modelRepo && (!dto.id || dto.id != modelRepo.id)) return {status: true, message: "Cadastro encontrado para outro id"}
 
-            return true
-        }
-
-        return false
+        return {status: false, message: "Duplicação não encontrada"}
     }
 
     async validate(dto: any, user: any): Promise<boolean>{

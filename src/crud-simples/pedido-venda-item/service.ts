@@ -27,7 +27,10 @@ export class PedidoVendaItemService extends BaseCrudService{
         })
 
         this.modelsRequired = [
-            {fieldKey: 'clienteId', fieldName: '', service: this.pedidoVendaServ, fields: [
+            {fieldKey: 'pedidoVendaId', fieldName: 'pedidoVenda', service: this.pedidoVendaServ, fields: [
+                'id', 'clienteName', 'clienteSigla']},
+
+            {fieldKey: 'pedidoVendaId', fieldName: '', service: this.pedidoVendaServ, fields: [
                 'clienteId', 'clienteName', 'clienteSigla',
                 'cnpj', 'inscricaoEstadual',
                 'email', 'telefone',
@@ -54,27 +57,8 @@ export class PedidoVendaItemService extends BaseCrudService{
 
     async validate(dto: any, user: any): Promise<boolean>{
         
-        const pedidosVenda = await this.pedidoVendaServ.findByWhere({
-            id: dto.pedidoVendaId,
-            realmId: user.realmId
-        })
-
-        if (pedidosVenda.length == 0){
-            this.logger.error(`O Pedido de Venda ${dto.pedidoVendaId} não foi encontrado`)
-            return false
-        }
-        this.pedidoVenda = pedidosVenda[0]
-
-        const itensVenda = await this.itemVendaServ.findByWhere({
-            id: dto.itemVendaId,
-            realmId: user.realmId
-        })
-
-        if (itensVenda.length == 0){
-            this.logger.error(`O item de venda ${dto.itemVendaId} não foi encontrado`)
-            return false
-        }
-        this.itemVenda = itensVenda[0]
+        const dtoValid = await this.validateModelsRequired(dto, user)
+        if (!dtoValid.status) return dtoValid
 
         dto.name = this.pedidoVenda.id +'-'+ this.pedidoVenda.clienteId +'-'+ this.itemVenda.id
         return super.validate(dto, user)
