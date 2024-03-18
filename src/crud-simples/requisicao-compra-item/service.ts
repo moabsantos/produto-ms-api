@@ -116,7 +116,7 @@ export class RequisicaoCompraItemService extends BaseCrudService{
             
             if (element.statusItem == statusOrigem){
 
-                await this.repo.save({
+                await this.updateRepoId(req, user, {
                     id: element.id, 
                     statusItem: statusDestino, 
                     dataAprovacao: new Date(),

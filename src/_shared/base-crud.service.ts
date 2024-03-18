@@ -45,7 +45,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
     async validate(dto, user: number): Promise<any>{
 
         if (!dto.id && !dto.name){
-            return this.getMessage(null, user, this, {status: false, message: "Id e nome não informado"})
+            return this.getMessage(null, user, this, {status: false, error: true, message: "Id e nome não informado"})
         }
 
         return super.validate(dto, user)
@@ -53,7 +53,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
     async validateId(service: BaseCrudService, id: any, user: any): Promise<any>{
 
-        if (!id) return this.getMessage(null, user, this, {status: false, message: "Id informado"})
+        if (!id) return this.getMessage(null, user, this, {status: false, error: true, message: "Id não informado"})
 
         const listService = await service.findByWhere({
             id: id,
@@ -61,7 +61,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         })
 
         if (listService.length == 0){
-            return this.getMessage(null, user, this, {status: false, message: "Id informado não é válido"})
+            return this.getMessage(null, user, this, {status: false, error: true, message: "Id informado não é válido"})
         }
 
         return listService[0]
@@ -73,7 +73,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
         let modelRepo = await this.repo.findOne({where:{name:dto.name, realmId: user.realmId}})
         
-        if(modelRepo && (!dto.id || dto.id != modelRepo.id)) return {status: true, message: "Cadastro localizado para o usuário"}
+        if(modelRepo && (!dto.id || dto.id != modelRepo.id)) return {status: true, error: true, message: "Cadastro localizado para o usuário"}
 
         return {status: false, message: "Duplicação não encontrada"}
     }
@@ -95,7 +95,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         if (!roler) return {status: true}
 
         roler.forEach(f => {
-            if (!dto[f.name]) return this.getMessage(null, null, this, {status: false, message: `${f.name} sem valor informado`})
+            if (!dto[f.name]) return this.getMessage(null, null, this, {status: false, error: true, message: `${f.name} sem valor informado`})
         });
 
         return {status: true}
@@ -103,7 +103,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
     async validateModelsRequired(dto: any, user: any): Promise<any>{
 
-        if (!this.modelsRequired) return this.getMessage(null, user, this, {status: false, message: "modelsRequired não encontrado"})
+        if (!this.modelsRequired) return this.getMessage(null, user, this, {status: false, error: true, message: "modelsRequired não encontrado"})
 
         if (this.modelsRequired.length == 0) return this.getMessage(null, user, this, {status: true, message: "Não encontrado modelsRequired para validar"})
 
@@ -124,7 +124,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
             
             d.objeto = await this.validateId(d.service, idDto, user)
 
-            if (!d.objeto) return this.getMessage(null, user, this, {status: false, message: `O id ${idDto} informado no atributo ${d.fieldName}Id não é válido`})
+            if (!d.objeto) return this.getMessage(null, user, this, {status: false, error: true, message: `O id ${idDto} informado no atributo ${d.fieldName}Id não é válido`})
 
             this[d.fieldName] = d.objeto
 
@@ -210,7 +210,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
         itens[0].idUserSelecao = itens[0].idUserSelecao == 0 ? user.userId : 0
 
-        const item = await this.repo.save({id: itens[0].id, idUserSelecao: itens[0].idUserSelecao})
+        const item = await this.updateRepoId(req, user, {id: itens[0].id, idUserSelecao: itens[0].idUserSelecao})
 
         return {id: item.id, idUserSelecao: item.idUserSelecao}
 

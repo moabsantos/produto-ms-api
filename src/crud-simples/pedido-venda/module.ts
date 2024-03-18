@@ -16,6 +16,7 @@ import { PrioridadeModule } from "../prioridade/module";
 import { PedidoStatusModule } from "../pedido-status/module";
 import { EmpresaModule } from "../empresa/module";
 import { FormaPagamentoModule } from "../forma-pagamento/module";
+import { DepositoModule } from "../deposito/module";
 
 @Module({
     imports: [
@@ -27,6 +28,7 @@ import { FormaPagamentoModule } from "../forma-pagamento/module";
         ClienteModule,
         ClienteEstabelecimentoModule,
         PrioridadeModule,
+        DepositoModule,
         FormaPagamentoModule,
         
         BaseCrudModule

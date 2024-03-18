@@ -36,11 +36,11 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
     async validate(dto: any, user: any): Promise<any>{
 
-        if (!user) return this.getMessage(null, user, this, {status: false, message: "Login é exigido"})
+        if (!user) return this.getMessage(null, user, this, {status: false, error: true, message: "Login é exigido"})
 
-        if (!user.userId) this.getMessage(null, user, this, {status: false, message: "Id do Login é exigido"})
+        if (!user.userId) this.getMessage(null, user, this, {status: false, error: true, message: "Id do Login é exigido"})
 
-        if (!user.realmId) this.getMessage(null, user, this, {status: false, message: "Realm é exigido"})
+        if (!user.realmId) this.getMessage(null, user, this, {status: false, error: true, message: "Realm é exigido"})
 
         if (!dto.id) return user.hasPermissao(this.roleService.create)
         if (dto.id) return user.hasPermissao(this.roleService.update)
@@ -51,7 +51,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
     async foundDuplicated(dto: any, user: any): Promise<any>{
 
-        return {status: false, message: "Custom DTO"}
+        return {status: false, error: true, message: "Custom DTO"}
     }
 
     getDataFromDto(dto: any, user: any, model: BaseModel){
@@ -75,7 +75,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
   
         if (userHasPermissao == false || userHasPermissao.status == false){
             return this.getMessage(req, user, this, {
-                status: false,
+                status: false, error: true,
                 message: "Usuário "+ user.id +" não autorizado ("+this.roleService.get+") a esta busca no contexto "+ user.realmId,
                 data: []
             })
@@ -202,12 +202,11 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         const validated = await this.validate(dto, user)
 
-        if (validated == false) return this.getMessage(req, user, this, {status: false, message: "Id e nome não informado"})
+        if (validated == false) return this.getMessage(req, user, this, {status: false, error: true, message: "Id e nome não informado"})
 
         if (validated != true && !validated.status) return validated
 
         const checkDuplicacao = await this.foundDuplicated(dto, user)
-
         if (checkDuplicacao.status || checkDuplicacao.error) return checkDuplicacao
 
         let modelRepo: BaseModel
@@ -225,7 +224,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         
         
         modelRepo = this.getDataFromDto(dto, user, modelRepo)
-        modelRepo = await this.repo.save(modelRepo)
+        modelRepo = modelRepo.id ? await this.updateRepoId(req, user, modelRepo) : await this.repo.save(modelRepo)
 
         this.afterSave(req, dto, user, modelRepo)
 
@@ -240,10 +239,11 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
     }
 
-    async updateRepo(req: CrudRequest, user: any, payload: any) {
+    async updateRepoId(req: CrudRequest, user: any, payload: any) {
 
         payload.updated_at = new Date()
-        await this.repo.save(payload)
+        await this.repo.update({id: payload.id}, payload)
+        return payload
     }
 
 
@@ -274,7 +274,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         modelFound.data[0].deleted_at = new Date()
         modelFound.data[0].deleted_by = user.userId
 
-        await this.repo.save(modelFound.data[0])
+        await this.updateRepoId(req, user, modelFound.data[0])
         
         return modelFound.data[0].id
     }
@@ -310,7 +310,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         modelFound.data[0].updated_at = new Date()
         modelFound.data[0].updated_by = user.userId
 
-        await this.repo.save(modelFound.data[0])
+        await this.updateRepoId(req, user, modelFound.data[0])
         
         return modelFound.data[0].id
     }

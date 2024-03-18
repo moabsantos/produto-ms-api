@@ -12,6 +12,7 @@ import { PedidoVendaItemService } from "./service";
 import { PedidoVendaItemUserService } from "./crud-user.service";
 import { PedidoVendaModule } from "../pedido-venda/module";
 import { ProdutoModule } from "../produto/module";
+import { DepositoRequisicaoModule } from "../deposito-requisicao/module";
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { ProdutoModule } from "../produto/module";
 
         PedidoVendaModule,
         ProdutoModule,
+        DepositoRequisicaoModule,
         
         TypeOrmModule.forFeature([PedidoVendaItem, PedidoVendaItemUser]),
         BaseCrudModule

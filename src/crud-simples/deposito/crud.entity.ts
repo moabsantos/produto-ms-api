@@ -46,6 +46,15 @@ export class Deposito extends BaseModelCrud {
     flagBaixaEstoque: number;
 
     @Column({default: 0})
+    flagProducao: number;
+
+    @Column({default: 0})
     flagAjusteInventario: number;
+
+    @Column({default: 0})
+    flagFornecedor: number;
+
+    @Column({default: 0})
+    flagCliente: number;
 
 }

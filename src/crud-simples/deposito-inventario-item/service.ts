@@ -224,7 +224,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
 
             i.status = 'Aprovado'
 
-            await this.repo.save(i)
+            await this.updateRepoId(req, user, i)
         }
         
         return {}
@@ -259,7 +259,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
             i.quantidadeContagem = param.quantidadeContagem
             i.status = 'Em Contagem'
 
-            await this.repo.save(i)
+            await this.updateRepoId(req, user, i)
         }
         
         return {}
@@ -275,15 +275,15 @@ export class DepositoInventarioItemService extends BaseCrudService{
         const inventario = await this.inventarioServ['repo'].find({where: {id: param.depositoInventarioId, realmId: user.realmId}})
         if (!inventario || inventario.length != 1) return {}
 
-        if (inventario[0].status != 'Aprovado' && inventario[0].status != 'Em Contagem') return this.getMessage(req, user, this, {status: false, message: "Status diferente de Aprovado e Em Contagem"})
+        if (inventario[0].status != 'Aprovado' && inventario[0].status != 'Em Contagem') return this.getMessage(req, user, this, {status: false, error: true, message: "Status diferente de Aprovado e Em Contagem"})
 
         this.inventarioServ['repo'].save(inventario[0])
 
         const depContagem = await this.depositoServ['repo'].find({where:{realmId: inventario[0].realmId, id: inventario[0].depositoId}})
-        if (!depContagem || depContagem.length != 1) return this.getMessage(req, user, this, {status: false, message: "Não encontrados o Depósito da Contagem"})
+        if (!depContagem || depContagem.length != 1) return this.getMessage(req, user, this, {status: false, error: true, message: "Não encontrados o Depósito da Contagem"})
 
         const depInventario = await this.depositoServ['repo'].find({where:{realmId: inventario[0].realmId, id: inventario[0].depositoInventarioId}})
-        if (!depInventario || depInventario.length != 1) return this.getMessage(null, user, this, {status: false, message: "Não encontrado o Depósito do Inventário"})
+        if (!depInventario || depInventario.length != 1) return this.getMessage(null, user, this, {status: false, error: true, message: "Não encontrado o Depósito do Inventário"})
 
         const itensInventario = await this.repo.find({where:{
             realmId: inventario[0].realmId,
@@ -331,7 +331,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
             })
             
             i.status = 'Finalizado'
-            await this.repo.save(i)
+            await this.updateRepoId(req, user, i)
         }
 
         await this.finalizarContagem(req, user, {depositoInventarioId: param.depositoInventarioId})

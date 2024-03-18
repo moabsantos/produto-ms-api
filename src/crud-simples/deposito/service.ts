@@ -28,21 +28,28 @@ export class DepositoService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: Deposito){
 
-        model = this.getDataModelsFromDto(model)
-        
-        model.sigla = dto.sigla
+        model = this.getModelFromInputs(model, dto, [
+            'sigla', 'flagPrincipal', 'flagBaixaEstoque', 'flagProducao', 'flagAjusteInventario', 'flagFornecedor', 'flagCliente'])
 
-        model.flagPrincipal = dto.flagPrincipal
-        model.flagBaixaEstoque = dto.flagBaixaEstoque
-        model.flagAjusteInventario = dto.flagAjusteInventario
+        model = this.getDataModelsFromDto(model)
         
         return super.getDataFromDto(dto, user, model)
     }
 
     async validate(dto: any, user: any): Promise<boolean>{
 
+        const checkFields = this.validateFieldsRequireds([
+            {name: "dataSolicitacao"}, {name: "flagPrincipal"}
+            , {name: "flagBaixaEstoque"}, {name: "flagAjusteInventario"}
+            , {name: "flagFornecedor"}, {name: "flagCliente"}
+            , {name: "flagProducao"}]
+        , dto)
+
+        if (!checkFields.status) return checkFields
+
         const dtoValid = await this.validateModelsRequired(dto, user)
-        if (!dtoValid) return false
+        
+        if (!dtoValid.status) return dtoValid
 
         return super.validate(dto, user)
     }

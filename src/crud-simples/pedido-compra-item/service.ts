@@ -130,7 +130,7 @@ export class PedidoCompraItemService extends BaseCrudService{
             
             if (element.statusItem == 'Pendente'){
 
-                await this.repo.save({id: element.id, statusItem: 'Aprovado', dataAprovacao: new Date()})
+                await this.updateRepoId(req, user, {id: element.id, statusItem: 'Aprovado', dataAprovacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -185,7 +185,7 @@ export class PedidoCompraItemService extends BaseCrudService{
             
             if (element.statusItem == 'Aprovado'){
 
-                await this.repo.save({id: element.id, statusItem: 'Pendente', dataAprovacao: new Date()})
+                await this.updateRepoId(req, user, {id: element.id, statusItem: 'Pendente', dataAprovacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -240,7 +240,7 @@ export class PedidoCompraItemService extends BaseCrudService{
             
             if (element.statusItem == 'Aprovado'){
 
-                await this.repo.save({id: element.id, statusItem: 'Faturado', dataSeparacao: new Date()})
+                await this.updateRepoId(req, user, {id: element.id, statusItem: 'Faturado', dataSeparacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -294,7 +294,7 @@ export class PedidoCompraItemService extends BaseCrudService{
             
             if (element.statusItem == 'Faturado'){
 
-                await this.repo.save({id: element.id, statusItem: 'Aprovado', dataSeparacao: new Date()})
+                await this.updateRepoId(req, user, {id: element.id, statusItem: 'Aprovado', dataSeparacao: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -348,7 +348,7 @@ export class PedidoCompraItemService extends BaseCrudService{
             
             if (element.statusItem == 'Faturado'){
 
-                await this.repo.save({id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Recebido', dataEntrega: new Date()})
+                await this.updateRepoId(req, user, {id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Recebido', dataEntrega: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -403,7 +403,7 @@ export class PedidoCompraItemService extends BaseCrudService{
             
             if (element.statusItem == 'Recebido'){
 
-                await this.repo.save({id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Faturado', dataEntrega: new Date()})
+                await this.updateRepoId(req, user, {id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Faturado', dataEntrega: new Date()})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -458,7 +458,7 @@ export class PedidoCompraItemService extends BaseCrudService{
             
             if (element.statusItem == 'Recebido'){
 
-                await this.repo.save({id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Enderecado'})
+                await this.updateRepoId(req, user, {id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Enderecado'})
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
@@ -515,7 +515,7 @@ export class PedidoCompraItemService extends BaseCrudService{
             
             if (element.statusItem == 'Pendente'){
 
-                await this.repo.save({id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Cancelado'})
+                await this.updateRepoId(req, user, {id: element.id, quantidadeEntregue: Number(element.quantidadeSolicitada), statusItem: 'Cancelado'})
 
             }
         }

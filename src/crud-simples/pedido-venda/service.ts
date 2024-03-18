@@ -8,6 +8,7 @@ import { ClienteEstabelecimentoService } from "../cliente-estabelecimento/servic
 import { PrioridadeService } from "../prioridade/service";
 import { EmpresaService } from "../empresa/service";
 import { FormaPagamentoService } from "../forma-pagamento/service";
+import { DepositoService } from "../deposito/service";
 
 export class PedidoVendaService extends BaseCrudService{
 
@@ -24,6 +25,7 @@ export class PedidoVendaService extends BaseCrudService{
         private clienteServ: ClienteService,
         private estabelecimentoServ: ClienteEstabelecimentoService,
         private formaPagamentoServ: FormaPagamentoService,
+        private depositoServ: DepositoService,
         private prioridadeServ: PrioridadeService)
     {
         super(repo, repoUser)
@@ -37,14 +39,19 @@ export class PedidoVendaService extends BaseCrudService{
 
         this.modelsRequired = [
             {fieldName: 'empresa', service: this.empresaServ, fields: ['id', 'name', 'sigla']},
+            
             {fieldName: 'cliente', service: this.clienteServ, fields: ['id', 'name', 'sigla']},
             {fieldName: 'clienteEstabelecimento', service: this.estabelecimentoServ, fields: ['id', 'code', 'name']},
             {fieldName: '', service: this.estabelecimentoServ, fields:[
                 'cnpj', 'inscricaoEstadual', 'email', 'telefone', 
                 'endereco', 'numero', 'bairro',
                 'cidadeId', 'cidadeName', 'cidadeSigla'], fieldKey: 'clienteEstabelecimentoId', optional: true},
+
             {fieldName: 'prioridade', service: this.prioridadeServ, fields: ['id', 'code', 'name', 'sequencia', 'cor']},
-            {fieldName: 'formaPagamento', service: this.formaPagamentoServ, fields: ['id', 'code', 'name', 'sigla']}
+            {fieldName: 'formaPagamento', service: this.formaPagamentoServ, fields: ['id', 'code', 'name', 'sigla']},
+
+            {fieldName: 'depositoOrigem', service: this.depositoServ, fields: ['id', 'code', 'name', 'sigla', 'description']},
+            {fieldName: 'depositoDestino', service: this.depositoServ, fields: ['id', 'code', 'name', 'sigla', 'description']}
         ]
     }
 

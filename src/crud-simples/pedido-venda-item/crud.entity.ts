@@ -100,4 +100,37 @@ export class PedidoVendaItem extends BaseModelCrud {
 
     @Column({default: 'Pendente'})
     statusItem: string;
+
+
+
+    @Column()
+    depositoOrigemId: number;
+
+    @Column()
+    depositoOrigemCode: string;
+
+    @Column()
+    depositoOrigemName: string;
+
+    @Column({nullable: true})
+    depositoOrigemSigla: string;
+
+    @Column({nullable: true})
+    depositoOrigemDescription: string;
+
+
+    @Column()
+    depositoDestinoId: number;
+
+    @Column()
+    depositoDestinoCode: string;
+
+    @Column()
+    depositoDestinoName: string;
+
+    @Column({nullable: true})
+    depositoDestinoSigla: string;
+
+    @Column({nullable: true})
+    depositoDestinoDescription: string;
 }
