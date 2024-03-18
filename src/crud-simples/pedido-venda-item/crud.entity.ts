@@ -2,7 +2,7 @@ import { BaseModelCrud } from "src/_shared/base-model-crud.entity";
 import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
-@Unique("uniq_name", ["name", "realmId"])
+@Unique("uniq_name", ["sequencia", "name", "realmId"])
 export class PedidoVendaItem extends BaseModelCrud {
 
     @Column()
@@ -48,6 +48,9 @@ export class PedidoVendaItem extends BaseModelCrud {
     cidadeSigla: string;
 
 
+    @Column({default: 1})
+    sequencia: number;
+
     @Column()
     itemVendaId: number;
 
@@ -64,6 +67,9 @@ export class PedidoVendaItem extends BaseModelCrud {
 
     @Column()
     unidadeMedidaId: number;
+
+    @Column()
+    unidadeMedidaCode: string;
 
     @Column()
     unidadeMedidaName: string;
@@ -86,7 +92,13 @@ export class PedidoVendaItem extends BaseModelCrud {
     percentDescontoItem: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    valorDescontoItem: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorItem: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    valorSubTotalItem: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorTotalItem: number;

@@ -13,6 +13,7 @@ import { PedidoVendaItemUserService } from "./crud-user.service";
 import { PedidoVendaModule } from "../pedido-venda/module";
 import { ProdutoModule } from "../produto/module";
 import { DepositoRequisicaoModule } from "../deposito-requisicao/module";
+import { UnidadeMedidaModule } from "../unidade-medida/module";
 
 @Module({
     imports: [
@@ -21,6 +22,7 @@ import { DepositoRequisicaoModule } from "../deposito-requisicao/module";
 
         PedidoVendaModule,
         ProdutoModule,
+        UnidadeMedidaModule,
         DepositoRequisicaoModule,
         
         TypeOrmModule.forFeature([PedidoVendaItem, PedidoVendaItemUser]),

@@ -8,6 +8,7 @@ import { ProdutoService } from "../produto/service";
 import e from "express";
 import { endWith } from "rxjs";
 import { DepositoRequisicaoService } from "../deposito-requisicao/service";
+import { UnidadeMedidaService } from "../unidade-medida/service";
 
 export class PedidoVendaItemService extends BaseCrudService{
 
@@ -19,6 +20,7 @@ export class PedidoVendaItemService extends BaseCrudService{
         @InjectRepository(PedidoVendaItem) protected repo,
         @InjectRepository(PedidoVendaItemUser) protected repoUser,
         private pedidoVendaServ: PedidoVendaService,
+        private unidadeMedidaServ: UnidadeMedidaService,
         private depositoRequisicaoServ: DepositoRequisicaoService,
         private itemVendaServ: ProdutoService)
     {
@@ -33,7 +35,7 @@ export class PedidoVendaItemService extends BaseCrudService{
 
         this.modelsRequired = [
             {fieldKey: 'pedidoVendaId', fieldName: 'pedidoVenda', service: this.pedidoVendaServ, fields: [
-                'id', 'clienteName', 'clienteSigla']},
+                'id']},
 
             {fieldKey: 'pedidoVendaId', fieldName: '', service: this.pedidoVendaServ, fields: [
                 'clienteId', 'clienteName', 'clienteSigla',
@@ -45,30 +47,46 @@ export class PedidoVendaItemService extends BaseCrudService{
                 'depositoOrigemId', 'depositoOrigemCode', 'depositoOrigemName', 'depositoOrigemSigla', 'depositoOrigemDescription', 
                 'depositoDestinoId', 'depositoDestinoCode', 'depositoDestinoName', 'depositoDestinoSigla', 'depositoDestinoDescription']},
 
+            {fieldKey: 'unidadeMedidaId', fieldName: 'unidadeMedida', service: this.unidadeMedidaServ, fields: [
+                'id', 'code', 'name', 'sigla']},
+
             {fieldKey: 'itemVendaId', fieldName: 'itemVenda', service: this.itemVendaServ, fields: [
                 'id', 'name', 'sigla', 'description']},
         ]
     }
 
-getDataFromDto(dto: any, user: any, model: PedidoVendaItem){
+    getDataFromDto(dto: any, user: any, model: PedidoVendaItem){
 
-        model = this.getDataModelsFromDto(model)
+        if (model.statusItem == 'Pendente' || !model.statusItem) {
+            model = this.getDataModelsFromDto(model)
 
-        model = this.getModelFromInputs(model, dto, [
-            'quantidadeSolicitada', 'valorInicialItem', 'percentDescontoItem'])
+            model = this.getModelFromInputs(model, dto, [
+                'sequencia', 'quantidadeSolicitada', 'valorInicialItem', 'percentDescontoItem'])
 
-        model.valorItem = dto.valorInicialItem * (1 - (dto.percentDescontoItem/100));
-        model.valorTotalItem = model.valorItem * model.quantidadeSolicitada;
+            let subTotal = Number(dto.valorInicialItem) * Number(model.quantidadeSolicitada)
+            subTotal = Math.trunc( ( subTotal * 100 ) + .5) / 100 
+            model.valorSubTotalItem = subTotal
+
+            let valorDesconto = dto.percentDescontoItem && dto.percentDescontoItem > 0 ? ( subTotal / 100 ) * dto.percentDescontoItem : 0
+            valorDesconto = Math.trunc( ( valorDesconto * 100 ) + .5) / 100 
+            model.valorDescontoItem = valorDesconto
+
+            model.valorTotalItem = subTotal - valorDesconto
+
+        }
 
         return super.getDataFromDto(dto, user, model)
     }
 
     async validate(dto: any, user: any): Promise<boolean>{
         
+        const checkFields = this.validateFieldsRequireds([{name: "sequencia"}], dto)
+        if (!checkFields.status) return checkFields
+
         const dtoValid = await this.validateModelsRequired(dto, user)
         if (!dtoValid.status) return dtoValid
 
-        dto.name = this.pedidoVenda.id +'-'+ this.pedidoVenda.clienteId +'-'+ this.itemVenda.id
+        dto.name = this.pedidoVenda.id +'-'+ this.pedidoVenda.clienteId +'-'+ dto.sequencia +'-'+ this.itemVenda.id
         return super.validate(dto, user)
 
     }
@@ -83,23 +101,22 @@ getDataFromDto(dto: any, user: any, model: PedidoVendaItem){
         let qtdTotal = 0
         let valorDesconto = 0
         let valorTotal = 0
+        let subTotal = 0
 
         itensVenda.forEach(element => {
-            qtdTotal = qtdTotal + element['quantidadeSolicitada']
-            valorDesconto = valorDesconto + (qtdTotal * (element['valorInicialItem'] - element['valorItem'])) 
-            valorTotal = valorTotal + element['valorTotalItem']
+            qtdTotal = qtdTotal + Number(element['quantidadeSolicitada'])
+            subTotal = subTotal + Number(element['valorSubTotalItem'])
+            valorDesconto = valorDesconto + Number(element['valorDescontoItem'])
+            valorTotal = valorTotal + Number(element['valorTotalItem'])
         });
 
-        const pedidoVenda = await this.pedidoVendaServ.findByWhere({
+        await this.pedidoVendaServ.updateRepoId(req, user, {
             id: dto.pedidoVendaId,
-            realmId: user.realmId
+            quantidadeItens: qtdTotal,
+            valorSubTotalItem: subTotal,
+            valorDesconto: valorDesconto,
+            valorTotal: valorTotal
         })
-
-        pedidoVenda[0]['quantidadeItens'] = qtdTotal
-        pedidoVenda[0]['valorDesconto'] = valorDesconto
-        pedidoVenda[0]['valorTotal'] = valorTotal
-
-        this.pedidoVendaServ.save(req, user, pedidoVenda[0])
 
         return super.afterSave(req, dto, user, model)
     }
@@ -137,7 +154,7 @@ getDataFromDto(dto: any, user: any, model: PedidoVendaItem){
 
     async beforeMudaStatusItem(req: any, user: any, dto: any) {
 
-        if (dto.statusItemOrigem == '' && dto.statusItemDestino == '') this.movimentaItens(req, user, {
+        if (dto.statusItemOrigem == '*' && dto.statusItemDestino == '*') this.movimentaItens(req, user, {
 
         })
 
@@ -149,7 +166,7 @@ getDataFromDto(dto: any, user: any, model: PedidoVendaItem){
         if (obj.statusItem != dto.statusItemOrigem) return this.getMessage(req, user, this, {status: false, error: true, message: `Item não está no status origem [${dto.statusItemOrigem}]`})
 
         await this.beforeMudaStatusItem(req, user, dto)
-
+        console.log({id: obj.id, statusItem: dto.statusItemDestino})
         await this.updateRepoId(req, user, {id: obj.id, statusItem: dto.statusItemDestino})
     }
 
@@ -158,6 +175,7 @@ getDataFromDto(dto: any, user: any, model: PedidoVendaItem){
         if (this.listStatus.indexOf(dto.statusItemDestino) < 0) return this.getMessage(req, user, this, {status: false, error: true, message: `Status Destino Inválido [${dto.statusItemDestino}]`})
 
         let itens = await this.getLista(req, user, {pedidoVendaId: dto.pedidoVendaId, idUserSelecao: user.id, statusItem: dto.statusItemOrigem})
+
         for (let index = 0; index < itens.length; index++) {
             const element = itens[index];
 
