@@ -73,7 +73,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
         let modelRepo = await this.repo.findOne({where:{name:dto.name, realmId: user.realmId}})
         
-        if(modelRepo && (!dto.id || dto.id != modelRepo.id)) return {status: true, error: true, message: `Cadastro localizado para o usuário [${dto.name}]`}
+        if(modelRepo && (!dto.id || dto.id != modelRepo.id)) return {status: true, error: true, message: `Cadastro localizado para o usuário [${dto.name}, ${dto.id}, ${modelRepo.id}]`}
 
         return {status: false, message: "Duplicação não encontrada"}
     }

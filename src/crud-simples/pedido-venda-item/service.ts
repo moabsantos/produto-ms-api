@@ -104,10 +104,12 @@ export class PedidoVendaItemService extends BaseCrudService{
         let subTotal = 0
 
         itensVenda.forEach(element => {
-            qtdTotal = qtdTotal + Number(element['quantidadeSolicitada'])
-            subTotal = subTotal + Number(element['valorSubTotalItem'])
-            valorDesconto = valorDesconto + Number(element['valorDescontoItem'])
-            valorTotal = valorTotal + Number(element['valorTotalItem'])
+            if (element['statusItem'] != 'Pendente' && element['statusItem'] != 'Cancelado') {
+                qtdTotal = qtdTotal + Number(element['quantidadeSolicitada'])
+                subTotal = subTotal + Number(element['valorSubTotalItem'])
+                valorDesconto = valorDesconto + Number(element['valorDescontoItem'])
+                valorTotal = valorTotal + Number(element['valorTotalItem'])
+            }
         });
 
         await this.pedidoVendaServ.updateRepoId(req, user, {
@@ -166,7 +168,7 @@ export class PedidoVendaItemService extends BaseCrudService{
         if (obj.statusItem != dto.statusItemOrigem) return this.getMessage(req, user, this, {status: false, error: true, message: `Item não está no status origem [${dto.statusItemOrigem}]`})
 
         await this.beforeMudaStatusItem(req, user, dto)
-        console.log({id: obj.id, statusItem: dto.statusItemDestino})
+
         await this.updateRepoId(req, user, {id: obj.id, statusItem: dto.statusItemDestino})
     }
 
