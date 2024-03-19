@@ -42,8 +42,8 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         if (!user.realmId) this.getMessage(null, user, this, {status: false, error: true, message: "Realm é exigido"})
 
-        if (!dto.id) return user.hasPermissao(this.roleService.create)
-        if (dto.id) return user.hasPermissao(this.roleService.update)
+        if (!dto.id) return await user.hasPermissao(this.roleService.create)
+        if (dto.id) return await user.hasPermissao(this.roleService.update)
 
         return this.getMessage(null, user, this, {status: true, message: "validação ok"})
         

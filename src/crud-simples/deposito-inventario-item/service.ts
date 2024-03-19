@@ -200,7 +200,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
 
     async iniciarInventario(req: CrudRequest, user: any, param: any): Promise<any>{
 
-        const checkPermissao = user.hasPermissao('sup-deposito-inventario-iniciar')
+        const checkPermissao = await user.hasPermissao('sup-deposito-inventario-iniciar')
         if (!checkPermissao.status) return checkPermissao
         
         await this.importarSaldo(req, user, param)
@@ -233,7 +233,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
 
     async informarContagem(req: CrudRequest, user: any, param: any): Promise<any>{
 
-        const checkPermissao = user.hasPermissao('sup-deposito-inventario-contagem')
+        const checkPermissao = await user.hasPermissao('sup-deposito-inventario-contagem')
         if (!checkPermissao.status) return checkPermissao
         
         await this.importarSaldo(req, user, param)
@@ -269,7 +269,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
 
     async aplicarContagem(req: CrudRequest, user: any, param: any): Promise<any>{
 
-        const checkPermissao = user.hasPermissao('sup-deposito-inventario-processar')
+        const checkPermissao = await user.hasPermissao('sup-deposito-inventario-processar')
         if (!checkPermissao.status) return checkPermissao
 
         const inventario = await this.inventarioServ['repo'].find({where: {id: param.depositoInventarioId, realmId: user.realmId}})

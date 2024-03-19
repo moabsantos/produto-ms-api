@@ -42,18 +42,13 @@ export class PedidoCompraContratoService extends BaseCrudService{
             model.status = 'Pendente'
             model = this.getDataModelsFromDto(model)
 
-            model.numeroDocumento = dto.numeroDocumento
-            model.dataDocumento = dto.dataDocumento
+            model = this.getModelFromInputs(model, dto, [
+                'numeroDocumento', 'dataDocumento', 
+                'qtdParcelas', 'primeiroVencimento',
 
-            model.qtdParcelas = dto.qtdParcelas
-            model.primeiroVencimento = dto.primeiroVencimento
+                'valorMercadoria', 'valorServico', 'valorDesconto', 'valorDesconto',
+                'valorFrete', 'valorOutrosAcrescimos', 'valorOutrasDeducoes'])
 
-            model.valorMercadoria = dto.valorMercadoria
-            model.valorServico = dto.valorServico
-            model.valorDesconto = dto.valorDesconto
-            model.valorFrete = dto.valorFrete
-            model.valorOutrosAcrescimos = dto.valorOutrosAcrescimos
-            model.valorOutrasDeducoes = dto.valorOutrasDeducoes
             model.valorTotal = this.valorValido(Number(dto.valorMercadoria),0)
                 + this.valorValido(Number(dto.valorServico),0)
                 - this.valorValido(Number(dto.valorDesconto),0)
