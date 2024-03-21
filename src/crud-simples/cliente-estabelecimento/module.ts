@@ -12,6 +12,7 @@ import { ClienteEstabelecimentoService } from "./service";
 import { ClienteEstabelecimentoUserService } from "./crud-user.service";
 import { ClienteModule } from "../cliente/module";
 import { CidadeModule } from "../cidade/module";
+import { RepresentanteModule } from "../representante/module";
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import { CidadeModule } from "../cidade/module";
         UserModule,
         
         ClienteModule,
+        RepresentanteModule,
         CidadeModule,
 
         TypeOrmModule.forFeature([ClienteEstabelecimento, ClienteEstabelecimentoUser]),

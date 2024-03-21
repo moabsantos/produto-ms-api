@@ -9,6 +9,9 @@ export class ClienteEstabelecimento extends BaseModelCrud {
     clienteId: number;
 
     @Column()
+    clienteCode: string;
+
+    @Column()
     clienteName: string;
 
     @Column()
@@ -46,6 +49,9 @@ export class ClienteEstabelecimento extends BaseModelCrud {
     cidadeId: number;
 
     @Column({nullable: true})
+    cidadeCode: string;
+
+    @Column({nullable: true})
     cidadeName: string;
 
     @Column({nullable: true})
@@ -53,4 +59,18 @@ export class ClienteEstabelecimento extends BaseModelCrud {
 
     @Column({nullable: true})
     cidadeUfSigla: string;
+
+
+
+    @Column()
+    representanteId: number;
+
+    @Column({nullable: true})
+    representanteCode: string;
+
+    @Column({nullable: true})
+    representanteName: string;
+
+    @Column({nullable: true})
+    representanteSigla: string;
 }

@@ -5,6 +5,7 @@ import { ClienteEstabelecimento } from "./crud.entity";
 import { ClienteEstabelecimentoUser } from "./crud-user.entity";
 import { ClienteService } from "../cliente/service";
 import { CidadeService } from "../cidade/service";
+import { RepresentanteService } from "../representante/service";
 
 export class ClienteEstabelecimentoService extends BaseCrudService{
 
@@ -15,6 +16,7 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
         @InjectRepository(ClienteEstabelecimento) protected repo,
         @InjectRepository(ClienteEstabelecimentoUser) protected repoUser,
         private clienteServ: ClienteService,
+        private representanteServ: RepresentanteService,
         private cidadeServ: CidadeService)
     {
         super(repo, repoUser)
@@ -29,6 +31,7 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
         this.modelsRequired = [
             {fieldName: 'cidade', service: this.cidadeServ, fields: ['name', 'sigla', 'id', 'code', 'ufSigla']},
             {fieldName: 'cliente', service: this.clienteServ, fields: ['name', 'sigla', 'id', 'code']},
+            {fieldName: 'representante', service: this.representanteServ, fields: ['name', 'sigla', 'id', 'code']},
         ]
     }
 
