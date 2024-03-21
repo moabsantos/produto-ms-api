@@ -69,6 +69,37 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         return Promise.resolve(ids)
     }
 
+    getFieldsResumo(){
+        return []
+    }
+
+    async resumoValores(req: CrudRequest, user: any){
+
+        let retorno = {
+
+        }
+
+        const res = await this.get(req, user)
+
+        const fieldsResumo = this.getFieldsResumo()
+
+        if (res?.data && res?.data?.length > 0) res.data.forEach(element => {
+            for (let index = 0; index < fieldsResumo.length; index++) {
+                const fieldResumo = fieldsResumo[index];
+                
+                if (!retorno[fieldResumo.groupName]) retorno[fieldResumo.groupName] = {}
+
+                const valueField = element[fieldResumo.fieldName]
+                if (!retorno[fieldResumo.groupName][valueField]) retorno[fieldResumo.groupName][valueField] = 0
+
+                retorno[fieldResumo.groupName][valueField] = this.numeroFormatado({ valor: retorno[fieldResumo.groupName][valueField] + Number(element[fieldResumo.fieldValue]) })
+            }
+        });
+
+        return retorno
+
+    }
+
     async get(req: CrudRequest, user: any, id?: number): Promise<any>{
 
         const userHasPermissao = await user.hasPermissao(this.roleService.get)
@@ -159,12 +190,20 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             data: []
         }
 
-        let modelsFound = await this.getMany(req)
+        try {
+            let modelsFound = await this.getMany(req)
 
-        return {
-            msgGeral: "Resultado para filtro sem o id único",
-            data: modelsFound
+            return {
+                msgGeral: "Resultado para filtro sem o id único",
+                data: modelsFound
+            }
+        } catch (error) {
+            return {
+                msgGeral: "Esta consulta não está disponível",
+                data: []
+            }
         }
+
     }
 
 
@@ -313,6 +352,23 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         await this.updateRepoId(req, user, modelFound.data[0])
         
         return modelFound.data[0].id
+    }
+
+    numeroFormatado(dto: any){
+        if (!dto.valor) return 0
+
+        let casasDecimais = 2
+        if (dto.casasDecimais) casasDecimais = dto.casasDecimais
+
+        let fator = 1
+
+        for (let index = 1; index <= casasDecimais; index++) {
+            fator = fator * 10
+        }
+
+        const valor = (Math.trunc((dto.valor * fator) + 0.5)) / fator
+
+        return valor
     }
 
     dataFormatada(dto: any){

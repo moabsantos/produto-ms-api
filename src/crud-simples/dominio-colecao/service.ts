@@ -36,7 +36,7 @@ export class DominioColecaoService extends BaseCrudService{
     async validate(dto: any, user: any): Promise<boolean>{
 
         const dtoValid = await this.validateModelsRequired(dto, user)
-        if (!dtoValid) return false
+        if (!dtoValid || !dtoValid.status) return dtoValid
 
         dto.name = 
             'RELM_'+ user.realmId +

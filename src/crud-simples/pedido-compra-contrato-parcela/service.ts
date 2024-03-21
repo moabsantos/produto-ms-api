@@ -34,15 +34,16 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         this.modelsRequired = [
             {fieldName: 'pedidoCompra', service: this.pedidoCompraServ, fields: ['id'], optional: true},
             {fieldName: 'pedidoCompraContrato', service: this.pedidoCompraContratoServ, fields: ['id']},
-            {fieldName: 'tipoDocumento', service: this.tipoDocumentoServ, fields:['id', 'name', 'sigla']},
-            {fieldName: 'fornecedor', service: this.fornecedorServ, fields: ['id', 'name']},
-            {fieldName: 'formaPagamento', service: this.formaPagamentoServ, fields: ['id', 'name', 'sigla']}
+            {fieldName: 'tipoDocumento', service: this.tipoDocumentoServ, fields:['id', 'name', 'sigla'], getId: () => this['pedidoCompraContrato'].tipoDocumentoId},
+            {fieldName: 'fornecedor', service: this.fornecedorServ, fields: ['id', 'name'], getId: () => this['pedidoCompraContrato'].fornecedorId},
+            {fieldName: 'formaPagamento', service: this.formaPagamentoServ, fields: ['id', 'name', 'sigla'], getId: () => this['pedidoCompraContrato'].formaPagamentoId}
         ]
     }
 
     getDataFromDto(dto: any, user: any, model: PedidoCompraContratoParcela){
 
-        model = this.getModelFromInputs(model, dto, ['valorParcela', 'valorDesconto', 'valorAcrescimo'])
+        model = this.getModelFromInputs(model, dto, [
+            'numeroParcela', 'dataVencimento', 'valorParcela'])
         model = this.getDataModelsFromDto(model)
 
         const valorFinalParcela = this.valorValido(Number(dto.valorParcela),0)
@@ -58,14 +59,15 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
     async validate(dto: any, user: any): Promise<boolean>{
 
-        if (!this.validateFieldsRequireds([
+        const validateInputs = this.validateFieldsRequireds([
             {name: "valorParcela"},
             {name: "valorDesconto"},
             {name: "valorAcrescimo"}
-        ], dto)) return false
+        ], dto)
+        if (!validateInputs.status) return validateInputs
 
         const dtoValid = await this.validateModelsRequired(dto, user)
-        if (!dtoValid) return false
+        if (!dtoValid || !dtoValid.status) return dtoValid
 
         dto.name = 
             'RELM_'+ user.realmId
@@ -75,7 +77,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
         dto.name = dto.name + 
             '_Contrato_'+ this['pedidoCompraContrato'].id +
-            '_Parcela_'+ dto.parcela
+            '_Parcela_'+ dto.numeroParcela
 
         dto.code = dto.name
 
@@ -86,8 +88,8 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
     async importarParcelas(req: CrudRequest, user: any, param: any): Promise<any>{
 
         const contrato = this.pedidoCompraContratoServ.getUnico(req, user, {id: param.pedidoCompraContratoId})
-        if (!contrato) return
-        if (!contrato['status'] || contrato['status'] != 'Pendente') return
+        if (!contrato) return {status: false, error: true, message: `Contrato não localizado [${param.pedidoCompraContratoId}]`}
+        if (!contrato['status'] || contrato['status'] != 'Pendente') return 
         if (!contrato['qtdParcelas'] || Number(contrato['qtdParcelas']) < 1) return
 
         for (let numParcela = 1; numParcela < contrato['qtdParcelas']; numParcela++) {

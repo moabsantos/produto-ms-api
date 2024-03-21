@@ -15,15 +15,21 @@ import { FornecedorModule } from "../fornecedor/module";
 import { PedidoCompraModule } from "../pedido-compra/module";
 import { FormaPagamentoModule } from "../forma-pagamento/module";
 import { TipoDocumentoModule } from "../tipo-documento/module";
+import { EmpresaModule } from "../empresa/module";
+import { CentroCustoModule } from "../centro-custo/module";
+import { DespesaFinanceiraModule } from "../despesa-financeira/module";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
 
+        EmpresaModule,
         PedidoCompraModule,
         TipoDocumentoModule,
         FornecedorModule,
+        CentroCustoModule,
+        DespesaFinanceiraModule,
         FormaPagamentoModule,
 
         TypeOrmModule.forFeature([PedidoCompraContrato, PedidoCompraContratoUser]),

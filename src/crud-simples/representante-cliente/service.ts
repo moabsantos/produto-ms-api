@@ -43,7 +43,7 @@ export class RepresentanteClienteService extends BaseCrudService{
     async validate(dto: any, user: any): Promise<boolean>{
 
         const dtoValid = await this.validateModelsRequired(dto, user)
-        if (!dtoValid) return false
+        if (!dtoValid || !dtoValid.status) return dtoValid
 
         dto.name = 'REALM_'+ user.realmId +'_EMP'+ this['representante'].empresaId +'_REPR_'+ this['representante'].id +'_CLI_'+ this['cliente'].id
         dto.code = dto.name

@@ -8,7 +8,7 @@ export class PedidoCompraContratoParcela extends BaseModelCrud {
     @Column({nullable: true})
     pedidoCompraId: number;
 
-    @Column({nullable: true})
+    @Column()
     pedidoCompraContratoId: number;
 
     @Column()
@@ -41,11 +41,7 @@ export class PedidoCompraContratoParcela extends BaseModelCrud {
     dataVencimento: Date;
 
     @Column()
-    contaBaixaId: number;
-    @Column()
-    contaBaixaName: string;
-    @Column()
-    contaBaixaSigla: string;
+    dataPrimeiraBaixa: Date;
     @Column()
     dataBaixa: Date;
 

@@ -84,7 +84,7 @@ export class PedidoVendaItemService extends BaseCrudService{
         if (!checkFields.status) return checkFields
 
         const dtoValid = await this.validateModelsRequired(dto, user)
-        if (!dtoValid.status) return dtoValid
+        if (!dtoValid || !dtoValid.status) return dtoValid
 
         dto.name = this.pedidoVenda.id +'-'+ this.pedidoVenda.clienteId +'-'+ dto.sequencia +'-'+ this.itemVenda.id
         return super.validate(dto, user)

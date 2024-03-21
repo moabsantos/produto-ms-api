@@ -5,6 +5,16 @@ import { Column, Entity, Unique } from "typeorm";
 @Unique("uniq_name", ["name", "realmId"])
 export class PedidoCompraContrato extends BaseModelCrud {
 
+    @Column()
+    empresaId: number;
+
+    @Column()
+    empresaName: string;
+
+    @Column({nullable: true})
+    empresaSigla: string;
+
+
     @Column({nullable: true})
     pedidoCompraId: number;
 
@@ -20,6 +30,9 @@ export class PedidoCompraContrato extends BaseModelCrud {
     @Column()
     tipoDocumentoSigla: string;
 
+
+    @Column()
+    numeroMatricula: string;
     @Column()
     numeroDocumento: string;
     @Column()
@@ -32,10 +45,36 @@ export class PedidoCompraContrato extends BaseModelCrud {
     @Column()
     formaPagamentoSigla: string;
 
+
+    @Column()
+    centroCustoId: number;
+    @Column()
+    centroCustoName: string;
+    @Column()
+    centroCustoSigla: string;
+
+
+    @Column()
+    despesaFinanceiraId: number;
+    @Column()
+    despesaFinanceiraCode: string;
+    @Column()
+    despesaFinanceiraName: string;
+    @Column()
+    despesaFinanceiraSigla: string;
+
+
     @Column()
     qtdParcelas: number;
     @Column()
     primeiroVencimento: Date;
+
+    @Column()
+    proximaParcela: number;
+    @Column()
+    proximoVencimento: Date;
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    proximoValor: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorMercadoria: number;
@@ -61,5 +100,8 @@ export class PedidoCompraContrato extends BaseModelCrud {
 
     @Column()
     status: string;
+
+    @Column()
+    site: string;
 
 }

@@ -39,7 +39,7 @@ export class PedidoVendaService extends BaseCrudService{
 
         this.modelsRequired = [
             {fieldName: 'empresa', service: this.empresaServ, fields: ['id', 'name', 'sigla']},
-            
+
             {fieldName: 'cliente', service: this.clienteServ, fields: ['id', 'name', 'sigla']},
             {fieldName: 'clienteEstabelecimento', service: this.estabelecimentoServ, fields: ['id', 'code', 'name']},
             {fieldName: '', service: this.estabelecimentoServ, fields:[
@@ -78,7 +78,7 @@ export class PedidoVendaService extends BaseCrudService{
         if (!checkFields.status) return checkFields
 
         const dtoValid = await this.validateModelsRequired(dto, user)
-        if (!dtoValid.status) return dtoValid
+        if (!dtoValid || !dtoValid.status) return dtoValid
 
         return super.validate(dto, user)
     }

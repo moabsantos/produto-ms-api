@@ -64,6 +64,8 @@ import { PedidoCompraContratoModule } from './crud-simples/pedido-compra-contrat
 import { TipoDocumentoModule } from './crud-simples/tipo-documento/module';
 import { PedidoCompraContratoParcelaModule } from './crud-simples/pedido-compra-contrato-parcela/module';
 import { RequisicaoGrupoModule } from './crud-simples/requisicao-grupo/module';
+import { CentroCustoModule } from './crud-simples/centro-custo/module';
+import { DespesaFinanceiraModule } from './crud-simples/despesa-financeira/module';
 
 
 
@@ -132,7 +134,11 @@ import { RequisicaoGrupoModule } from './crud-simples/requisicao-grupo/module';
     PedidoCompraModule,
     PedidoCompraItemModule,
     PedidoCompraContratoModule,
-//    PedidoCompraContratoParcelaModule,
+    PedidoCompraContratoParcelaModule,
+
+
+    DespesaFinanceiraModule,
+    CentroCustoModule,
 
     CustosDiaModule,
     CustosMensaisModule,

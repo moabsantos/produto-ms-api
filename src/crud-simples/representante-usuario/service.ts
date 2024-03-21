@@ -49,7 +49,7 @@ export class RepresentanteUsuarioService extends BaseCrudService{
         if (!this['usuario']) return false
 
         const dtoValid = await this.validateModelsRequired(dto, user)
-        if (!dtoValid) return false
+        if (!dtoValid || !dtoValid.status) return dtoValid
 
         dto.name = 'REALM_'+ user.realmId +'_EMP'+ this['representante'].empresaId +'_REPR_'+ this['representante'].id +'_email_'+ dto.email
         dto.code = dto.name

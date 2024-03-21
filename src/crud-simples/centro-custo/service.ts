@@ -1,25 +1,25 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { BaseCrudService } from "src/_shared/base-crud.service";
 
-import { Deposito } from "./crud.entity";
-import { DepositoUser } from "./crud-user.entity";
+import { CentroCusto } from "./crud.entity";
+import { CentroCustoUser } from "./crud-user.entity";
 import { EmpresaService } from "../empresa/service";
 import { SetorService } from "../setor/service";
 
-export class DepositoService extends BaseCrudService{
+export class CentroCustoService extends BaseCrudService{
 
     constructor (
-        @InjectRepository(Deposito) protected repo,
-        @InjectRepository(DepositoUser) protected repoUser,
+        @InjectRepository(CentroCusto) protected repo,
+        @InjectRepository(CentroCustoUser) protected repoUser,
         private empresaServ: EmpresaService,
         private setorServ: SetorService)
     {
         super(repo, repoUser)
 
         this.setRole({
-            create: "estoque-deposito-dig",
-            update: "estoque-deposito-dig",
-            delete: "estoque-centro-custo-dig",
+            create: "custo-centro-custo-dig",
+            update: "custo-centro-custo-dig",
+            delete: "custo-centro-custo-dig",
             //get: "custo-centro-custo-cons",
         })
 
@@ -29,10 +29,10 @@ export class DepositoService extends BaseCrudService{
         ]
     }
 
-    getDataFromDto(dto: any, user: any, model: Deposito){
+    getDataFromDto(dto: any, user: any, model: CentroCusto){
 
         model = this.getModelFromInputs(model, dto, [
-            'sigla', 'flagPrincipal', 'flagBaixaEstoque', 'flagProducao', 'flagAjusteInventario', 'flagFornecedor', 'flagCliente'])
+            'sigla', 'flagProducao', 'flagGestao', 'flagIndireto'])
 
         model = this.getDataModelsFromDto(model)
         
@@ -41,12 +41,9 @@ export class DepositoService extends BaseCrudService{
 
     async validate(dto: any, user: any): Promise<boolean>{
 
-        const checkFields = this.validateFieldsRequireds([
-            {name: "dataSolicitacao"}, {name: "flagPrincipal"}
-            , {name: "flagBaixaEstoque"}, {name: "flagAjusteInventario"}
-            , {name: "flagFornecedor"}, {name: "flagCliente"}
-            , {name: "flagProducao"}]
-        , dto)
+        const checkFields = this.validateFieldsRequireds(
+            [{name: "flagGestao"}, {name: "flagIndireto"}, {name: "flagProducao"}]
+            , dto)
 
         if (!checkFields.status) return checkFields
 

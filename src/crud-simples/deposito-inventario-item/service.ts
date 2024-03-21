@@ -65,7 +65,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
     async validate(dto: any, user: any): Promise<boolean>{
 
         const dtoValid = await this.validateModelsRequired(dto, user)
-        if (!dtoValid) return false
+        if (!dtoValid || !dtoValid.status) return dtoValid
 
         dto.name = 'REALM_'+ this['empresa'].realmId +'_EMP'+ this['empresa'].id +
                    '_DEPINVENT_'+ this['depositoInventario'].id +'_DEP_'+ this['deposito'].id +
