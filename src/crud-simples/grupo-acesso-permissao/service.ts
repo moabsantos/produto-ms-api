@@ -69,7 +69,7 @@ export class GrupoAcessoPermissaoService extends BaseCrudService{
 
         const deleted = await this.repo.delete(item.data[0].id)
 
-        return {id}
+        return {status: true, error: false, id: id}
     }
 
 }

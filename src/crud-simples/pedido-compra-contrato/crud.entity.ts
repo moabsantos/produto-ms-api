@@ -69,12 +69,12 @@ export class PedidoCompraContrato extends BaseModelCrud {
     @Column()
     primeiroVencimento: Date;
 
-    @Column()
-    proximaParcela: number;
+
     @Column()
     proximoVencimento: Date;
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     proximoValor: number;
+
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorMercadoria: number;
@@ -96,6 +96,13 @@ export class PedidoCompraContrato extends BaseModelCrud {
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorTotal: number;
+
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    valorTotalPago: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    valorTotalSaldo: number;
 
 
     @Column()

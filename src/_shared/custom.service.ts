@@ -271,6 +271,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         return { success: {
             id: modelRepo.id,
+            updated_at: modelRepo.updated_at ? modelRepo.updated_at  : modelRepo.created_at,
             messages: [
                 `${this.constructor.name}:Id ${modelRepo.id} ${tipoEvento} com sucesso.`
             ]
@@ -315,7 +316,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         await this.updateRepoId(req, user, modelFound.data[0])
         
-        return modelFound.data[0].id
+        return {status: true, error: false, id: modelFound.data[0].id}
     }
 
 
@@ -351,7 +352,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         await this.updateRepoId(req, user, modelFound.data[0])
         
-        return modelFound.data[0].id
+        return {status: true, error: false, id: modelFound.data[0].id}
     }
 
     numeroFormatado(dto: any){

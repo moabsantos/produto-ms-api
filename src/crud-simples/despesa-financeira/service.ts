@@ -34,8 +34,7 @@ export class DespesaFinanceiraService extends BaseCrudService{
     async validate(dto: any, user: any): Promise<boolean>{
 
         const checkFields = this.validateFieldsRequireds([{name: "sigla"}], dto)
-
-        if (!checkFields.status) return checkFields
+        if (!checkFields || !checkFields.status) return checkFields
 
         const dtoValid = await this.validateModelsRequired(dto, user)
         if (!dtoValid || !dtoValid.status) return dtoValid

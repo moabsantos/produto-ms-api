@@ -67,4 +67,7 @@ export class PedidoCompraContratoParcela extends BaseModelCrud {
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorCredito: number;
     
+    
+    @Column()
+    status: string;
 }

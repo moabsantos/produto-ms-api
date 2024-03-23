@@ -30,4 +30,67 @@ export class PedidoCompraContratoParcelaController extends BaseCrudController{
 
         return result
     }
+
+
+    @Post('aprovar/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async aprovarFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+        let result = await this.service.aprovar(req, user, body)
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+        return result
+    }
+
+    @Post('cancelar-aprovacao/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async cancelarAprovacaoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+        let result = await this.service.cancelarAprovacao(req, user, body)
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+        return result
+    }
+
+
+    @Post('baixar/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async baixarFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+        let result = await this.service.baixar(req, user, body)
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+        return result
+    }
+
+
+    @Post('cancelar-baixa/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async cancelarBaixaFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+        let result = await this.service.cancelarBaixa(req, user, body)
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+        return result
+    }
 }

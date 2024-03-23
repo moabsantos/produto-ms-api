@@ -46,6 +46,7 @@ export class PermissaoAcessoService extends BaseCrudService{
     }
 
     async delete(req: any, user: any, id: number){
+        return null
     }
 
 }

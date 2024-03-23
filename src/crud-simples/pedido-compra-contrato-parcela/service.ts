@@ -12,6 +12,8 @@ import { CrudRequest } from "@nestjsx/crud";
 
 export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
+    listStatus = ['Pendente', 'Aprovado', 'Baixado']
+
     constructor (
         @InjectRepository(PedidoCompraContratoParcela) protected repo,
         @InjectRepository(PedidoCompraContratoParcelaUser) protected repoUser,
@@ -42,17 +44,23 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: PedidoCompraContratoParcela){
 
-        model = this.getModelFromInputs(model, dto, [
-            'numeroParcela', 'dataVencimento', 'valorParcela'])
-        model = this.getDataModelsFromDto(model)
+        if (!model.status || model.status == 'Pendente') {
 
-        const valorFinalParcela = this.valorValido(Number(dto.valorParcela),0)
-            - this.valorValido(Number(dto.valorDesconto),0)
-            - this.valorValido(Number(dto.valorAcrescimo),0)
+            if (!model.status) model.status = 'Pendente'
 
-        model.valorSaldo = valorFinalParcela - this.valorValido(Number(dto.valorPago),0)
-        if (model.valorSaldo < 0) model.valorCredito = model.valorSaldo * -1
-        if (model.valorSaldo < 0) model.valorSaldo  = 0
+            model = this.getModelFromInputs(model, dto, [
+                'numeroParcela', 'dataVencimento', 'valorParcela', 'valorDesconto', 'valorAcrescimo'])
+            model = this.getDataModelsFromDto(model)
+
+            const valorFinalParcela = this.valorValido(Number(dto.valorParcela),0)
+                - this.valorValido(Number(dto.valorDesconto),0)
+                - this.valorValido(Number(dto.valorAcrescimo),0)
+
+            model.valorSaldo = valorFinalParcela - this.valorValido(Number(dto.valorPago),0)
+            if (model.valorSaldo < 0) model.valorCredito = model.valorSaldo * -1
+            if (model.valorSaldo < 0) model.valorSaldo  = 0
+
+        }
 
         return super.getDataFromDto(dto, user, model)
     }
@@ -72,8 +80,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         dto.name = 
             'RELM_'+ user.realmId
 
-        if (this['pedidoCompra']) dto.name = dto.name + 
-            '_PEDCOMP_'+ this['pedidoCompra'].id
+        if (this['pedidoCompra'] && this['pedidoCompra'].id) dto.name = dto.name + '_PEDCOMP_'+ this['pedidoCompra'].id
 
         dto.name = dto.name + 
             '_Contrato_'+ this['pedidoCompraContrato'].id +
@@ -87,26 +94,169 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
     async importarParcelas(req: CrudRequest, user: any, param: any): Promise<any>{
 
-        const contrato = this.pedidoCompraContratoServ.getUnico(req, user, {id: param.pedidoCompraContratoId})
+        const contrato = await this.pedidoCompraContratoServ.getUnico(req, user, {id: param.pedidoCompraContratoId})
         if (!contrato) return {status: false, error: true, message: `Contrato não localizado [${param.pedidoCompraContratoId}]`}
-        if (!contrato['status'] || contrato['status'] != 'Pendente') return 
-        if (!contrato['qtdParcelas'] || Number(contrato['qtdParcelas']) < 1) return
+        if (!contrato['status'] || contrato['status'] != 'Pendente') return {status: false, error:false, message: "Contrato não está pendente"}
+        if (!contrato['qtdParcelas'] || Number(contrato['qtdParcelas']) < 1) return {status: false, error:false, message: "Não há parcelas"}
 
-        for (let numParcela = 1; numParcela < contrato['qtdParcelas']; numParcela++) {
-            let parcelaContrato = this.getUnico(req, user, {
-                pedidoCompraContratoId: param.pedidoCompraContratoId
+        let valorTotal = 0
+        const parcelas = await this.getLista(req, user, {pedidoCompraContratoId: param.pedidoCompraContratoId})
+        parcelas.forEach(parcela => {
+            valorTotal = valorTotal + Number(parcela.valorParcela)
+        });
+
+        if (this.numeroFormatado({valor: valorTotal}) == this.numeroFormatado({valor: Number(contrato.valorTotal)})) return {status: true, error: false, message: `Valor do contrato já está refletido nas parcelas [${valorTotal}]`}
+
+        let valorSaldo = this.numeroFormatado({valor: Number(contrato.valorTotal) - valorTotal})
+        let qtdParcelas = parcelas.length
+        if (qtdParcelas == contrato['qtdParcelas'] && valorSaldo > 0) {
+
+            await this.pedidoCompraContratoServ.updateRepoId(req, user, {
+                id: param.pedidoCompraContratoId,
+                qtdParcelas: qtdParcelas +1
             })
-            
-            parcelaContrato['pedidoCompraContratoId'] = contrato['id']
 
-            parcelaContrato['numeroParcela'] = numParcela
-            parcelaContrato['dataVencimento'] = contrato['primeiroVencimento']
-            parcelaContrato['valorParcela'] = 100
+            await this.save(req, user, {
+                pedidoCompraContratoId: param.pedidoCompraContratoId,
+                dataVencimento: contrato.proximoVencimento,
+                numeroParcela: qtdParcelas+1,
+                valorParcela: valorSaldo
+            })
 
-            this.save(req, user, parcelaContrato)
+            return {status: true, error: false, message: `O Contrato recebeu atualização nas parcelas [${valorTotal}]`}
         }
 
-        return null
+        if (qtdParcelas < contrato['qtdParcelas']) {
+
+            let valorParcela = this.numeroFormatado({valor: valorSaldo / (contrato['qtdParcelas'] - qtdParcelas) })
+            qtdParcelas = qtdParcelas +1
+            
+            for (let numParcela = qtdParcelas; numParcela <= contrato['qtdParcelas']; numParcela++) {
+
+                await this.save(req, user, {
+                    pedidoCompraContratoId: param.pedidoCompraContratoId,
+                    dataVencimento: contrato.proximoVencimento,
+                    numeroParcela: numParcela,
+                    valorParcela: valorParcela
+                })
+            }
+        }
+
+        return {status: true, error:false, message: "Importação finalizada com sucesso", saldoContrato: contrato.valorTotal, saldoParcelas: valorTotal}
+    }
+
+
+    async mudaStatusItem(req: any, user: any, dto: any) {
+        const obj = await this.getById(req, user, {id: dto.id})
+
+        if (obj.status != dto.statusOrigem) return this.getMessage(req, user, this, {status: false, error: true, message: `Parcela não está no status origem [${dto.statusOrigem}]`})
+
+        await this.updateRepoId(req, user, {id: obj.id, status: dto.statusDestino})
+    }
+
+    async mudaStatusParcelas(req: any, user: any, dto: any){
+
+        if (this.listStatus.indexOf(dto.statusDestino) < 0) return this.getMessage(req, user, this, {status: false, error: true, message: `Status Destino Inválido [${dto.statusDestino}]`})
+
+        let itens = await this.getLista(req, user, {pedidoCompraContratoId: dto.pedidoCompraContratoId, idUserSelecao: user.id, status: dto.statusOrigem})
+
+        for (let index = 0; index < itens.length; index++) {
+            const element = itens[index];
+
+            await this.mudaStatusItem(req, user, {id: element['id'], statusOrigem: dto.statusOrigem, statusDestino: dto.statusDestino})
+        }
+
+        return this.calculaContrato(req, user, dto)
+    }
+
+    async aprovar(req: any, user: any, dto: any): Promise<any> {
+        return this.mudaStatusParcelas(req, user, {...dto, statusOrigem: 'Pendente', statusDestino: 'Aprovado'})
+    }
+
+    async cancelarAprovacao(req: any, user: any, dto: any): Promise<any> {
+        return this.mudaStatusParcelas(req, user, {...dto, statusOrigem: 'Aprovado', statusDestino: 'Pendente'})
+    }
+
+    async baixar(req: any, user: any, dto: any): Promise<any> {
+        return this.mudaStatusParcelas(req, user, {...dto, statusOrigem: 'Aprovado', statusDestino: 'Baixado'})
+    }
+
+    async cancelarBaixa(req: any, user: any, dto: any): Promise<any> {
+        return this.mudaStatusParcelas(req, user, {...dto, statusOrigem: 'Baixado', statusDestino: 'Aprovado'})
+    }
+
+    async afterSave(req: any, dto: any, user: any, model: PedidoCompraContratoParcela) {
+
+        await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
+
+        return await super.afterSave(req, dto, user, model)
+
+    }
+
+    async calculaContrato(req: any, user: any, dto: any): Promise<any> {
+        
+        let itens = await this.getLista(req, user, {pedidoCompraContratoId: dto.pedidoCompraContratoId, idUserSelecao: user.id})
+
+        let dataMinima = new Date()
+        dataMinima = new Date(dataMinima.getFullYear(), dataMinima.getMonth(), 1)
+
+        let valorPago =  0
+        let valorSaldo =  0
+        
+        let dataProximaFatura =  null
+        let valorProximaFatura =  0
+
+        let statusFinal = {
+            valor: dto.statusDestino,
+            pos: this.listStatus.indexOf(dto.statusDestino)
+        }
+
+        itens = await this.getLista(req, user, {pedidoCompraContratoId: dto.pedidoCompraContratoId})
+        for (let index = 0; index < itens.length; index++) {
+            const element = itens[index];
+
+            if (element.status != 'Baixado') {
+                if (!dataProximaFatura) dataProximaFatura = element.dataVencimento
+                let dataRef = new Date(dataProximaFatura.getFullYear(), dataProximaFatura.getMonth(), 1)
+                let dataRefElemento = new Date(element.dataVencimento.getFullYear(), element.dataVencimento.getMonth(), 1)
+
+                if (dataRefElemento < dataRef && dataRefElemento > dataMinima) {
+                    dataRef = dataRefElemento
+                    valorProximaFatura = 0
+                }
+
+                if (dataRefElemento <= dataRef) {
+                    if (dataRefElemento < dataRef && dataRef > dataMinima) valorProximaFatura = 0
+                    valorProximaFatura = valorProximaFatura + Number(element.valorParcela)
+
+                    dataRef = dataMinima
+                    if (dataProximaFatura > element.dataVencimento) dataProximaFatura = element.dataVencimento
+                }
+            }
+
+            if (element.status == 'Baixado') valorPago = valorPago + Number(element.valorParcela)
+            if (element.status != 'Baixado') valorSaldo = valorSaldo + Number(element.valorParcela)
+
+            if (statusFinal.pos < this.listStatus.indexOf(element.status)) statusFinal = {
+                valor: element.status,
+                pos: this.listStatus.indexOf(element.status)
+            }
+        };
+
+        this.pedidoCompraContratoServ.updateRepoId(req, user, {
+            id: dto.pedidoCompraContratoId,
+            valorTotalPago: valorPago, 
+            valorTotalSaldo: valorSaldo, 
+            status: statusFinal.valor
+        })
+
+        if (dataProximaFatura) this.pedidoCompraContratoServ.updateRepoId(req, user, {
+            id: dto.pedidoCompraContratoId,
+            proximoVencimento: dataProximaFatura, 
+            proximoValor: valorProximaFatura
+        })
+
+        return {status: true, error: false}
     }
 
 }

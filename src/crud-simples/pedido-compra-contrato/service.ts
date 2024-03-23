@@ -53,7 +53,7 @@ export class PedidoCompraContratoService extends BaseCrudService{
 
             model = this.getModelFromInputs(model, dto, [
                 'numeroMatricula', 'numeroDocumento', 'dataDocumento', 
-                'qtdParcelas', 'primeiroVencimento', 'proximaParcela', 'proximoVencimento', 'proximoValor',
+                'qtdParcelas', 'primeiroVencimento',
 
                 'valorMercadoria', 'valorServico', 'valorDesconto', 'valorDesconto',
                 'valorFrete', 'valorOutrosAcrescimos', 'valorOutrasDeducoes',
@@ -74,7 +74,6 @@ export class PedidoCompraContratoService extends BaseCrudService{
     async validate(dto: any, user: any): Promise<boolean>{
 
         const checkInputs = this.validateFieldsRequireds([
-            {name: "proximaParcela"},{name: "proximoVencimento"},{name:"proximoValor"},
             {name: "numeroDocumento"},
             {name: "dataDocumento"},
             {name: "qtdParcelas"},
