@@ -7,5 +7,8 @@ export class TipoDocumento extends BaseModelCrud {
 
     @Column()
     sigla: string;
+
+    @Column({default: 0})
+    flagParcelaRecalculaContrato: number;
     
 }

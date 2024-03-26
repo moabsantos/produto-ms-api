@@ -88,11 +88,13 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
                 const fieldResumo = fieldsResumo[index];
                 
                 if (!retorno[fieldResumo.groupName]) retorno[fieldResumo.groupName] = {}
+                const fieldName = element[fieldResumo.fieldName]
+                if (!retorno[fieldResumo.groupName][fieldName]) retorno[fieldResumo.groupName][fieldName] = {}
 
-                const valueField = element[fieldResumo.fieldName]
-                if (!retorno[fieldResumo.groupName][valueField]) retorno[fieldResumo.groupName][valueField] = 0
+                if (!retorno[fieldResumo.groupName][fieldName][fieldResumo.fieldValue]) retorno[fieldResumo.groupName][fieldName][fieldResumo.fieldValue] = 0
+                let valor = retorno[fieldResumo.groupName][fieldName][fieldResumo.fieldValue]
 
-                retorno[fieldResumo.groupName][valueField] = this.numeroFormatado({ valor: retorno[fieldResumo.groupName][valueField] + Number(element[fieldResumo.fieldValue]) })
+                retorno[fieldResumo.groupName][fieldName][fieldResumo.fieldValue] = this.numeroFormatado({ valor: valor + Number(element[fieldResumo.fieldValue]) })
             }
         });
 
@@ -372,6 +374,30 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         return valor
     }
 
+    getProximoVencimento({dataVencimento1, intervalo, proximaParcela}){
+
+        proximaParcela = proximaParcela -1
+
+        let date: Date = dataVencimento1
+        let dt = date
+        let diaM = dt.getDate()
+        let ano = dt.getFullYear()
+        let mes = dt.getMonth()+1
+
+        if (proximaParcela + mes <= 12) return this.dataFormatada({isDate: false, data: `${ano}-${proximaParcela + mes}-${diaM}`})
+
+        while (proximaParcela + mes > 12){
+            proximaParcela = proximaParcela + mes
+            mes = 0
+
+            proximaParcela = proximaParcela - 12
+            ano = ano + 1
+        }
+
+        return this.dataFormatada({isDate: false, data: `${ano}-${proximaParcela + mes}-${diaM}`})
+
+    }
+
     dataFormatada(dto: any){
         if (!dto.data) return ''
         let date: Date = dto.isDate ? dto.data : new Date(dto.data.split('-'));
@@ -385,6 +411,8 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         let segundo = dt.getSeconds()
 
         let novaData = dto.formato
+        if (!novaData) novaData = "YYYY-mm-dd HH:mi:ss"
+
         novaData = novaData.replace('dd', diaM.toString().padStart(2, '0'))
         novaData = novaData.replace('mm', mes.toString().padStart(2, '0'))
         novaData = novaData.replace('YYYY', ano)

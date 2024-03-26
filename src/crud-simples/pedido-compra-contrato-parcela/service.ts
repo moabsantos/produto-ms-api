@@ -135,7 +135,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
                 await this.save(req, user, {
                     pedidoCompraContratoId: param.pedidoCompraContratoId,
-                    dataVencimento: contrato.proximoVencimento,
+                    dataVencimento: this.getProximoVencimento({dataVencimento1: contrato.primeiroVencimento, intervalo: "mensal", proximaParcela: numParcela}),
                     numeroParcela: numParcela,
                     valorParcela: valorParcela
                 })
@@ -195,11 +195,18 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
     async calculaContrato(req: any, user: any, dto: any): Promise<any> {
         
+        let contrato = await this.pedidoCompraContratoServ.getById(req, user, {id: dto.pedidoCompraContratoId})
+        if (!contrato) return {status: false, error: true, message: `Contrato não encontrado [${dto.pedidoCompraContratoId}]`}
+
+        let tipoDocumento = await this.tipoDocumentoServ.getById(req, user, {id: contrato.tipoDocumentoId})
+        if (!tipoDocumento) return {status: false, error: true, message: `Tipo de Documento do Contrato não encontrado [${contrato.tipoDocumentoId}]`}
+
         let itens = await this.getLista(req, user, {pedidoCompraContratoId: dto.pedidoCompraContratoId, idUserSelecao: user.id})
 
         let dataMinima = new Date()
         dataMinima = new Date(dataMinima.getFullYear(), dataMinima.getMonth(), 1)
 
+        let valorTotalParcela =  0
         let valorPago =  0
         let valorSaldo =  0
         
@@ -207,13 +214,15 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         let valorProximaFatura =  0
 
         let statusFinal = {
-            valor: dto.statusDestino,
-            pos: this.listStatus.indexOf(dto.statusDestino)
+            valor: '*',
+            pos: this.listStatus.indexOf('Pendente')
         }
 
         itens = await this.getLista(req, user, {pedidoCompraContratoId: dto.pedidoCompraContratoId})
         for (let index = 0; index < itens.length; index++) {
             const element = itens[index];
+
+            valorTotalParcela = valorTotalParcela + Number(element.valorParcela)
 
             if (element.status != 'Baixado') {
                 if (!dataProximaFatura) dataProximaFatura = element.dataVencimento
@@ -237,24 +246,58 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
             if (element.status == 'Baixado') valorPago = valorPago + Number(element.valorParcela)
             if (element.status != 'Baixado') valorSaldo = valorSaldo + Number(element.valorParcela)
 
-            if (statusFinal.pos < this.listStatus.indexOf(element.status)) statusFinal = {
+            if (statusFinal.valor == '*') statusFinal = {
+                valor: element.status,
+                pos: this.listStatus.indexOf(element.status)
+            }
+
+            if (statusFinal.pos > this.listStatus.indexOf(element.status)) statusFinal = {
                 valor: element.status,
                 pos: this.listStatus.indexOf(element.status)
             }
         };
 
-        this.pedidoCompraContratoServ.updateRepoId(req, user, {
-            id: dto.pedidoCompraContratoId,
-            valorTotalPago: valorPago, 
-            valorTotalSaldo: valorSaldo, 
-            status: statusFinal.valor
-        })
+        let qtdParcelas = itens.length
 
         if (dataProximaFatura) this.pedidoCompraContratoServ.updateRepoId(req, user, {
             id: dto.pedidoCompraContratoId,
             proximoVencimento: dataProximaFatura, 
             proximoValor: valorProximaFatura
         })
+
+        
+        let valorMercadoria = Number(contrato.valorMercadoria)
+        let valorServico = Number(contrato.valorServico)
+
+        if (valorTotalParcela > contrato.valorTotal) {
+            let valorDif = valorTotalParcela - Number(contrato.valorTotal)
+
+            if (valorMercadoria >= valorServico) valorMercadoria = valorMercadoria + valorDif
+            if (valorMercadoria < valorServico) valorServico = valorServico + valorDif
+        }
+
+
+        contrato.valorMercadoria = valorMercadoria
+        contrato.valorServico = valorServico
+        let valorTotal = this.pedidoCompraContratoServ.getValorTotalContrato(contrato)
+
+
+        let newContrato = {
+            id: dto.pedidoCompraContratoId,
+            valorTotalParcela: valorTotalParcela,
+            valorTotalPago: valorPago, 
+            valorTotalSaldo: valorSaldo, 
+            status: statusFinal.valor
+        }
+
+        if (tipoDocumento.flagParcelaRecalculaContrato) {
+            newContrato['qtdParcelas'] = qtdParcelas
+            newContrato['valorTotal'] = valorTotal
+            newContrato['valorMercadoria'] = valorMercadoria
+            newContrato['valorServico'] = valorServico
+        }
+
+        this.pedidoCompraContratoServ.updateRepoId(req, user, newContrato)
 
         return {status: true, error: false}
     }

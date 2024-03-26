@@ -97,6 +97,9 @@ export class PedidoCompraContrato extends BaseModelCrud {
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorTotal: number;
 
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    valorTotalParcela: number;
+
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     valorTotalPago: number;

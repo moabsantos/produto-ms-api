@@ -22,6 +22,9 @@ export class TipoDocumentoService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: TipoDocumento){
 
+        model = this.getModelFromInputs(model, dto, [
+            'flagParcelaRecalculaContrato'])
+
         return super.getDataFromDto(dto, user, model)
     }
 

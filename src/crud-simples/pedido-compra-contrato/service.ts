@@ -45,6 +45,15 @@ export class PedidoCompraContratoService extends BaseCrudService{
         ]
     }
 
+    getValorTotalContrato(dto: any): number {
+        return this.valorValido(Number(dto.valorMercadoria),0)
+        + this.valorValido(Number(dto.valorServico),0)
+        - this.valorValido(Number(dto.valorDesconto),0)
+        + this.valorValido(Number(dto.valorFrete),0)
+        + this.valorValido(Number(dto.valorOutrosAcrescimos),0)
+        - this.valorValido(Number(dto.valorOutrasDeducoes),0)
+    }
+
     getDataFromDto(dto: any, user: any, model: PedidoCompraContrato){
 
         if (!model.status || model.status == 'Pendente'){
@@ -60,12 +69,7 @@ export class PedidoCompraContratoService extends BaseCrudService{
             
                 'site'])
 
-            model.valorTotal = this.valorValido(Number(dto.valorMercadoria),0)
-                + this.valorValido(Number(dto.valorServico),0)
-                - this.valorValido(Number(dto.valorDesconto),0)
-                + this.valorValido(Number(dto.valorFrete),0)
-                + this.valorValido(Number(dto.valorOutrosAcrescimos),0)
-                - this.valorValido(Number(dto.valorOutrasDeducoes),0)
+            model.valorTotal = this.getValorTotalContrato(dto)
         }
 
         return super.getDataFromDto(dto, user, model)
@@ -110,6 +114,16 @@ export class PedidoCompraContratoService extends BaseCrudService{
             groupName: "centroCusto",
             fieldName: "centroCustoName",
             fieldValue: "proximoValor"
+        },
+        {
+            groupName: "centroCusto",
+            fieldName: "centroCustoName",
+            fieldValue: "valorTotalSaldo"
+        },
+        {
+            groupName: "centroCusto",
+            fieldName: "centroCustoName",
+            fieldValue: "valorTotalPago"
         }]
     }
 
