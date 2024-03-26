@@ -262,7 +262,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
             await this.updateRepoId(req, user, i)
         }
         
-        return {status: true, error: false, message: "Atualização Finalizada"}
+        return {status: true, error: false, message: "Atualização Finalizada", success:{id: param.id, updated_at: new Date()}}
 
     }
 
