@@ -262,7 +262,7 @@ export class DepositoInventarioItemService extends BaseCrudService{
             await this.updateRepoId(req, user, i)
         }
         
-        return {}
+        return {status: true, error: false, message: "Atualização Finalizada"}
 
     }
 
