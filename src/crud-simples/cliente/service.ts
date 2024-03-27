@@ -23,6 +23,7 @@ export class ClienteService extends BaseCrudService{
     getDataFromDto(dto: any, user: any, model: Cliente){
 
         model.sigla = dto.sigla
+        model.razaoSocial = dto.razaoSocial
         
         return super.getDataFromDto(dto, user, model)
     }
