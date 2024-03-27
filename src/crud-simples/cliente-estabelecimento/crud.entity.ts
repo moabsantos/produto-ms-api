@@ -14,33 +14,33 @@ export class ClienteEstabelecimento extends BaseModelCrud {
     @Column()
     clienteName: string;
 
-    @Column()
+    @Column({nullable: true})
     clienteSigla: string;
 
 
 
-    @Column()
+    @Column({nullable: true})
     cnpj: string;
 
-    @Column()
+    @Column({nullable: true})
     inscricaoEstadual: string;
 
-    @Column()
+    @Column({nullable: true})
     email: string;
 
-    @Column()
+    @Column({nullable: true})
     telefone: string;
 
-    @Column()
+    @Column({nullable: true})
     endereco: string;
 
-    @Column()
+    @Column({nullable: true})
     numero: string;
 
-    @Column()
+    @Column({nullable: true})
     cep: string;
 
-    @Column()
+    @Column({nullable: true})
     bairro: string;
 
 
