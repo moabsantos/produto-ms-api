@@ -6,6 +6,9 @@ import { Column, Entity, Unique } from "typeorm";
 export class Cliente extends BaseModelCrud {
 
     @Column()
+    razaoSocial: string;
+    
+    @Column()
     sigla: string;
 
 }
