@@ -7,7 +7,16 @@ export class Cliente extends BaseModelCrud {
 
     @Column()
     razaoSocial: string;
+
+    @Column()
+    cpf: string;
     
+    @Column({default: 0})
+    flagPessoaJuridica: number;
+
+    @Column({default: 0})
+    flagExtrangeiro: number;
+
     @Column()
     sigla: string;
 

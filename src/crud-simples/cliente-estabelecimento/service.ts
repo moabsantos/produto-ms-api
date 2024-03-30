@@ -6,6 +6,7 @@ import { ClienteEstabelecimentoUser } from "./crud-user.entity";
 import { ClienteService } from "../cliente/service";
 import { CidadeService } from "../cidade/service";
 import { RepresentanteService } from "../representante/service";
+import { READONLY } from "sqlite3";
 
 export class ClienteEstabelecimentoService extends BaseCrudService{
 
@@ -76,6 +77,27 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
 
         return super.validate(dto, user)
 
+    }
+
+    async setPrincipal(req: any, user: any, dto: any): Promise<any>{
+        
+        let estabelecimento = await this.getLista(req, user, {clienteId: dto.clienteId, flagPrincipal: 1})
+
+        if (dto.clienteEstabelecimentoId && estabelecimento && estabelecimento[0]?.id == dto.clienteEstabelecimentoId) return this.getMessage(
+            req, user, this, {status: true, error: false, message: `Este estabelecimento já é o principal [${dto.clienteEstabelecimentoId}]`})
+
+        if (dto.clienteEstabelecimentoId && estabelecimento && estabelecimento.length > 0) {
+            for (let index = 0; index < estabelecimento.length; index++) {
+                const estab = estabelecimento[index];
+                await this.updateRepoId(req, user, {id: estab.id, flagPrincipal: 0})
+            }
+        }
+
+        if (dto.clienteEstabelecimentoId) {
+            let estab = await this.getById(req, user, {id: dto.clienteEstabelecimentoId})
+            if (estab) await this.updateRepoId(req, user, {id: estab.id, flagPrincipal: 1})
+            if (estab) return this.getMessage(req, user, this, {id: dto.clienteEstabelecimentoId})
+        }
     }
 
 }
