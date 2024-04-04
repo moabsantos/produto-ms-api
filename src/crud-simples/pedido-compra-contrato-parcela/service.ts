@@ -27,10 +27,10 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         super(repo, repoUser)
 
         this.setRole({
-            create: "sup-pedido-compra-contrato-parcela-dig",
-            update: "sup-pedido-compra-contrato-parcela-dig",
-            delete: "sup-pedido-compra-contrato-parcela-dig",
-            get: "sup-pedido-compra-contrato-parcela-dig"
+            create: "sup-pedido-compra-contrato-dig",
+            update: "sup-pedido-compra-contrato-dig",
+            delete: "sup-pedido-compra-contrato-dig",
+            get: "sup-pedido-compra-contrato-get"
         })
 
         this.modelsRequired = [

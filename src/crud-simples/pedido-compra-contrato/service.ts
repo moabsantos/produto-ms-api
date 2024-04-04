@@ -31,7 +31,7 @@ export class PedidoCompraContratoService extends BaseCrudService{
             create: "sup-pedido-compra-contrato-dig",
             update: "sup-pedido-compra-contrato-dig",
             delete: "sup-pedido-compra-contrato-dig",
-            get: "sup-pedido-compra-contrato-dig"
+            get: "sup-pedido-compra-contrato-get"
         })
 
         this.modelsRequired = [
