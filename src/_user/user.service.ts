@@ -110,10 +110,10 @@ export class UserService extends TypeOrmCrudService<User>{
         }
 
         const grps = await this.repoGrupos.find({where: {userId: user.id, id: groupId}})
-        if (!grps && !grps[0]) return {status: false, message: "Grupo Não encontrado"}
+        if (!grps || !grps[0]) return {status: false, message: "Grupo Não encontrado"}
 
         const realmGrp = await this.repoRealms.find({where:{id: grps[0].realmId}})
-        if (!realmGrp && !realmGrp[0]) return {status: false, message: "Realm Não encontrado"}
+        if (!realmGrp  || !realmGrp[0]) return {status: false, message: "Realm Não encontrado"}
 
         if (grps && grps.length == 1){
             await this.repo.save({
