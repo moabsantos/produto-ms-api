@@ -43,41 +43,36 @@ export class GrupoAcessoUsuarioService extends BaseCrudService{
         return super.getDataFromDto(dto, user, model)
     }
 
-    async validate(dto: any, user: any): Promise<boolean>{
+    async validate(dto: any, user: any): Promise<any>{
 
         if (!dto.grupoAcessoId){
-            return false
+            return this.getMessage(null, user, this, {status: false, error: false, message: `Validate: id grupo requerido [${dto.grupoAcessoId}]`})
         }
 
         if (!dto.userEmail){
-            return false
+            return this.getMessage(null, user, this, {status: false, error: false, message: `Validate: Email requerido [${dto.userEmail}]`})
         }
 
         if (!dto.empresaId){
-            return false
+            return this.getMessage(null, user, this, {status: false, error: false, message: `Validate: id empresa requerido [${dto.empresaId}]`})
         }
 
         this.grupo = await this.validateId(this.grupoServ, dto.grupoAcessoId, user)
         if (!this.grupo){
-            this.logger.error(`O grupo ${dto.grupoAcessoId} não foi encontrado`)
-            return false
+            return this.getMessage(null, user, this, {status: false, error: false, message: `Validate: id grupo invalido [${dto.grupoAcessoId}]`})
         }
 
         this.empresa = await this.validateId(this.empresaServ, dto.empresaId, user)
-        if (!this.grupo){
-            this.logger.error(`A empresa ${dto.empresaId} não foi encontrada`)
-            return false
+        if (!this.empresa){
+            return this.getMessage(null, user, this, {status: false, error: false, message: `Validate: id empresa invalido [${dto.empresaId}]`})
         }
 
         this.usuario = await this.usuarioServ.findByWhere({email: dto.userEmail})
-
         if (this.usuario.length != 1) {
-            this.logger.error('Email não é válido. Encontrado: '+ this.usuario.length)
-            return false
+            return this.getMessage(null, user, this, {status: false, error: false, message: `Validate: email invalido [${dto.userEmail}]`})
         }
 
         this.usuario = this.usuario[0]
-
         dto.code = 'RLM'+this.grupo.realmId + 'GRP' + dto.grupoAcessoId + 'USU' + this.usuario.id
         dto.name = dto.code
         
