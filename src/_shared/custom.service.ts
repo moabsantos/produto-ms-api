@@ -243,7 +243,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         const validated = await this.validate(dto, user)
 
-        if (validated == false) return this.getMessage(req, user, this, {status: false, error: true, message: "Id e nome não informado"})
+        if (validated == false) return this.getMessage(req, user, this, {status: false, error: true, message: "Custom: Id e nome não informado"})
 
         if (validated != true && !validated.status) return validated
 

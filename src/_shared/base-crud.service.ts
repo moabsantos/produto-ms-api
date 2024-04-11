@@ -45,7 +45,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
     async validate(dto, user: number): Promise<any>{
 
         if (!dto.id && !dto.name){
-            return this.getMessage(null, user, this, {status: false, error: true, message: "Id e nome não informado"})
+            return this.getMessage(null, user, this, {status: false, error: true, message: "base-crud: Id e nome não informado"})
         }
 
         return super.validate(dto, user)
