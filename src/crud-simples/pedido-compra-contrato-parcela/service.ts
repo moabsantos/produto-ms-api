@@ -44,19 +44,29 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: PedidoCompraContratoParcela){
 
+        if (model.status && model.status == 'Aprovado') {
+
+            model = this.getModelFromInputs(model, dto, ['valorDesconto', 'valorAcrescimo'])
+
+        }
+
         if (!model.status || model.status == 'Pendente') {
 
             if (!model.status) model.status = 'Pendente'
 
             model = this.getModelFromInputs(model, dto, [
                 'numeroParcela', 'dataVencimento', 'valorParcela', 'valorDesconto', 'valorAcrescimo'])
+
             model = this.getDataModelsFromDto(model)
+        }
 
-            const valorFinalParcela = this.valorValido(Number(dto.valorParcela),0)
-                - this.valorValido(Number(dto.valorDesconto),0)
-                - this.valorValido(Number(dto.valorAcrescimo),0)
+        if (model.status == 'Pendente' || model.status == 'Aprovado') {
 
-            model.valorSaldo = valorFinalParcela - this.valorValido(Number(dto.valorPago),0)
+            const valorFinalParcela = this.valorValido(Number(model.valorParcela),0)
+            - this.valorValido(Number(model.valorDesconto),0)
+            + this.valorValido(Number(model.valorAcrescimo),0)
+
+            model.valorSaldo = valorFinalParcela - this.valorValido(Number(model.valorPago),0)
             if (model.valorSaldo < 0) model.valorCredito = model.valorSaldo * -1
             if (model.valorSaldo < 0) model.valorSaldo  = 0
 
