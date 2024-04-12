@@ -38,4 +38,7 @@ export class User {
 
   @Column({default: 1})
   showGroupOwner: number;
+
+  @Column({default: 10})
+  limitDefault: number;
 }
