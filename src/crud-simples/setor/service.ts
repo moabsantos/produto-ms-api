@@ -11,6 +11,13 @@ export class SetorService extends BaseCrudService{
         @InjectRepository(SetorUser) protected repoUser)
     {
         super(repo, repoUser)
+
+        this.setRole({
+            create: "gestao-setor-dig",
+            update: "gestao-setor-dig",
+            delete: "gestao-setor-dig",
+            //get: "gestao-setor-get"
+        })
     }
 
     getDataFromDto(dto: any, user: any, model: Setor){

@@ -13,9 +13,9 @@ export class CentroFinanceiroService extends BaseCrudService{
         super(repo, repoUser)
 
         this.setRole({
-            create: "custo-centro-financeiro-dig",
-            update: "custo-centro-financeiro-dig",
-            delete: "custo-centro-financeiro-dig",
+            create: "fin-centro-financeiro-dig",
+            update: "fin-centro-financeiro-dig",
+            delete: "fin-centro-financeiro-dig",
             //get: "custo-centro-financeiro-cons",
         })
 

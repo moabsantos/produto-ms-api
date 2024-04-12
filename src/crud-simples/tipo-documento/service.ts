@@ -13,10 +13,10 @@ export class TipoDocumentoService extends BaseCrudService{
         super(repo, repoUser)
 
         this.setRole({
-            create: "sup-tipo-documento-dig",
-            update: "sup-tipo-documento-dig",
-            delete: "sup-tipo-documento-dig",
-            get: "sup-tipo-documento-dig"
+            create: "fin-tipo-documento-dig",
+            update: "fin-tipo-documento-dig",
+            delete: "fin-tipo-documento-dig",
+            //get: "fin-tipo-documento-get"
         })
     }
 

@@ -48,10 +48,26 @@ export const dataCrud: {id: number, code: string,            name: string, descr
     getPermissaoAcesso({ code: 'sis-sec-perm-lib', name: 'Gestão das Permissões (Liberação)', description: ''}),
 
 
-    getPermissaoAcesso({ code: 'sup-pedido-compra-contrato-dig',      name: 'Contas a Pagar (Administração)', description: ''}),
-    getPermissaoAcesso({ code: 'sup-pedido-compra-contrato-get',      name: 'Contas a Pagar (Consulta)', description: ''}),
+    getPermissaoAcesso({ code: 'sup-pedido-compra-contrato-dig',      name: 'Contas a Pagar - Documento (Digitação)', description: ''}),
+    getPermissaoAcesso({ code: 'sup-pedido-compra-contrato-get',      name: 'Contas a Pagar - Documento (Consulta)', description: ''}),
     
     
-    getPermissaoAcesso({ code: 'gerencial-empresa-parametros-cons', name: 'Gestão de Empresas (Consulta)', description: ''}),
+    getPermissaoAcesso({ code: 'custo-centro-custo-dig',      name: 'Custos - Centro de Custo (Digitação)', description: ''}),
+    getPermissaoAcesso({ code: 'custo-centro-custo-get',      name: 'Custos - Centro de Custo (Consulta)', description: ''}),
+        
+    getPermissaoAcesso({ code: 'fin-tipo-documento-dig',      name: 'Financeiro - Tipo de Documento (Digitação)', description: ''}),
+    getPermissaoAcesso({ code: 'fin-tipo-documento-get',      name: 'Financeiro - Tipo de Documento (Consulta)', description: ''}),
+    getPermissaoAcesso({ code: 'fin-forma-pagamento-dig',      name: 'Financeiro - Forma de Pagamento (Digitação)', description: ''}),
+    getPermissaoAcesso({ code: 'fin-forma-pagamento-get',      name: 'Financeiro - Forma de Pagamento (Consulta)', description: ''}),
+    getPermissaoAcesso({ code: 'fin-despesa-financeira-dig',      name: 'Financeiro - Despesa Financeira (Digitação)', description: ''}),
+    getPermissaoAcesso({ code: 'fin-despesa-financeira-get',      name: 'Financeiro - Despesa Financeira (Consulta)', description: ''}),
+    getPermissaoAcesso({ code: 'fin-centro-financeiro-dig',      name: 'Financeiro - Centro Financeiro (Digitação)', description: ''}),
+    getPermissaoAcesso({ code: 'fin-centro-financeiro-get',      name: 'Financeiro - Centro Financeiro (Consulta)', description: ''}),
+    
+    
+    getPermissaoAcesso({ code: 'gestao-empresa-dig', name: 'Gestão - Empresa (Digitação)', description: ''}),
+    getPermissaoAcesso({ code: 'gestao-empresa-get', name: 'Gestão - Empresa (Consulta)', description: ''}),
+    getPermissaoAcesso({ code: 'gestao-setor-dig',      name: 'Gestão - Setor (Cadastro)', description: ''}),
+    getPermissaoAcesso({ code: 'gestao-setor-get',      name: 'Gestão - Setor (Consulta)', description: ''}),
 
 ]

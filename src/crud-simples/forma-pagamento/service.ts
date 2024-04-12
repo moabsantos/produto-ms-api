@@ -11,6 +11,13 @@ export class FormaPagamentoService extends BaseCrudService{
         @InjectRepository(FormaPagamentoUser) protected repoUser)
     {
         super(repo, repoUser)
+
+        this.setRole({
+            create: "fin-forma-pagamento-dig",
+            update: "fin-forma-pagamento-dig",
+            delete: "fin-forma-pagamento-dig",
+            //get: "fin-forma-pagamento-get"
+        })
     }
 
     getDataFromDto(dto: any, user: any, model: FormaPagamento){

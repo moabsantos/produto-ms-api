@@ -13,10 +13,10 @@ export class EmpresaService extends BaseCrudService{
         super(repo, repoUser)
 
         this.setRole({
-            create: "gerencial-empresa-parametros-dig",
-            update: "gerencial-empresa-parametros-dig",
-            delete: "gerencial-empresa-parametros-dig",
-            get: "gerencial-empresa-parametros-cons"
+            create: "gestao-empresa-dig",
+            update: "gestao-empresa-dig",
+            delete: "gestao-empresa-dig",
+            get: "gestao-empresa-get"
         })
 
     }
