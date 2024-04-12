@@ -16,7 +16,7 @@ export class EmpresaService extends BaseCrudService{
             create: "gestao-empresa-dig",
             update: "gestao-empresa-dig",
             delete: "gestao-empresa-dig",
-            get: "gestao-empresa-get"
+            //get: "gestao-empresa-get"
         })
 
     }
