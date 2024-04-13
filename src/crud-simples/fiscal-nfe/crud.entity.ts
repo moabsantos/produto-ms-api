@@ -5,6 +5,71 @@ import { Column, Entity, Unique } from "typeorm";
 @Unique("uniq_name", ["name", "realmId"])
 export class FiscalNfe extends BaseModelCrud {
 
+    // CABECALHO
+
+    @Column({nullable: true})
+    geralCodigoUF: string;
+
+    @Column({nullable: true})
+    geralUF: string;
+
+    @Column({nullable: true})
+    geralCodigo: string;
+
+    @Column({nullable: true})
+    geralNaturezaOperacao: string;
+
+    @Column({nullable: true})
+    geralCodModelo: string;
+
+    @Column({nullable: true})
+    geralSerie: string;
+
+    @Column({nullable: true})
+    geralNumero: string;
+
+    @Column({nullable: true})
+    geralDataEmissao: Date;
+
+    @Column({nullable: true})
+    geralDataSaidaEntrada: Date;
+
+    @Column({nullable: true})
+    geralCodTipo: string;
+
+    @Column({nullable: true})
+    geralCodDestino: string;
+
+    @Column({nullable: true})
+    geralCodMunicipio: string;
+
+    @Column({nullable: true})
+    geralCodTipoImpressao: string;
+
+    @Column({nullable: true})
+    geralCodTipoEmissao: string;
+
+    @Column({nullable: true})
+    geralDigitoVerificador: string;
+
+    @Column({nullable: true})
+    geralCodTipoAmbiente: string;
+
+    @Column({nullable: true})
+    geralCodFinalidade: string;
+
+    @Column({nullable: true})
+    geralCodIndicadorFinal: string;
+
+    @Column({nullable: true})
+    geralCodIndicadorPresenca: string;
+
+    @Column({nullable: true})
+    geralCodProcessoEmissao: string;
+
+    @Column({nullable: true})
+    geralVersao: string;
+
     // EMITENTE
 
     @Column({nullable: true})
