@@ -23,8 +23,8 @@ export class FiscalNfeService extends BaseCrudService{
     }
 
     getDataFromDto(dto: any, user: any, model: FiscalNfe){
-
-        model = this.getModelFromInputs(model, dto, ['sigla'])
+    
+        model = this.getModelFromInputs(model, dto, ['geralNaturezaOperacao', 'geralCodModelo', 'geralSerie', 'geralNumero', 'geralDataEmissao'])
 
         model = this.getDataModelsFromDto(model)
         
@@ -33,7 +33,10 @@ export class FiscalNfeService extends BaseCrudService{
 
     async validate(dto: any, user: any): Promise<boolean>{
 
-        const checkFields = this.validateFieldsRequireds([{name: "sigla"}], dto)
+        const checkFields = this.validateFieldsRequireds([
+            {name: "geralNaturezaOperacao"}, {name: "geralCodModelo"},
+            {name: "geralSerie"}, {name: "geralNumero"}, {name: "geralDataEmissao"},
+        ], dto)
         if (!checkFields || !checkFields.status) return checkFields
 
         const dtoValid = await this.validateModelsRequired(dto, user)
