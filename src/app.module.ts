@@ -68,6 +68,7 @@ import { CentroCustoModule } from './crud-simples/centro-custo/module';
 import { DespesaFinanceiraModule } from './crud-simples/despesa-financeira/module';
 import { CentroFinanceiroModule } from './crud-simples/centro-financeiro/module';
 import { CentroFinanceiroContaModule } from './crud-simples/centro-financeiro-conta/module';
+import { FiscalNfeModule } from './crud-simples/fiscal-nfe/module';
 
 
 
@@ -153,6 +154,8 @@ import { CentroFinanceiroContaModule } from './crud-simples/centro-financeiro-co
     RepresentanteModule,
     RepresentanteUsuarioModule,
     RepresentanteClienteModule,
+
+    FiscalNfeModule,
 
     DominioColecaoModule,
     DominioImagemModule
