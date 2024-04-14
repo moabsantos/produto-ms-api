@@ -43,7 +43,7 @@ export class FiscalNfeService extends BaseCrudService{
         if (!dtoValid || !dtoValid.status) return dtoValid
 
         dto.code = `${user.realmId}_${dto.empresaId}_${dto.geralCodModelo}_${dto.geralSerie}_${dto.geralNumero}_${dto.geralDataEmissao}`
-        dto.code = dto.name
+        dto.name = dto.code
         return super.validate(dto, user)
     }
 
