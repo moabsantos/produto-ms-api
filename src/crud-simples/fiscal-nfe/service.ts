@@ -42,6 +42,7 @@ export class FiscalNfeService extends BaseCrudService{
         const dtoValid = await this.validateModelsRequired(dto, user)
         if (!dtoValid || !dtoValid.status) return dtoValid
 
+        dto.name = `${user.realmId}_${dto.empresaId}_${dto.geralCodModelo}_${dto.geralSerie}_${dto.geralNumero}_${dto.geralDataEmissao}`
         return super.validate(dto, user)
     }
 
