@@ -10,11 +10,14 @@ import { FiscalNfeUser } from "./crud-user.entity";
 import { FiscalNfeUserController } from "./crud-user.controller";
 import { FiscalNfeService } from "./service";
 import { FiscalNfeUserService } from "./crud-user.service";
+import { EmpresaModule } from "../empresa/module";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
+
+        EmpresaModule,
         
         TypeOrmModule.forFeature([FiscalNfe, FiscalNfeUser]),
         BaseCrudModule

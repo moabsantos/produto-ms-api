@@ -3,12 +3,14 @@ import { BaseCrudService } from "src/_shared/base-crud.service";
 
 import { FiscalNfe } from "./crud.entity";
 import { FiscalNfeUser } from "./crud-user.entity";
+import { EmpresaService } from "../empresa/service";
 
 export class FiscalNfeService extends BaseCrudService{
 
     constructor (
         @InjectRepository(FiscalNfe) protected repo,
-        @InjectRepository(FiscalNfeUser) protected repoUser)
+        @InjectRepository(FiscalNfeUser) protected repoUser,
+        private empresaServ: EmpresaService,)
     {
         super(repo, repoUser)
 
@@ -19,7 +21,9 @@ export class FiscalNfeService extends BaseCrudService{
             //get: "custo-fiscal-nfe-cons",
         })
 
-        this.modelsRequired = []
+        this.modelsRequired = [
+            {fieldName: 'empresa', service: this.empresaServ, fields: ['id', 'name', 'sigla']},
+        ]
     }
 
     getDataFromDto(dto: any, user: any, model: FiscalNfe){
