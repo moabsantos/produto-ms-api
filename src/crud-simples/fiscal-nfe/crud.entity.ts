@@ -5,6 +5,15 @@ import { Column, Entity, Unique } from "typeorm";
 @Unique("uniq_name", ["name", "realmId"])
 export class FiscalNfe extends BaseModelCrud {
 
+    @Column()
+    empresaId: number;
+
+    @Column()
+    empresaName: string;
+
+    @Column({nullable: true})
+    empresaSigla: string;
+
     // CABECALHO
 
     @Column({nullable: true})
