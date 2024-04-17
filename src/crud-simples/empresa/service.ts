@@ -29,6 +29,8 @@ export class EmpresaService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: Empresa){
 
+        model = this.getDataModelsFromDto(model)
+        
         model.sigla = dto.sigla
         
         return super.getDataFromDto(dto, user, model)
@@ -38,7 +40,7 @@ export class EmpresaService extends BaseCrudService{
 
         const dtoValid = await this.validateModelsRequired(dto, user)
         if (!dtoValid || !dtoValid.status) return dtoValid
-        
+
         if (!dto.name){
             return false
         }
