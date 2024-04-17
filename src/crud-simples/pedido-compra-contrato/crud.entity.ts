@@ -31,9 +31,9 @@ export class PedidoCompraContrato extends BaseModelCrud {
     tipoDocumentoSigla: string;
 
 
-    @Column()
+    @Column({default: '0'})
     numeroMatricula: string;
-    @Column()
+    @Column({default: '0'})
     numeroDocumento: string;
     @Column()
     dataDocumento: Date;
@@ -64,7 +64,7 @@ export class PedidoCompraContrato extends BaseModelCrud {
     despesaFinanceiraSigla: string;
 
 
-    @Column()
+    @Column({default: 0})
     qtdParcelas: number;
     @Column()
     primeiroVencimento: Date;

@@ -28,7 +28,9 @@ export class FiscalNfeService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: FiscalNfe){
     
-        model = this.getModelFromInputs(model, dto, ['geralNaturezaOperacao', 'geralCodModelo', 'geralSerie', 'geralNumero', 'geralDataEmissao'])
+        model = this.getModelFromInputs(model, dto, [
+            'geralNaturezaOperacao', 'geralCodModelo', 'geralSerie', 'geralNumero', 
+            'geralDataEmissao', 'geralDataSaidaEntrada'])
 
         model = this.getDataModelsFromDto(model)
         
