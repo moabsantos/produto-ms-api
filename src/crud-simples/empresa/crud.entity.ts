@@ -8,4 +8,19 @@ export class Empresa extends BaseModelCrud {
     @Column()
     sigla: string;
 
+    @Column({nullable: true})
+    cidadeId: number;
+
+    @Column({nullable: true})
+    cidadeCode: string;
+
+    @Column({nullable: true})
+    cidadeName: string;
+
+    @Column({nullable: true})
+    cidadeSigla: string;
+
+    @Column({nullable: true})
+    cidadeUfSigla: string;
+
 }

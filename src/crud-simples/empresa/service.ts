@@ -3,12 +3,14 @@ import { BaseCrudService } from "src/_shared/base-crud.service";
 
 import { Empresa } from "./crud.entity";
 import { EmpresaUser } from "./crud-user.entity";
+import { CidadeService } from "../cidade/service";
 
 export class EmpresaService extends BaseCrudService{
 
     constructor (
         @InjectRepository(Empresa) protected repo,
-        @InjectRepository(EmpresaUser) protected repoUser)
+        @InjectRepository(EmpresaUser) protected repoUser,
+        private cidadeServ: CidadeService)
     {
         super(repo, repoUser)
 
@@ -18,6 +20,10 @@ export class EmpresaService extends BaseCrudService{
             delete: "gestao-empresa-dig",
             //get: "gestao-empresa-get"
         })
+
+        this.modelsRequired = [
+            {fieldName: 'cidade', service: this.cidadeServ, fields: ['name', 'sigla', 'id', 'code', 'ufSigla']},
+        ]
 
     }
 
@@ -30,6 +36,9 @@ export class EmpresaService extends BaseCrudService{
 
     async validate(dto: any, user: any): Promise<boolean>{
 
+        const dtoValid = await this.validateModelsRequired(dto, user)
+        if (!dtoValid || !dtoValid.status) return dtoValid
+        
         if (!dto.name){
             return false
         }

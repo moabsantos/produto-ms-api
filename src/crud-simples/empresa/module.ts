@@ -10,11 +10,14 @@ import { EmpresaUser } from "./crud-user.entity";
 import { EmpresaUserController } from "./crud-user.controller";
 import { EmpresaService } from "./service";
 import { EmpresaUserService } from "./crud-user.service";
+import { CidadeModule } from "../cidade/module";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
+
+        CidadeModule,
         
         TypeOrmModule.forFeature([Empresa, EmpresaUser]),
         BaseCrudModule
