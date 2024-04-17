@@ -17,4 +17,7 @@ export class UF extends BaseModelCrud {
     @Column()
     paisSigla: string;
 
+    @Column()
+    codigoIBGE: string;
+
 }

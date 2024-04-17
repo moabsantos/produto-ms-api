@@ -26,4 +26,7 @@ export class Cidade extends BaseModelCrud {
     @Column()
     ufSigla: string;
 
+    @Column()
+    codigoIBGE: string;
+
 }

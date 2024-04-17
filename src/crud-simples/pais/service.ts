@@ -16,6 +16,7 @@ export class PaisService extends BaseCrudService{
     getDataFromDto(dto: any, user: any, model: Pais){
 
         model.sigla = dto.sigla
+        model.codigoIBGE = dto.codigoIBGE
         
         return super.getDataFromDto(dto, user, model)
     }

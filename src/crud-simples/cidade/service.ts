@@ -23,6 +23,7 @@ export class CidadeService extends BaseCrudService{
     getDataFromDto(dto: any, user: any, model: Cidade){
 
         model.sigla = dto.sigla
+        model.codigoIBGE = dto.codigoIBGE
 
         model.paisId = this.pais.id
         model.paisName = this.pais.name

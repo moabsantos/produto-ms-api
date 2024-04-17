@@ -8,4 +8,7 @@ export class Pais extends BaseModelCrud {
     @Column()
     sigla: string;
 
+    @Column()
+    codigoIBGE: string;
+
 }

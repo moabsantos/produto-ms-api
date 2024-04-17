@@ -20,6 +20,7 @@ export class UFService extends BaseCrudService{
     getDataFromDto(dto: any, user: any, model: UF){
 
         model.sigla = dto.sigla
+        model.codigoIBGE = dto.codigoIBGE
 
         model.paisId = this.pais.id
         model.paisName = this.pais.name
