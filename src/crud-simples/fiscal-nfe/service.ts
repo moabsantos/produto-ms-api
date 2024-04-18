@@ -39,6 +39,13 @@ export class FiscalNfeService extends BaseCrudService{
             'geralDataEmissao', 'geralDataSaidaEntrada',
             'geralCodTipoEmissao', 'geralCodTipoImpressao', 'geralCodIndicadorPresenca'])
 
+        model.geralNaturezaOperacao = this['fiscalNaturezaOperacao'].name
+        model.geralCodTipo = this['fiscalNaturezaOperacao'].geralCodTipo
+        model.geralCodFinalidade = this['fiscalNaturezaOperacao'].geralCodFinalidade
+        model.geralCodIndicadorFinal = this['fiscalNaturezaOperacao'].geralCodIndicadorFinal
+
+        model.geralCodProcessoEmissao = '0'
+
         model = this.getDataModelsFromDto(model)
         
         return super.getDataFromDto(dto, user, model)
