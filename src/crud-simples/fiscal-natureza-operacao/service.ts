@@ -22,7 +22,7 @@ export class FiscalNaturezaOperacaoService extends BaseCrudService{
         })
 
         this.modelsRequired = [
-            {fieldName: 'serie', service: this.serieServ, fields: ['id', 'name', 'sigla']},
+            {fieldName: 'fiscalSerie', service: this.serieServ, fields: ['id', 'name', 'sigla']},
         ]
     }
 
