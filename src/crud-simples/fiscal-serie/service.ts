@@ -32,10 +32,10 @@ export class FiscalSerieService extends BaseCrudService{
         return super.getDataFromDto(dto, user, model)
     }
 
-    getProximoNumero(req: any, dto: any, user: any){
-        let numero = this.getById(req, user, {id: dto.id})
-        this.updateRepoId(req, user, {id: dto.id, proximoNumero: Number(numero) +1})
-        return numero
+    async getProximoNumero(req: any, dto: any, user: any){
+        const serie = await this.getById(req, user, {id: dto.id})
+        this.updateRepoId(req, user, {id: dto.id, proximoNumero: Number(serie.proximoNumero) +1})
+        return serie.proximoNumero
     }
 
     async validate(dto: any, user: any): Promise<boolean>{
