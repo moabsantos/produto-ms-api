@@ -41,6 +41,7 @@ export class FiscalNfeService extends BaseCrudService{
 
         model.geralCodModelo = this['fiscalSerie'].codModelo
         model.geralSerie = this['fiscalSerie'].serie
+        
 
         model.geralNaturezaOperacao = this['fiscalNaturezaOperacao'].name
         model.geralCodTipo = this['fiscalNaturezaOperacao'].geralCodTipo
@@ -64,6 +65,8 @@ export class FiscalNfeService extends BaseCrudService{
 
         const dtoValid = await this.validateModelsRequired(dto, user)
         if (!dtoValid || !dtoValid.status) return dtoValid
+
+        dto.geralNumero = await this.serieServ.getProximoNumero(null, {id: this['fiscalSerie'].id}, user)
 
         dto.code = `${user.realmId}_${dto.empresaId}_${dto.geralCodModelo}_${dto.geralSerie}_${dto.geralNumero}_${dto.geralDataEmissao}`
         dto.name = dto.code
