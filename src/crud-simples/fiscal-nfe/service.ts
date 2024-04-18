@@ -5,6 +5,7 @@ import { FiscalNfe } from "./crud.entity";
 import { FiscalNfeUser } from "./crud-user.entity";
 import { EmpresaService } from "../empresa/service";
 import { FiscalSerieService } from "../fiscal-serie/service";
+import { FiscalNaturezaOperacaoService } from "../fiscal-natureza-operacao/service";
 
 export class FiscalNfeService extends BaseCrudService{
 
@@ -12,6 +13,7 @@ export class FiscalNfeService extends BaseCrudService{
         @InjectRepository(FiscalNfe) protected repo,
         @InjectRepository(FiscalNfeUser) protected repoUser,
         private empresaServ: EmpresaService,
+        private natOperacaoServ: FiscalNaturezaOperacaoService,
         private serieServ: FiscalSerieService,)
     {
         super(repo, repoUser)
@@ -25,7 +27,8 @@ export class FiscalNfeService extends BaseCrudService{
 
         this.modelsRequired = [
             {fieldName: 'empresa', service: this.empresaServ, fields: ['id', 'name', 'sigla']},
-            {fieldName: 'serie', service: this.serieServ, fields: ['id', 'name', 'sigla']},
+            {fieldName: 'fiscalNaturezaOperacao', service: this.natOperacaoServ, fields: ['id', 'name', 'sigla']},
+            {fieldName: 'fiscalSerie', service: this.serieServ, fields: ['id', 'name', 'sigla'], getId: () => this['deposito'].fiscalNaturezaOperacao},
         ]
     }
 
