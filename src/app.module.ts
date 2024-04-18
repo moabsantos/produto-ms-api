@@ -69,6 +69,7 @@ import { DespesaFinanceiraModule } from './crud-simples/despesa-financeira/modul
 import { CentroFinanceiroModule } from './crud-simples/centro-financeiro/module';
 import { CentroFinanceiroContaModule } from './crud-simples/centro-financeiro-conta/module';
 import { FiscalNfeModule } from './crud-simples/fiscal-nfe/module';
+import { FiscalNaturezaOperacaoModule } from './crud-simples/fiscal-natureza-operacao/module';
 
 
 
@@ -155,6 +156,7 @@ import { FiscalNfeModule } from './crud-simples/fiscal-nfe/module';
     RepresentanteUsuarioModule,
     RepresentanteClienteModule,
 
+    FiscalNaturezaOperacaoModule,
     FiscalNfeModule,
 
     DominioColecaoModule,

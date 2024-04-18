@@ -43,14 +43,38 @@ export class FiscalNfe extends BaseModelCrud {
     @Column({nullable: true})
     geralDataSaidaEntrada: Date; // AAAA-MM-DDThh:mm:ssTZD Ex 2024-04-02T05:10:00-03:00
 
+
+    // CONFORME NATUREZA DA OPERACAO
+    @Column()
+    fiscalNaturezaOperacaoId: number;
+
+    @Column()
+    fiscalNaturezaOperacaoName: string;
+
+    @Column({nullable: true})
+    fiscalNaturezaOperacaoSigla: string;
+
     @Column({nullable: true})
     geralCodTipo: string; // 0=Entrada; 1=Saída
 
+    @Column({nullable: true})
+    geralCodFinalidade: string; // 1=NF-e normal; 2=NF-e complementar; 3=NF-e de ajuste; 4=Devolução de mercadoria.
+
+    @Column({nullable: true})
+    geralCodIndicadorFinal: string; // 0=Normal; 1=Consumidor final;
+
+
+    // CONFORME EMPRESA
+    @Column({nullable: true})
+    geralCodTipoAmbiente: string; // 1=Produção; 2=Homologação
+
     @Column({nullable: true, comment: ""})
-    geralCodDestino: string; // 1=Operação interna; 2=Operação interestadual; 3=Operação com exterior.
+    geralCodDestino: string; // 1=Operação interna; 2=Operação interestadual; 3=Operação com exterior. {conforme uf}
 
     @Column({nullable: true})
     geralCodMunicipio: string; // Informar o município de ocorrência do fato gerador do ICMS
+
+
 
     @Column({nullable: true})
     geralCodTipoImpressao: string; // 0=Sem geração de DANFE; 1=DANFE normal, Retrato; 2=DANFE normal, Paisagem; 3=DANFE Simplificado; 4=DANFE NFC-e; 5=DANFE NFC-e em mensagem eletrônica
@@ -62,32 +86,26 @@ export class FiscalNfe extends BaseModelCrud {
     geralDigitoVerificador: string; // Informar o DV da Chave de Acesso da NF-e
 
     @Column({nullable: true})
-    geralCodTipoAmbiente: string; // 1=Produção; 2=Homologação
-
-    @Column({nullable: true})
-    geralCodFinalidade: string; // 1=NF-e normal; 2=NF-e complementar; 3=NF-e de ajuste; 4=Devolução de mercadoria.
-
-    @Column({nullable: true})
-    geralCodIndicadorFinal: string; // 0=Normal; 1=Consumidor final;
-    
-
-    @Column({nullable: true})
     geralCodIndicadorPresenca: string; // 0=Não se aplica 1=Operação presencial; 2=Operação não presencial, pela Internet; 3=Operação não presencial, Teleatendimento; 
                                        // 4=NFC-e em operação com entrega a domicílio;
                                        // 5=Operação presencial, fora do estabelecimento; (incluído NT2016.002)
                                        // 9=Operação não presencial, outros
 
-    @Column({nullable: true})
+
+
+    // CONFORME APLICATIVO     
+    @Column({nullable: true, default: 0})
     geralCodProcessoEmissao: string; // 0=Emissão de NF-e com aplicativo do contribuinte;
                                      // 1=Emissão de NF-e avulsa pelo Fisco;
                                      // 2=Emissão de NF-e avulsa, pelo contribuinte com seu certificado digital, através do site do Fisco;
                                      // 3=Emissão NF-e pelo contribuinte com aplicativo fornecido pelo Fisco.
 
-    @Column({nullable: true})
+    @Column({nullable: true, default: "1.1.1"})
     geralVersao: string;              // Informar a versão do aplicativo emissor de NF-e
 
-    // EMITENTE
 
+
+    // EMITENTE
     @Column({nullable: true})
     emitenteCpfCnpj: string;
 
