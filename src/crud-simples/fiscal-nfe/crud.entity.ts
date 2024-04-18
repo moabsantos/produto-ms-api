@@ -26,15 +26,6 @@ export class FiscalNfe extends BaseModelCrud {
     geralCodigo: string; // o. Número aleatório gerado pelo emitente para cada NF-e
 
     @Column({nullable: true})
-    geralNaturezaOperacao: string; // venda, compra, transferência, devolução, importação, consignação, remessa
-
-    @Column({nullable: true})
-    geralCodModelo: string; // 55=NF-e emitida em substituição ao modelo 1 ou 1A ou 65=NFC-e
-
-    @Column({nullable: true})
-    geralSerie: string; // Série do Documento Fiscal
-
-    @Column({nullable: true})
     geralNumero: string; // Número do Documento Fiscal
 
     @Column({nullable: true})
@@ -42,6 +33,26 @@ export class FiscalNfe extends BaseModelCrud {
 
     @Column({nullable: true})
     geralDataSaidaEntrada: Date; // AAAA-MM-DDThh:mm:ssTZD Ex 2024-04-02T05:10:00-03:00
+    
+
+
+    // CONFORME SERIE
+    @Column()
+    fiscalSerieId: number;
+
+    @Column()
+    fiscalSerieName: string;
+
+    @Column({nullable: true})
+    fiscalSerieSigla: string;
+
+    @Column({nullable: true})
+    geralCodModelo: string; // 55=NF-e emitida em substituição ao modelo 1 ou 1A ou 65=NFC-e
+
+    @Column({nullable: true})
+    geralSerie: string; // Série do Documento Fiscal
+
+
 
 
     // CONFORME NATUREZA DA OPERACAO
@@ -53,6 +64,9 @@ export class FiscalNfe extends BaseModelCrud {
 
     @Column({nullable: true})
     fiscalNaturezaOperacaoSigla: string;
+
+    @Column({nullable: true})
+    geralNaturezaOperacao: string; // venda, compra, transferência, devolução, importação, consignação, remessa
 
     @Column({nullable: true})
     geralCodTipo: string; // 0=Entrada; 1=Saída
