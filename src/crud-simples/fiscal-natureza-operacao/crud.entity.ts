@@ -17,4 +17,13 @@ export class FiscalNaturezaOperacao extends BaseModelCrud {
     @Column({nullable: true})
     geralCodIndicadorFinal: string; // 0=Normal; 1=Consumidor final;
 
+    @Column()
+    fiscalSerieId: number;
+
+    @Column()
+    fiscalSerieName: string;
+
+    @Column({nullable: true})
+    fiscalSerieSigla: string;
+
 }

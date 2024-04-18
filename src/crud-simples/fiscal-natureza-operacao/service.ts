@@ -3,12 +3,14 @@ import { BaseCrudService } from "src/_shared/base-crud.service";
 
 import { FiscalNaturezaOperacao } from "./crud.entity";
 import { FiscalNaturezaOperacaoUser } from "./crud-user.entity";
+import { FiscalSerieService } from "../fiscal-serie/service";
 
 export class FiscalNaturezaOperacaoService extends BaseCrudService{
 
     constructor (
         @InjectRepository(FiscalNaturezaOperacao) protected repo,
-        @InjectRepository(FiscalNaturezaOperacaoUser) protected repoUser)
+        @InjectRepository(FiscalNaturezaOperacaoUser) protected repoUser,
+        private serieServ: FiscalSerieService)
     {
         super(repo, repoUser)
 
@@ -19,7 +21,9 @@ export class FiscalNaturezaOperacaoService extends BaseCrudService{
             //get: "fiscal-natureza-operacao-cons",
         })
 
-        this.modelsRequired = []
+        this.modelsRequired = [
+            {fieldName: 'serie', service: this.serieServ, fields: ['id', 'name', 'sigla']},
+        ]
     }
 
     getDataFromDto(dto: any, user: any, model: FiscalNaturezaOperacao){
