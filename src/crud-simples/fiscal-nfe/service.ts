@@ -81,8 +81,6 @@ export class FiscalNfeService extends BaseCrudService{
         model.emitenteEnderecoCodPais = this['cidadeEmitente'].paisCodigoIBGE
         model.emitenteEnderecoNomePais = this['cidadeEmitente'].paisName
 
-
-
         model.destinatarioCpfCnpj = this['clienteEstabelecimento'].cpfCnpj
         //model.destinatarioRazaoSocial = this['clienteEstabelecimento'].razaoSocial
         model.destinatarioNome = this['clienteEstabelecimento'].nomeFantasia
@@ -105,7 +103,6 @@ export class FiscalNfeService extends BaseCrudService{
         model.destinatarioEnderecoUF = this['cidadeDestinatario'].ufSigla
         model.destinatarioEnderecoCodPais = this['cidadeDestinatario'].paisCodigoIBGE
         model.destinatarioEnderecoNomePais = this['cidadeDestinatario'].paisName
-
 
 
         model.geralCodProcessoEmissao = '0'
