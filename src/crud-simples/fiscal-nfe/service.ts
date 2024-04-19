@@ -81,9 +81,9 @@ export class FiscalNfeService extends BaseCrudService{
         model.emitenteEnderecoCodPais = this['cidadeEmitente'].paisCodigoIBGE
         model.emitenteEnderecoNomePais = this['cidadeEmitente'].paisName
 
-        model.destinatarioCpfCnpj = this['clienteEstabelecimento'].cpfCnpj
+        model.destinatarioCpfCnpj = this['cliente'].flagPessoaJuridica == 1 ? this['cliente'].cpf : this['clienteEstabelecimento'].cnpj 
         //model.destinatarioRazaoSocial = this['clienteEstabelecimento'].razaoSocial
-        model.destinatarioNome = this['clienteEstabelecimento'].nomeFantasia
+        model.destinatarioNome = this['cliente'].name
         model.destinatarioIndInscricaoEstadual = this['clienteEstabelecimento'].indInscricaoEstadual
         model.destinatarioInscricaoEstadual = this['clienteEstabelecimento'].inscricaoEstadual
         model.destinatarioInscricaoMunicipal = this['clienteEstabelecimento'].inscricaoMunicipal
@@ -92,12 +92,12 @@ export class FiscalNfeService extends BaseCrudService{
         //model.destinatarioCrt = this['clienteEstabelecimento'].crt
         //model.destinatarioLogo = this['clienteEstabelecimento'].logo
         model.destinatarioEmail = this['clienteEstabelecimento'].email
-        model.destinatarioEnderecoFone = this['clienteEstabelecimento'].enderecoFone
-        model.destinatarioEnderecoLogradouro = this['clienteEstabelecimento'].enderecoLogradouro
-        model.destinatarioEnderecoNumero = this['clienteEstabelecimento'].enderecoNumero
-        model.destinatarioEnderecoCep = this['clienteEstabelecimento'].enderecoCep
-        model.destinatarioEnderecoComplemento = this['clienteEstabelecimento'].enderecoComplemento
-        model.destinatarioEnderecoBairro = this['clienteEstabelecimento'].enderecoBairro
+        model.destinatarioEnderecoFone = this['clienteEstabelecimento'].telefone
+        model.destinatarioEnderecoLogradouro = this['clienteEstabelecimento'].endereco
+        model.destinatarioEnderecoNumero = this['clienteEstabelecimento'].numero
+        model.destinatarioEnderecoCep = this['clienteEstabelecimento'].cep
+        model.destinatarioEnderecoComplemento = this['clienteEstabelecimento'].complemento
+        model.destinatarioEnderecoBairro = this['clienteEstabelecimento'].bairro
         model.destinatarioEnderecoCodMunicipio = this['cidadeDestinatario'].codigoIBGE
         model.destinatarioEnderecoNomeMunicipio = this['cidadeDestinatario'].name
         model.destinatarioEnderecoUF = this['cidadeDestinatario'].ufSigla
