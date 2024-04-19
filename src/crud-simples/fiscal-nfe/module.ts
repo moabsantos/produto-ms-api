@@ -13,6 +13,8 @@ import { FiscalNfeUserService } from "./crud-user.service";
 import { EmpresaModule } from "../empresa/module";
 import { FiscalNaturezaOperacaoModule } from "../fiscal-natureza-operacao/module";
 import { FiscalSerieModule } from "../fiscal-serie/module";
+import { ClienteModule } from "../cliente/module";
+import { ClienteEstabelecimentoModule } from "../cliente-estabelecimento/module";
 
 @Module({
     imports: [
@@ -22,6 +24,8 @@ import { FiscalSerieModule } from "../fiscal-serie/module";
         EmpresaModule,
         FiscalNaturezaOperacaoModule,
         FiscalSerieModule,
+        ClienteModule,
+        ClienteEstabelecimentoModule,
         
         TypeOrmModule.forFeature([FiscalNfe, FiscalNfeUser]),
         BaseCrudModule

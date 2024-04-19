@@ -6,6 +6,8 @@ import { FiscalNfeUser } from "./crud-user.entity";
 import { EmpresaService } from "../empresa/service";
 import { FiscalSerieService } from "../fiscal-serie/service";
 import { FiscalNaturezaOperacaoService } from "../fiscal-natureza-operacao/service";
+import { ClienteService } from "../cliente/service";
+import { ClienteEstabelecimentoService } from "../cliente-estabelecimento/service";
 
 export class FiscalNfeService extends BaseCrudService{
 
@@ -14,6 +16,8 @@ export class FiscalNfeService extends BaseCrudService{
         @InjectRepository(FiscalNfeUser) protected repoUser,
         private empresaServ: EmpresaService,
         private natOperacaoServ: FiscalNaturezaOperacaoService,
+        private clienteServ: ClienteService,
+        private clienteEstabServ: ClienteEstabelecimentoService,
         private serieServ: FiscalSerieService,)
     {
         super(repo, repoUser)
@@ -28,7 +32,10 @@ export class FiscalNfeService extends BaseCrudService{
         this.modelsRequired = [
             {fieldName: 'empresa', service: this.empresaServ, fields: ['id', 'name', 'sigla']},
             {fieldName: 'fiscalNaturezaOperacao', service: this.natOperacaoServ, fields: ['id', 'name', 'sigla']},
+            {fieldName: 'fiscalNaturezaOperacao', service: this.natOperacaoServ, fields: ['id', 'name', 'sigla']},
+            
             {fieldName: 'fiscalSerie', service: this.serieServ, fields: ['id', 'name', 'sigla'], getId: () => this['fiscalNaturezaOperacao'].fiscalSerieId},
+            {fieldName: 'cidadeEmitente', service: this.serieServ, fields: [], getId: () => this['empresa'].cidadeId},
         ]
     }
 
@@ -47,6 +54,29 @@ export class FiscalNfeService extends BaseCrudService{
         model.geralCodTipo = this['fiscalNaturezaOperacao'].geralCodTipo
         model.geralCodFinalidade = this['fiscalNaturezaOperacao'].geralCodFinalidade
         model.geralCodIndicadorFinal = this['fiscalNaturezaOperacao'].geralCodIndicadorFinal
+
+        model.emitenteCpfCnpj = this['empresa'].cpfCnpj
+        model.emitenteRazaoSocial = this['empresa'].razaoSocial
+        model.emitenteNomeFantasia = this['empresa'].nomeFantasia
+        model.emitenteIndInscricaoEstadual = this['empresa'].indInscricaoEstadual
+        model.emitenteInscricaoEstadual = this['empresa'].inscricaoEstadual
+        model.emitenteInscricaoMunicipal = this['empresa'].inscricaoMunicipal
+        model.emitenteInscricaoSUFRAMA = this['empresa'].inscricaoSUFRAMA
+        model.emitenteCnae = this['empresa'].cnae
+        model.emitenteCrt = this['empresa'].crt
+        model.emitenteLogo = this['empresa'].logo
+        model.emitenteEmail = this['empresa'].email
+        model.emitenteEnderecoFone = this['empresa'].enderecoFone
+        model.emitenteEnderecoLogradouro = this['empresa'].enderecoLogradouro
+        model.emitenteEnderecoNumero = this['empresa'].enderecoNumero
+        model.emitenteEnderecoCep = this['empresa'].enderecoCep
+        model.emitenteEnderecoComplemento = this['empresa'].enderecoComplemento
+        model.emitenteEnderecoBairro = this['empresa'].enderecoBairro
+        model.emitenteEnderecoCodMunicipio = this['cidadeEmitente'].codigoIBGE
+        model.emitenteEnderecoNomeMunicipio = this['cidadeEmitente'].name
+        model.emitenteEnderecoUF = this['cidadeEmitente'].ufSigla
+        model.emitenteEnderecoCodPais = this['cidadeEmitente'].paisCodigoIBGE
+        model.emitenteEnderecoNomePais = this['cidadeEmitente'].paisName
 
         model.geralCodProcessoEmissao = '0'
 

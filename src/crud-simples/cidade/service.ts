@@ -28,6 +28,7 @@ export class CidadeService extends BaseCrudService{
         model.paisId = this.pais.id
         model.paisName = this.pais.name
         model.paisSigla = this.pais.sigla
+        model.paisCodigoIBGE = this.pais.codigoIBGE
         
         model.ufId = this.uf.id
         model.ufName = this.uf.name

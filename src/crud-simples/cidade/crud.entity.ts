@@ -18,6 +18,9 @@ export class Cidade extends BaseModelCrud {
     paisSigla: string;
 
     @Column()
+    paisCodigoIBGE: string;
+
+    @Column()
     ufId: number;
 
     @Column()

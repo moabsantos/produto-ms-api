@@ -31,7 +31,13 @@ export class EmpresaService extends BaseCrudService{
 
         model = this.getDataModelsFromDto(model)
         
-        model.sigla = dto.sigla
+        model = this.getModelFromInputs(model, dto, [
+            'sigla', 
+            'cpfCnpj', 'razaoSocial', 'nomeFantasia', 
+            'indInscricaoEstadual', 'inscricaoEstadual', 'inscricaoMunicipal', 'inscricaoSUFRAMA',
+            'cnae', 'crt', 'logo', 'email',
+        
+            'enderecoFone', 'enderecoLogradouro', 'enderecoNumero', 'enderecoCep', 'enderecoComplemento', 'enderecoBairro'])
         
         return super.getDataFromDto(dto, user, model)
     }

@@ -23,7 +23,16 @@ export class ClienteEstabelecimento extends BaseModelCrud {
     cnpj: string;
 
     @Column({nullable: true})
+    indInscricaoEstadual: string;
+
+    @Column({nullable: true})
     inscricaoEstadual: string;
+
+    @Column({nullable: true})
+    inscricaoMunicipal: string;
+
+    @Column({nullable: true})
+    inscricaoSUFRAMA: string;
 
     @Column({nullable: true})
     email: string;

@@ -42,7 +42,7 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
 
         model = this.getModelFromInputs(model, dto, [
             'code',
-            'cnpj', 'inscricaoEstadual',
+            'cnpj', 'indInscricaoEstadual', 'inscricaoEstadual', 'inscricaoMunicipal', 'inscricaoSUFRAMA',
             'email', 'telefone',
             'endereco', 'numero', 'bairro', 'cep'
         ])
