@@ -33,8 +33,8 @@ export class FiscalNfeService extends BaseCrudService{
             {fieldName: 'empresa', service: this.empresaServ, fields: ['id', 'name', 'sigla']},
             {fieldName: 'fiscalNaturezaOperacao', service: this.natOperacaoServ, fields: ['id', 'name', 'sigla']},
             {fieldName: 'fiscalNaturezaOperacao', service: this.natOperacaoServ, fields: ['id', 'name', 'sigla']},
-            {fieldName: 'cliente', service: this.empresaServ, fields: ['id', 'name']},
-            {fieldName: 'clienteEstabelecimento', service: this.empresaServ, fields: ['id', 'name']},
+            {fieldName: 'cliente', service: this.clienteServ, fields: ['id', 'name']},
+            {fieldName: 'clienteEstabelecimento', service: this.clienteEstabServ, fields: ['id', 'name']},
 
             {fieldName: 'fiscalSerie', service: this.serieServ, fields: ['id', 'name', 'sigla'], getId: () => this['fiscalNaturezaOperacao'].fiscalSerieId},
             {fieldName: 'cidadeEmitente', service: this.serieServ, fields: [], getId: () => this['empresa'].cidadeId},
