@@ -62,7 +62,7 @@ export class FiscalNfeService extends BaseCrudService{
         model.geralCodFinalidade = this['fiscalNaturezaOperacao'].geralCodFinalidade
         model.geralCodIndicadorFinal = this['fiscalNaturezaOperacao'].geralCodIndicadorFinal
 
-        model.emitenteCpfCnpj = this['empresa'].cpfCnpj
+        model.emitenteCpfCnpj = this['empresa'].cnpj
         model.emitenteRazaoSocial = this['empresa'].razaoSocial
         model.emitenteNomeFantasia = this['empresa'].nomeFantasia
         model.emitenteIndInscricaoEstadual = this['empresa'].indInscricaoEstadual
