@@ -49,7 +49,9 @@ export class FiscalNfeService extends BaseCrudService{
         model = this.getModelFromInputs(model, dto, [
             'geralNaturezaOperacao', 'geralCodModelo', 'geralSerie', 'geralNumero', 'geralCodigo',
             'geralDataEmissao', 'geralDataSaidaEntrada',
-            'geralCodTipoEmissao', 'geralCodTipoImpressao', 'geralCodIndicadorPresenca'])
+            'geralCodTipoEmissao', 'geralCodTipoImpressao', 'geralCodIndicadorPresenca',
+            'informacoesFisco1', 'informacoesFisco2', 'informacoesComplementares1', 'informacoesComplementares2'
+        ])
 
         model.geralCodModelo = this['fiscalSerie'].codModelo
         model.geralSerie = this['fiscalSerie'].serie
