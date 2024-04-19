@@ -15,6 +15,7 @@ import { FiscalNaturezaOperacaoModule } from "../fiscal-natureza-operacao/module
 import { FiscalSerieModule } from "../fiscal-serie/module";
 import { ClienteModule } from "../cliente/module";
 import { ClienteEstabelecimentoModule } from "../cliente-estabelecimento/module";
+import { CidadeModule } from "../cidade/module";
 
 @Module({
     imports: [
@@ -26,6 +27,7 @@ import { ClienteEstabelecimentoModule } from "../cliente-estabelecimento/module"
         FiscalSerieModule,
         ClienteModule,
         ClienteEstabelecimentoModule,
+        CidadeModule,
         
         TypeOrmModule.forFeature([FiscalNfe, FiscalNfeUser]),
         BaseCrudModule

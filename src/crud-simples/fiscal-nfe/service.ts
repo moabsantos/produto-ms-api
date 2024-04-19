@@ -8,6 +8,7 @@ import { FiscalSerieService } from "../fiscal-serie/service";
 import { FiscalNaturezaOperacaoService } from "../fiscal-natureza-operacao/service";
 import { ClienteService } from "../cliente/service";
 import { ClienteEstabelecimentoService } from "../cliente-estabelecimento/service";
+import { CidadeService } from "../cidade/service";
 
 export class FiscalNfeService extends BaseCrudService{
 
@@ -18,6 +19,7 @@ export class FiscalNfeService extends BaseCrudService{
         private natOperacaoServ: FiscalNaturezaOperacaoService,
         private clienteServ: ClienteService,
         private clienteEstabServ: ClienteEstabelecimentoService,
+        private CidadeServ: CidadeService,
         private serieServ: FiscalSerieService,)
     {
         super(repo, repoUser)
@@ -37,8 +39,8 @@ export class FiscalNfeService extends BaseCrudService{
             {fieldName: 'clienteEstabelecimento', service: this.clienteEstabServ, fields: ['id', 'name']},
 
             {fieldName: 'fiscalSerie', service: this.serieServ, fields: ['id', 'name', 'sigla'], getId: () => this['fiscalNaturezaOperacao'].fiscalSerieId},
-            {fieldName: 'cidadeEmitente', service: this.serieServ, fields: [], getId: () => this['empresa'].cidadeId},
-            {fieldName: 'cidadeDestinatario', service: this.serieServ, fields: [], getId: () => this['clienteEstabelecimento'].cidadeId},
+            {fieldName: 'cidadeEmitente', service: this.CidadeServ, fields: [], getId: () => this['empresa'].cidadeId},
+            {fieldName: 'cidadeDestinatario', service: this.CidadeServ, fields: [], getId: () => this['clienteEstabelecimento'].cidadeId},
         ]
     }
 
