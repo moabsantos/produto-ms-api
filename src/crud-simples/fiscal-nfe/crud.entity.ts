@@ -190,8 +190,14 @@ export class FiscalNfe extends BaseModelCrud {
     @Column({nullable: true})
     clienteId: number;
 
+    @Column()
+    clienteName: string;
+
     @Column({nullable: true})
     clienteEstabelecimentoId: number;
+
+    @Column()
+    clienteEstabelecimentoName: string;
 
     @Column({nullable: true})
     destinatarioCpfCnpj: string;
