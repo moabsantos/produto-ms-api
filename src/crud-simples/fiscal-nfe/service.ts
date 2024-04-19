@@ -33,9 +33,12 @@ export class FiscalNfeService extends BaseCrudService{
             {fieldName: 'empresa', service: this.empresaServ, fields: ['id', 'name', 'sigla']},
             {fieldName: 'fiscalNaturezaOperacao', service: this.natOperacaoServ, fields: ['id', 'name', 'sigla']},
             {fieldName: 'fiscalNaturezaOperacao', service: this.natOperacaoServ, fields: ['id', 'name', 'sigla']},
-            
+            {fieldName: 'cliente', service: this.empresaServ, fields: ['id']},
+            {fieldName: 'clienteEstabelecimento', service: this.empresaServ, fields: ['id']},
+
             {fieldName: 'fiscalSerie', service: this.serieServ, fields: ['id', 'name', 'sigla'], getId: () => this['fiscalNaturezaOperacao'].fiscalSerieId},
             {fieldName: 'cidadeEmitente', service: this.serieServ, fields: [], getId: () => this['empresa'].cidadeId},
+            {fieldName: 'cidadeDestinatario', service: this.serieServ, fields: [], getId: () => this['clienteEstabelecimento'].cidadeId},
         ]
     }
 
@@ -77,6 +80,33 @@ export class FiscalNfeService extends BaseCrudService{
         model.emitenteEnderecoUF = this['cidadeEmitente'].ufSigla
         model.emitenteEnderecoCodPais = this['cidadeEmitente'].paisCodigoIBGE
         model.emitenteEnderecoNomePais = this['cidadeEmitente'].paisName
+
+
+
+        model.destinatarioCpfCnpj = this['clienteEstabelecimento'].cpfCnpj
+        //model.destinatarioRazaoSocial = this['clienteEstabelecimento'].razaoSocial
+        model.destinatarioNome = this['clienteEstabelecimento'].nomeFantasia
+        model.destinatarioIndInscricaoEstadual = this['clienteEstabelecimento'].indInscricaoEstadual
+        model.destinatarioInscricaoEstadual = this['clienteEstabelecimento'].inscricaoEstadual
+        model.destinatarioInscricaoMunicipal = this['clienteEstabelecimento'].inscricaoMunicipal
+        model.destinatarioInscricaoSUFRAMA = this['clienteEstabelecimento'].inscricaoSUFRAMA
+        //model.destinatarioCnae = this['clienteEstabelecimento'].cnae
+        //model.destinatarioCrt = this['clienteEstabelecimento'].crt
+        //model.destinatarioLogo = this['clienteEstabelecimento'].logo
+        model.destinatarioEmail = this['clienteEstabelecimento'].email
+        model.destinatarioEnderecoFone = this['clienteEstabelecimento'].enderecoFone
+        model.destinatarioEnderecoLogradouro = this['clienteEstabelecimento'].enderecoLogradouro
+        model.destinatarioEnderecoNumero = this['clienteEstabelecimento'].enderecoNumero
+        model.destinatarioEnderecoCep = this['clienteEstabelecimento'].enderecoCep
+        model.destinatarioEnderecoComplemento = this['clienteEstabelecimento'].enderecoComplemento
+        model.destinatarioEnderecoBairro = this['clienteEstabelecimento'].enderecoBairro
+        model.destinatarioEnderecoCodMunicipio = this['cidadeDestinatario'].codigoIBGE
+        model.destinatarioEnderecoNomeMunicipio = this['cidadeDestinatario'].name
+        model.destinatarioEnderecoUF = this['cidadeDestinatario'].ufSigla
+        model.destinatarioEnderecoCodPais = this['cidadeDestinatario'].paisCodigoIBGE
+        model.destinatarioEnderecoNomePais = this['cidadeDestinatario'].paisName
+
+
 
         model.geralCodProcessoEmissao = '0'
 

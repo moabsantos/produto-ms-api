@@ -187,6 +187,11 @@ export class FiscalNfe extends BaseModelCrud {
     emitenteEnderecoFone: string;
 
     // DESTINATARIO
+    @Column({nullable: true})
+    clienteId: number;
+
+    @Column({nullable: true})
+    clienteEstabelecimentoId: number;
 
     @Column({nullable: true})
     destinatarioCpfCnpj: string;
