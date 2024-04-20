@@ -185,4 +185,18 @@ export class PedidoVenda extends BaseModelCrud {
 
     @Column({nullable: true})
     depositoDestinoDescription: string;
+
+
+
+    @Column({nullable: true})
+    representanteId: number;
+
+    @Column({nullable: true})
+    representanteCode: string;
+
+    @Column({nullable: true})
+    representanteName: string;
+
+    @Column({nullable: true})
+    representanteSigla: string;
 }
