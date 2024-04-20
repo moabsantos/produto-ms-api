@@ -11,6 +11,13 @@ export class FornecedorService extends BaseCrudService{
         @InjectRepository(FornecedorUser) protected repoUser)
     {
         super(repo, repoUser)
+
+        this.setRole({
+            create: "supr-fornecedor-dig",
+            update: "supr-fornecedor-dig",
+            delete: "supr-fornecedor-dig",
+            // get: "supr-fornecedor-get"
+        })
     }
 
     getDataFromDto(dto: any, user: any, model: Fornecedor){

@@ -71,6 +71,7 @@ import { CentroFinanceiroContaModule } from './crud-simples/centro-financeiro-co
 import { FiscalNfeModule } from './crud-simples/fiscal-nfe/module';
 import { FiscalNaturezaOperacaoModule } from './crud-simples/fiscal-natureza-operacao/module';
 import { FiscalSerieModule } from './crud-simples/fiscal-serie/module';
+import { FornecedorEstabelecimentoModule } from './crud-simples/fornecedor-estabelecimento/module';
 
 
 
@@ -116,6 +117,7 @@ import { FiscalSerieModule } from './crud-simples/fiscal-serie/module';
     OrdemProducaoItemModule,
 
     FornecedorModule,
+    FornecedorEstabelecimentoModule,
     FormaPagamentoModule,
 
     EmpresaModule,
