@@ -22,6 +22,9 @@ export class Empresa extends BaseModelCrud {
     nomeFantasia: string;
 
     @Column({nullable: true})
+    codTipoAmbienteNfe: string;
+
+    @Column({nullable: true})
     indInscricaoEstadual: string;
 
     @Column({nullable: true})

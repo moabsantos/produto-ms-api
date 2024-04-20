@@ -36,7 +36,7 @@ export class EmpresaService extends BaseCrudService{
             'cpfCnpj', 'razaoSocial', 'nomeFantasia', 
             'indInscricaoEstadual', 'inscricaoEstadual', 'inscricaoMunicipal', 'inscricaoSUFRAMA',
             'cnae', 'crt', 'logo', 'email',
-        
+            'codTipoAmbienteNfe',
             'enderecoFone', 'enderecoLogradouro', 'enderecoNumero', 'enderecoCep', 'enderecoComplemento', 'enderecoBairro'])
         
         return super.getDataFromDto(dto, user, model)

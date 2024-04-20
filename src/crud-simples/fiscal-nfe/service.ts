@@ -53,6 +53,7 @@ export class FiscalNfeService extends BaseCrudService{
             'informacoesFisco1', 'informacoesFisco2', 'informacoesComplementares1', 'informacoesComplementares2'
         ])
 
+        model.geralCodTipoAmbiente = this['empresa'].codTipoAmbienteNfe
         model.geralCodModelo = this['fiscalSerie'].codModelo
         model.geralSerie = this['fiscalSerie'].serie
         
