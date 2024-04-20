@@ -6,7 +6,6 @@ import { ClienteEstabelecimentoUser } from "./crud-user.entity";
 import { ClienteService } from "../cliente/service";
 import { CidadeService } from "../cidade/service";
 import { RepresentanteService } from "../representante/service";
-import { READONLY } from "sqlite3";
 
 export class ClienteEstabelecimentoService extends BaseCrudService{
 
@@ -44,7 +43,7 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
             'code',
             'cnpj', 'indInscricaoEstadual', 'inscricaoEstadual', 'inscricaoMunicipal', 'inscricaoSUFRAMA',
             'email', 'telefone',
-            'endereco', 'numero', 'bairro', 'cep'
+            'endereco', 'numero', 'bairro', 'cep', 'complemento'
         ])
 
         return super.getDataFromDto(dto, user, model)

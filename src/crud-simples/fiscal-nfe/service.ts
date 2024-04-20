@@ -62,7 +62,7 @@ export class FiscalNfeService extends BaseCrudService{
         model.geralCodFinalidade = this['fiscalNaturezaOperacao'].geralCodFinalidade
         model.geralCodIndicadorFinal = this['fiscalNaturezaOperacao'].geralCodIndicadorFinal
 
-        model.emitenteCpfCnpj = this['empresa'].cnpj
+        model.emitenteCpfCnpj = this['empresa'].cpfCnpj
         model.emitenteRazaoSocial = this['empresa'].razaoSocial
         model.emitenteNomeFantasia = this['empresa'].nomeFantasia
         model.emitenteIndInscricaoEstadual = this['empresa'].indInscricaoEstadual
@@ -85,7 +85,7 @@ export class FiscalNfeService extends BaseCrudService{
         model.emitenteEnderecoCodPais = this['cidadeEmitente'].paisCodigoIBGE
         model.emitenteEnderecoNomePais = this['cidadeEmitente'].paisName
 
-        model.destinatarioCpfCnpj = this['cliente'].flagPessoaJuridica == 1 ? this['cliente'].cpf : this['clienteEstabelecimento'].cnpj 
+        model.destinatarioCpfCnpj = this['cliente'].flagPessoaJuridica != 1 ? this['cliente'].cpf : this['clienteEstabelecimento'].cnpj 
         //model.destinatarioRazaoSocial = this['clienteEstabelecimento'].razaoSocial
         model.destinatarioNome = this['cliente'].name
         model.destinatarioIndInscricaoEstadual = this['clienteEstabelecimento'].indInscricaoEstadual
@@ -109,6 +109,14 @@ export class FiscalNfeService extends BaseCrudService{
         model.destinatarioEnderecoNomePais = this['cidadeDestinatario'].paisName
 
 
+        model.geralUF = this['cidadeEmitente'].ufSigla
+        model.geralCodigoUF = this['cidadeEmitente'].ufCodigoIBGE
+        model.geralCodMunicipio = this['cidadeEmitente'].codigoIBGE
+        
+        model.geralCodDestino = '1'
+        if (this['cidadeEmitente'].ufSigla != this['cidadeDestinatario'].ufSigla) model.geralCodDestino = '2'
+        if (this['cidadeDestinatario'].ufSigla == 'EX') model.geralCodDestino = '3'
+        
         model.geralCodProcessoEmissao = '0'
 
         model = this.getDataModelsFromDto(model)

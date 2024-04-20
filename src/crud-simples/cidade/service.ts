@@ -33,6 +33,7 @@ export class CidadeService extends BaseCrudService{
         model.ufId = this.uf.id
         model.ufName = this.uf.name
         model.ufSigla = this.uf.sigla
+        model.ufCodigoIBGE = this.uf.codigoIBGE
 
         return super.getDataFromDto(dto, user, model)
     }

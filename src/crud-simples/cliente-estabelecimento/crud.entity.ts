@@ -52,6 +52,9 @@ export class ClienteEstabelecimento extends BaseModelCrud {
     @Column({nullable: true})
     bairro: string;
 
+    @Column({nullable: true})
+    complemento: string;    
+
 
 
     @Column({nullable: true})
