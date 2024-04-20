@@ -32,7 +32,9 @@ export class DepositoService extends BaseCrudService{
     getDataFromDto(dto: any, user: any, model: Deposito){
 
         model = this.getModelFromInputs(model, dto, [
-            'sigla', 'flagPrincipal', 'flagBaixaEstoque', 'flagProducao', 'flagAjusteInventario', 'flagFornecedor', 'flagCliente'])
+            'sigla', 'flagPrincipal', 'flagBaixaEstoque', 'flagProducao', 
+            'flagAjusteInventario', 'flagFornecedor', 'flagCliente',
+            'flagFaturamento'])
 
         model = this.getDataModelsFromDto(model)
         

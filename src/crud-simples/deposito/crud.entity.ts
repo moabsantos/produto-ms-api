@@ -57,4 +57,7 @@ export class Deposito extends BaseModelCrud {
     @Column({default: 0})
     flagCliente: number;
 
+    @Column({default: 0})
+    flagFaturamento: number;
+
 }
