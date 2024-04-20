@@ -36,7 +36,7 @@ export class PedidoVendaService extends BaseCrudService{
             create: "com-pedido-venda-dig",
             update: "com-pedido-venda-dig",
             delete: "com-pedido-venda-dig",
-            get: "com-pedido-venda-dig"
+            get: "com-pedido-venda-get"
         })
 
         this.modelsRequired = [
