@@ -136,7 +136,7 @@ export class FiscalNfeService extends BaseCrudService{
         const dtoValid = await this.validateModelsRequired(dto, user)
         if (!dtoValid || !dtoValid.status) return dtoValid
 
-        dto.geralCodigo = Math.floor(Math.random() * 20)
+        dto.geralCodigo = Math.floor(Math.random() * 9999999)
         dto.geralNumero = await this.serieServ.getProximoNumero(null, {id: this['fiscalSerie'].id}, user)
 
         dto.code = `${user.realmId}_${dto.empresaId}_${dto.geralCodModelo}_${this['fiscalNaturezaOperacao'].fiscalSerieId}_${dto.geralNumero}_${dto.geralDataEmissao}`
