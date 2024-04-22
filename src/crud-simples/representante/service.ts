@@ -19,7 +19,7 @@ export class RepresentanteService extends BaseCrudService{
             create: "com-representante-dig",
             update: "com-representante-dig",
             delete: "com-representante-dig",
-            get: "com-representante-dig"
+            get: "com-representante-get"
         })
 
         this.modelsRequired = [

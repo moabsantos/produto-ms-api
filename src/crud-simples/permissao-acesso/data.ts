@@ -36,6 +36,9 @@ export const dataCrud: {id: number, code: string,            name: string, descr
     getPermissaoAcesso({ code: 'com-pedido-venda-aprov',      name: 'Comercial - Pedido de Venda (Aprovação)', description: ''}),
     getPermissaoAcesso({ code: 'com-pedido-venda-dig',        name: 'Comercial - Pedido de Venda (Digitação)', description: ''}),
 
+    getPermissaoAcesso({ code: 'com-representante-dig',      name: 'Comercial - Representante (Cadastro)', description: ''}),
+    getPermissaoAcesso({ code: 'com-representante-get',      name: 'Comercial - Representante (Consulta)', description: ''}),
+
     getPermissaoAcesso({ code: 'desen-prod-cad-dig',      name: 'Produto - Cadastro (Digitação)', description: ''}),
     getPermissaoAcesso({ code: 'desen-prod-cad-del',      name: 'Produto - Cadastro (Exclusão)', description: ''}),
     getPermissaoAcesso({ code: 'desen-prod-cad-cons',      name: 'Produto - Cadastro (Consulta)', description: ''}),
