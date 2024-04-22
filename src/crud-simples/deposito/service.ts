@@ -19,8 +19,8 @@ export class DepositoService extends BaseCrudService{
         this.setRole({
             create: "estoque-deposito-dig",
             update: "estoque-deposito-dig",
-            delete: "estoque-centro-custo-dig",
-            //get: "custo-centro-custo-cons",
+            delete: "estoque-deposito-dig",
+            //get: "estoque-deposito-get",
         })
 
         this.modelsRequired = [

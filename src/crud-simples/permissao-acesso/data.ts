@@ -7,6 +7,10 @@ function getPermissaoAcesso(obj){
 export const dataCrud: {id: number, code: string,            name: string, description: string, type: string
 , created_at: Date, created_by: number, updated_at: Date, updated_by: number, deleted_at: Date, deleted_by: number}[] = [
 
+
+    getPermissaoAcesso({ code: 'estoque-deposito-dig',      name: 'Estoque - Depósito (Cadastro)', description: ''}),
+    getPermissaoAcesso({ code: 'estoque-deposito-get',      name: 'Estoque - Depósito (Consulta)', description: ''}),
+
     getPermissaoAcesso({ code: 'sup-compra-adm', name: 'Compras - (Administração)', description: 'Gestão Geral sobre temas relacionados ao módulo de compras'}),
     
     getPermissaoAcesso({ code: 'sup-compra-ped-aprov',      name: 'Compras - Pedido de Compra (Aprovação)', description: ''}),
