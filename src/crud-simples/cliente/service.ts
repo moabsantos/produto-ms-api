@@ -16,7 +16,7 @@ export class ClienteService extends BaseCrudService{
             create: "com-cliente-dig",
             update: "com-cliente-dig",
             delete: "com-cliente-dig",
-            get: "com-cliente-cons"
+            get: "com-cliente-get"
         })
     }
 

@@ -22,10 +22,10 @@ export class ClienteEstabelecimentoService extends BaseCrudService{
         super(repo, repoUser)
 
         this.setRole({
-            create: "com-cliente-estabelecimento-dig",
-            update: "com-cliente-estabelecimento-dig",
-            delete: "com-cliente-estabelecimento-dig",
-            get: "com-cliente-estabelecimento-cons"
+            create: "com-cliente-dig",
+            update: "com-cliente-dig",
+            delete: "com-cliente-dig",
+            get: "com-cliente-get"
         })
 
         this.modelsRequired = [

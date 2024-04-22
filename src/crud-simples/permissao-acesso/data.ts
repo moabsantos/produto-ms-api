@@ -24,7 +24,7 @@ export const dataCrud: {id: number, code: string,            name: string, descr
 
     getPermissaoAcesso({ code: 'com-cliente-adm',      name: 'Comercial - Clientes (Administração)', description: ''}),
     getPermissaoAcesso({ code: 'com-cliente-dig',      name: 'Comercial - Clientes (Cadastro)', description: ''}),
-    getPermissaoAcesso({ code: 'com-cliente-cons',      name: 'Comercial - Clientes (Consulta)', description: ''}),
+    getPermissaoAcesso({ code: 'com-cliente-get',      name: 'Comercial - Clientes (Consulta)', description: ''}),
     getPermissaoAcesso({ code: 'com-cliente-estabelecimento-dig',      name: 'Comercial - Clientes / Estabelecimento (Cadastro)', description: ''}),
     getPermissaoAcesso({ code: 'com-cliente-estabelecimento-cons',      name: 'Comercial - Clientes / Estabelecimento (Consulta)', description: ''}),
 
