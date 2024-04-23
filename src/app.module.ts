@@ -72,6 +72,7 @@ import { FiscalNfeModule } from './crud-simples/fiscal-nfe/module';
 import { FiscalNaturezaOperacaoModule } from './crud-simples/fiscal-natureza-operacao/module';
 import { FiscalSerieModule } from './crud-simples/fiscal-serie/module';
 import { FornecedorEstabelecimentoModule } from './crud-simples/fornecedor-estabelecimento/module';
+import { PedidoTipoModule } from './crud-simples/pedido-tipo/module';
 
 
 
@@ -138,6 +139,7 @@ import { FornecedorEstabelecimentoModule } from './crud-simples/fornecedor-estab
     RequisicaoCompraModule,
     RequisicaoCompraItemModule,
 
+    PedidoTipoModule,
     PedidoCompraModule,
     PedidoCompraItemModule,
     PedidoCompraContratoModule,
