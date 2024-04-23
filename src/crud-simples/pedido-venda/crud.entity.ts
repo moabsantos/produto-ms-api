@@ -41,6 +41,20 @@ export class PedidoVenda extends BaseModelCrud {
 
 
     @Column()
+    pedidoTipoId: number;
+
+    @Column({nullable: true})
+    pedidoTipoCode: string;
+
+    @Column()
+    pedidoTipoName: string;
+
+    @Column({nullable: true})
+    pedidoTipoSigla: string;
+
+
+
+    @Column()
     clienteEstabelecimentoId: number;
 
     @Column()

@@ -10,6 +10,7 @@ import { EmpresaService } from "../empresa/service";
 import { FormaPagamentoService } from "../forma-pagamento/service";
 import { DepositoService } from "../deposito/service";
 import { RepresentanteService } from "../representante/service";
+import { PedidoTipoService } from "../pedido-tipo/service";
 
 export class PedidoVendaService extends BaseCrudService{
 
@@ -27,6 +28,7 @@ export class PedidoVendaService extends BaseCrudService{
         private estabelecimentoServ: ClienteEstabelecimentoService,
         private formaPagamentoServ: FormaPagamentoService,
         private depositoServ: DepositoService,
+        private pedidoTipoServ: PedidoTipoService,
         private representanteServ: RepresentanteService,
         private prioridadeServ: PrioridadeService)
     {
@@ -40,7 +42,8 @@ export class PedidoVendaService extends BaseCrudService{
         })
 
         this.modelsRequired = [
-            {fieldName: 'empresa', service: this.empresaServ, fields: ['id', 'name', 'sigla']},
+            {fieldName: 'empresa', service: this.empresaServ, fields: ['id', 'code', 'name', 'sigla']},
+            {fieldName: 'pedidoTipo', service: this.pedidoTipoServ, fields: ['id', 'code', 'name', 'sigla']},
             {fieldName: 'representante', service: this.representanteServ, fields: ['id', 'code', 'name', 'sigla']},
 
             {fieldName: 'cliente', service: this.clienteServ, fields: ['id', 'name', 'sigla']},
