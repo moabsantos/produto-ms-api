@@ -18,6 +18,7 @@ import { EmpresaModule } from "../empresa/module";
 import { FormaPagamentoModule } from "../forma-pagamento/module";
 import { DepositoModule } from "../deposito/module";
 import { RepresentanteModule } from "../representante/module";
+import { PedidoTipoModule } from "../pedido-tipo/module";
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { RepresentanteModule } from "../representante/module";
         DepositoModule,
         FormaPagamentoModule,
         RepresentanteModule,
+        PedidoTipoModule,
         
         BaseCrudModule
     ],
