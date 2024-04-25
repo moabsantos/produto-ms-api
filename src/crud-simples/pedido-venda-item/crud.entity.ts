@@ -110,7 +110,7 @@ export class PedidoVendaItem extends BaseModelCrud {
     @Column({nullable: true})
     dataEntrega: Date;
 
-    @Column({default: 'Pendente'})
+    @Column({default: 'Digitação'})
     statusItem: string;
 
 
