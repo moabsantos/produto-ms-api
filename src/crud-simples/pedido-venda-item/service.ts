@@ -199,7 +199,7 @@ export class PedidoVendaItemService extends BaseCrudService{
             }
         };
 
-        this.pedidoVendaServ.updateRepoId(req, user, {id: dto.pedidoVendaId, statusItem: statusFinal.valor})
+        if (itens.length > 0) this.pedidoVendaServ.updateRepoId(req, user, {id: dto.pedidoVendaId, statusItem: statusFinal.valor})
 
         return this.getMessage(req, user, this, {status: true, error: false, message: `Processo finalizado`})
     }
