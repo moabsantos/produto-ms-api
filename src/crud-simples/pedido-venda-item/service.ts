@@ -172,7 +172,7 @@ export class PedidoVendaItemService extends BaseCrudService{
         await this.updateRepoId(req, user, {id: obj.id, statusItem: dto.statusItemDestino})
     }
 
-    async mudaStatusItens(req: any, user: any, dto: any){
+    async mudaStatusItens(req: any, user: any, dto: any): Promise<any>{
 
         if (this.listStatus.indexOf(dto.statusItemDestino) < 0) return this.getMessage(req, user, this, {status: false, error: true, message: `Status Destino Inválido [${dto.statusItemDestino}]`})
 
@@ -200,6 +200,8 @@ export class PedidoVendaItemService extends BaseCrudService{
         };
 
         this.pedidoVendaServ.updateRepoId(req, user, {id: dto.pedidoVendaId, statusItem: statusFinal.valor})
+
+        return this.getMessage(req, user, this, {status: true, error: false, message: `Processo finalizado`})
     }
 
     async finalizaDigitacaoItens(req: any, user: any, dto: any): Promise<any> {
