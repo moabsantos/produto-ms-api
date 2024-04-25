@@ -166,6 +166,9 @@ export class PedidoVenda extends BaseModelCrud {
     dataSolicitacao: Date;
 
     @Column({nullable: true})
+    dataPrevisaoEntrega: Date;
+
+    @Column({nullable: true})
     dataEntrega: Date;
 
     @Column({default: 'Pendente'})
