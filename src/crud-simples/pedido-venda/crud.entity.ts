@@ -8,6 +8,9 @@ export class PedidoVenda extends BaseModelCrud {
     @Column()
     empresaId: number;
 
+    @Column({nullable: true})
+    empresaCode: string;
+
     @Column()
     empresaName: string;
 
