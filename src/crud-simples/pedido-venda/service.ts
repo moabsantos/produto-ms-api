@@ -67,8 +67,6 @@ export class PedidoVendaService extends BaseCrudService{
             model = this.getModelFromInputs(model, dto, [
                 'dataSolicitacao', 'dataPrevisaoEntrega', 'quantidadeItens', 'valorDesconto', 'valorTotal'])
 
-            if (dto.statusItem == 'Pendente') model.statusItem = dto.statusItem
-
             model = this.getDataModelsFromDto(model)
         }
 

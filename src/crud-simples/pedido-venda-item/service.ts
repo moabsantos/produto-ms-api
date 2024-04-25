@@ -14,7 +14,7 @@ export class PedidoVendaItemService extends BaseCrudService{
 
     pedidoVenda: any
     itemVenda: any
-    listStatus = ['Pendente', 'Aprovado', 'Em Ordem', 'Separado', 'Entregue', 'Cancelado']
+    listStatus = ['Digitação', 'Pendente', 'Aprovado', 'Em Ordem', 'Separado', 'Entregue', 'Cancelado']
 
     constructor (
         @InjectRepository(PedidoVendaItem) protected repo,
@@ -57,7 +57,7 @@ export class PedidoVendaItemService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: PedidoVendaItem){
 
-        if (!model.statusItem || model.statusItem == 'Pendente'){
+        if (!model.statusItem || model.statusItem == 'Digitação'){
             model = this.getDataModelsFromDto(model)
 
             model = this.getModelFromInputs(model, dto, [
@@ -200,6 +200,12 @@ export class PedidoVendaItemService extends BaseCrudService{
         };
 
         this.pedidoVendaServ.updateRepoId(req, user, {id: dto.pedidoVendaId, statusItem: statusFinal.valor})
+    }
+
+    async finalizaDigitacaoItens(req: any, user: any, dto: any): Promise<any> {
+
+        return this.mudaStatusItens(req, user, {...dto, statusItemOrigem: 'Digitação', statusItemDestino: 'Pendente'})
+
     }
 
     async aprovaItens(req: any, user: any, dto: any): Promise<any> {

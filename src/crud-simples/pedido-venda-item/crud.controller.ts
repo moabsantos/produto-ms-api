@@ -13,6 +13,15 @@ export class PedidoVendaItemController extends BaseCrudController{
         super(service, userService)
     }
 
+    @Post('finaliza-digitacao/full-list')
+    @UseInterceptors(CrudRequestInterceptor)
+    async finalizaDigitacaoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+        return await this.service.finalizaDigitacaoItens(req, user, body)
+
+    }
+
     @Post('aprovacao/full-list')
     @UseInterceptors(CrudRequestInterceptor)
     async aprovacaoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){

@@ -145,4 +145,8 @@ export class PedidoVendaItem extends BaseModelCrud {
 
     @Column({nullable: true})
     depositoDestinoDescription: string;
+
+
+    @Column({default: 1})
+    idUserSelecao: number;
 }
