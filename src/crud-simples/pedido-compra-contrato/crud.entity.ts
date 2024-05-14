@@ -66,6 +66,8 @@ export class PedidoCompraContrato extends BaseModelCrud {
 
     @Column({default: 0})
     qtdParcelas: number;
+    @Column({nullable: true})
+    regraIntervaloParcelas: string;
     @Column()
     primeiroVencimento: Date;
 
