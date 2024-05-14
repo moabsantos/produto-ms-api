@@ -396,6 +396,9 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
                 if (idxDias >= dias.length) idxDias = 0
 
                 if (idxDias > 0 && dias[idxDias] <= dias[idxDias-1]) mes = mes +1
+
+                if (idxDias == 0 && index > 0) mes = mes +1
+
                 if (mes > 12) {
                     mes = 1
                     ano = ano +1
