@@ -376,6 +376,9 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
     getProximoVencimento({dataVencimento1, intervalo, proximaParcela}){
 
+        if (!intervalo) intervalo = "mensal"
+        intervalo = intervalo.replace(/\s/g, '')
+
         proximaParcela = proximaParcela -1
 
         let date: Date = dataVencimento1
@@ -384,14 +387,38 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         let ano = dt.getFullYear()
         let mes = dt.getMonth()+1
 
-        if (proximaParcela + mes <= 12) return this.dataFormatada({isDate: false, data: `${ano}-${proximaParcela + mes}-${diaM}`})
+        if (intervalo.toUpperCase().startsWith("DIAS:")){
+            let dias = intervalo.split(':')
+            dias = dias[1].split(',')
 
-        while (proximaParcela + mes > 12){
-            proximaParcela = proximaParcela + mes
-            mes = 0
+            let idxDias = 0
+            for (let index = 0; index <= proximaParcela; index++) {
+                if (idxDias >= dias.length) idxDias = 0
 
-            proximaParcela = proximaParcela - 12
-            ano = ano + 1
+                if (idxDias > 0 && dias[idxDias] <= dias[idxDias-1]) mes = mes +1
+                if (mes > 12) {
+                    mes = 1
+                    ano = ano +1
+                }
+
+
+                if (index < proximaParcela) idxDias = idxDias +1
+            }
+            
+            return this.dataFormatada({isDate: false, data: `${ano}-${mes}-${dias[idxDias]}`})
+        }
+
+        if (intervalo == "mensal") {
+
+            if (proximaParcela + mes <= 12) return this.dataFormatada({isDate: false, data: `${ano}-${proximaParcela + mes}-${diaM}`})
+
+            while (proximaParcela + mes > 12){
+                proximaParcela = proximaParcela + mes
+                mes = 0
+
+                proximaParcela = proximaParcela - 12
+                ano = ano + 1
+            }
         }
 
         return this.dataFormatada({isDate: false, data: `${ano}-${proximaParcela + mes}-${diaM}`})
