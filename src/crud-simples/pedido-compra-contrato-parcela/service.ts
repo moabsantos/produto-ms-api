@@ -145,7 +145,10 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
                 await this.save(req, user, {
                     pedidoCompraContratoId: param.pedidoCompraContratoId,
-                    dataVencimento: this.getProximoVencimento({dataVencimento1: contrato.primeiroVencimento, intervalo: "mensal", proximaParcela: numParcela}),
+                    dataVencimento: this.getProximoVencimento({
+                        dataVencimento1: contrato.primeiroVencimento, 
+                        intervalo: contrato.regraIntervaloParcelas ? contrato.regraIntervaloParcelas : "mensal", 
+                        proximaParcela: numParcela}),
                     numeroParcela: numParcela,
                     valorParcela: valorParcela
                 })
