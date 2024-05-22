@@ -40,7 +40,7 @@ export class DepositoSaldoService extends BaseCrudService{
 
         const item = await this.get(req, user, id)
 
-        if (!item?.data[0]) return {status: false, error: true, id:-1}
+        if (!item?.data[0]) return {status: false, error: true, id:-1, message: "Exclusão cancelada"}
 
         let hasQuantityValid = false
 
@@ -54,7 +54,7 @@ export class DepositoSaldoService extends BaseCrudService{
 
         if (!hasQuantityValid) await this.repo.delete(item.data[0].id)
 
-        return {status: true, error: false, id:id}
+        return {status: true, error: false, id:id, message: "Exclusão realizada"}
     }
 
 }

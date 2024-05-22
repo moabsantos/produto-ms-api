@@ -318,7 +318,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         await this.updateRepoId(req, user, modelFound.data[0])
         
-        return {status: true, error: false, id: modelFound.data[0].id}
+        return {status: true, error: false, id: modelFound.data[0].id, message: "Exclusão realizada"}
     }
 
 

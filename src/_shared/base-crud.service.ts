@@ -216,4 +216,34 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
 
     }
 
+    filtroSelecaoFullItem(req: any, user: any){
+        return {id: 0}
+    }
+
+    async selecaoFullItem(req: any, user: any, id: number): Promise<any>{
+
+        if (!id) return {id: null, idUserSelecao: null}
+        const filtro = this.filtroSelecaoFullItem(req, user) 
+
+        const itens = await this.repo.find({where:this.filtroSelecaoFullItem(req, user)})
+
+        if (itens.length < 1) return
+
+        itens[0].idUserSelecao = itens[0].idUserSelecao == 0 ? user.userId : 0
+
+        for (let index = 0; index < itens.length; index++) {
+            const element = itens[index];
+
+            await this.updateRepoId(req, user, {
+                id: element.id,
+                idUserSelecao: itens[0].idUserSelecao
+            })
+            
+        }
+
+
+        return {id: 0, idUserSelecao:itens[0].idUserSelecao}
+
+    }
+
 }
