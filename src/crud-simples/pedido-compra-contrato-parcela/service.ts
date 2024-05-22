@@ -322,7 +322,9 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
         if (!item?.data[0]) return {status: false, error: true, id:-1, message: "Exclusão cancelada"}
 
-        if (item?.data[0]['status'] != 'Pendente') return {status: false, error: false, id:id, message: "Parcela não está em status Pendente"}
+        if (item?.data[0]['status'] != 'Pendente' || item.data[0].id != id) return {status: false, error: false, id:id, message: "Parcela não está em status Pendente"}
+
+        const deleted = await this.repo.delete(item.data[0].id)
 
         return {status: true, error: false, id:id, message: "Exclusão da Parcela realizada"}
     }

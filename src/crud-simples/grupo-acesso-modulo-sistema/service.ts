@@ -69,7 +69,7 @@ export class GrupoAcessoModuloSistemaService extends BaseCrudService{
 
         await this.repo.delete(item.data[0].id)
 
-        return {status: true, error: false, id: id}
+        return {status: true, error: false, id: id, message: "Exclusão realizada"}
     }
 
 }
