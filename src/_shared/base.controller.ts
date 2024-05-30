@@ -30,7 +30,7 @@ export class BaseController {
         }
 
         try {
-            if (!tokenSaved || tokenSaved.expire_at >= new Date()) response = await firstValueFrom(this.http.get('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='+ token));
+            if (!tokenSaved || tokenSaved.expire_at <= new Date()) response = await firstValueFrom(this.http.get('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='+ token));
         } catch (error) { 
             throw new HttpException({
                 status: HttpStatus.UNAUTHORIZED,
@@ -49,7 +49,7 @@ export class BaseController {
             });
         }
 
-        if (( !tokenSaved && response.data.email ) || ( tokenSaved.expire_at >= new Date() )) await this.userService.saveToken({
+        if (( !tokenSaved && response.data.email ) || ( tokenSaved.expire_at <= new Date() )) await this.userService.saveToken({
             dominio: dominioToken,
             email: response.data.email,
             email_verified: response.data.email_verified,
