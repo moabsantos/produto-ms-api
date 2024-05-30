@@ -25,6 +25,15 @@ export class BaseController {
             });
         }
 
+        if (!response?.data?.email){
+            throw new HttpException({
+                status: HttpStatus.UNAUTHORIZED,
+                error: 'Token Inválido',
+            }, HttpStatus.UNAUTHORIZED, {
+                cause: {name: "Token Invalid", message: "Email não encontrado"}
+            });
+        }
+
         const userCheck = await this.userService.findByWhere({email: response.data.email})
 
         if (userCheck.length == 1 && ( !userCheck[0].checked || userCheck[0].picture != response.data.picture)){
