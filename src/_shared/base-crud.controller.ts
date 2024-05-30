@@ -53,9 +53,10 @@ export class BaseCrudController extends BaseController {
     @Override()
     async getMany(@ParsedRequest() req: CrudRequest, @UserRequest() authToken){
 
+        const startController = new Date()        
         const user = await this.getDetailToken(req, authToken.token)
 
-        const startController = new Date()
+        const startService = new Date()
         const result = await this.service.get(req, user)
 
         if (!result){
@@ -71,8 +72,12 @@ export class BaseCrudController extends BaseController {
             ...result,
 
             startController: startController,
-            endController: startController,
+            endController: endController,
             processController: endController.getTime() - startController.getTime(),
+
+            startService: startService,
+            endService: endController,
+            processService: endController.getTime() - startService.getTime(),
         }
 
     }
