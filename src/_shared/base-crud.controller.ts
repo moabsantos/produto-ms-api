@@ -72,7 +72,7 @@ export class BaseCrudController extends BaseController {
 
             startController: startController,
             endController: startController,
-            processDB: endController.getTime() - startController.getTime(),
+            processController: endController.getTime() - startController.getTime(),
         }
 
     }
