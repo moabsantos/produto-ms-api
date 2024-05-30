@@ -193,15 +193,24 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         }
 
         try {
+            const startDB = new Date()
             let modelsFound = await this.getMany(req)
+            const endDB = new Date()
 
             return {
                 msgGeral: "Resultado para filtro sem o id único",
+                success: true, error: false,
+                
+                startDB: startDB,
+                endDB: endDB,
+                processDB: endDB.getTime() - startDB.getTime(),
+
                 data: modelsFound
             }
         } catch (error) {
             return {
                 msgGeral: "Esta consulta não está disponível",
+                success: false, error: true,
                 data: []
             }
         }
