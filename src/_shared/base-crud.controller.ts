@@ -55,7 +55,8 @@ export class BaseCrudController extends BaseController {
 
         const user = await this.getDetailToken(req, authToken.token)
 
-        let result = await this.service.get(req, user)
+        const startController = new Date()
+        const result = await this.service.get(req, user)
 
         if (!result){
             throw new HttpException({
@@ -64,7 +65,15 @@ export class BaseCrudController extends BaseController {
             }, HttpStatus.FORBIDDEN);
         }
 
-        return result
+        const endController = new Date()
+
+        return {
+            ...result,
+
+            startController: startController,
+            endController: startController,
+            processDB: endController.getTime() - startController.getTime(),
+        }
 
     }
 
