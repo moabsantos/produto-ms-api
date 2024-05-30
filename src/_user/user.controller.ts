@@ -92,4 +92,23 @@ export class UserController extends BaseController{
         return result
     }
 
+
+    @Get('logoff')
+    @UseInterceptors(CrudRequestInterceptor)
+    async logoffSistema(@ParsedRequest() req: CrudRequest, @UserRequest() authToken){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.removeToken(req, user)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+    }
+
 }

@@ -7,12 +7,14 @@ import { GrupoAcessoUsuario } from "./grupo-usuario.entity";
 import { GrupoAcessoPermissao } from "./grupo-permissao.entity";
 import { Realm } from "./realm.entity";
 import { GrupoAcessoModuloSistema } from "./grupo-modulo.entity";
+import { UserToken } from "./user-token.entity";
 
 @Injectable()
 export class UserService extends TypeOrmCrudService<User>{
 
     constructor (
         @InjectRepository(User) repo,
+        @InjectRepository(UserToken) protected repoToken,
         @InjectRepository(GrupoAcessoUsuario) protected repoGrupos,
         @InjectRepository(GrupoAcessoPermissao) protected repoPermissoes,
         @InjectRepository(GrupoAcessoModuloSistema) protected repoModulos,
@@ -20,6 +22,33 @@ export class UserService extends TypeOrmCrudService<User>{
         private readonly mailerService: MailerService)
     {
         super(repo)
+    }
+
+    async hasToken(param: any){
+        return await this.repoToken.findOne({where:param.where})
+    }
+
+    async removeToken(req: any, user: any){
+        const token = await this.repoToken.findOne({where:{email: user.email}})
+        if (!token) return {success: false, error: false}
+
+        if (token) await this.repoToken.delete(token.dominioEmail)
+        if (token) return {success: true, error: false}
+    }
+
+    async saveToken(param: any){
+        return await this.repoToken.save({
+            dominioEmail: `${param.dominio}:${param.email}`,
+            dominio: param.dominio,
+            email: param.email,
+            email_verified: param.email_verified,
+            token: param.token,
+            name: param.name,
+            picture: param.picture,
+            created_at: new Date(),
+            expire_at: param.expire_at,
+            exp: param.exp
+        })
     }
 
     async hasPermissao(iduser: number, permissaoCode: string, realmId: number){

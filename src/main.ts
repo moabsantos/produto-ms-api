@@ -10,9 +10,6 @@ async function bootstrap() {
     //logger: new MyLoggerService(),
     cors: {
       origin: [
-        'http://localhost:3010',
-        'https://erp-v2024.queavanca.com',
-        'https://produto.queavanca.com',
         'https://images.queavanca.com',
         'https://api-gateway.queavanca.com'
       ],

@@ -11,10 +11,11 @@ import { GrupoAcessoUsuario } from "./grupo-usuario.entity";
 import { GrupoAcessoPermissao } from "./grupo-permissao.entity";
 import { Realm } from "./realm.entity";
 import { GrupoAcessoModuloSistema } from "./grupo-modulo.entity";
+import { UserToken } from "./user-token.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User, GrupoAcessoUsuario, GrupoAcessoPermissao, GrupoAcessoModuloSistema, Realm, UserPassword]),
+        TypeOrmModule.forFeature([User, GrupoAcessoUsuario, GrupoAcessoPermissao, GrupoAcessoModuloSistema, Realm, UserPassword, UserToken]),
         EmailModule
     ],
     controllers:[UserController, UserPasswordController],
