@@ -360,19 +360,71 @@ export class DepositoRequisicaoService extends BaseCrudService{
     }
 
     getFieldsResumo(){
-        return [{
+
+        const fieldsResumo = {
             groupName: "resumoCardex",
-            customGrupo: (payload: any) => payload.itemId+'-'+payload.depositoIdOrigem+'-'+payload.depositoIdDestino+'-'+payload.unidadeMedidaId,
+            customGrupo: (payload: any) => 'It'+ payload.itemId+'-DpO'+payload.depositoIdOrigem+'-DpD'+payload.depositoIdDestino+'-Un'+payload.unidadeMedidaId,
             fieldName: "centroCustoName",
             customField: (payload: any) =>{ return {
-                id: payload.itemId+'-'+payload.depositoIdOrigem+'-'+payload.depositoIdDestino+'-'+payload.unidadeMedidaId,
+                id: 'It'+ payload.itemId+'-DpO'+payload.depositoIdOrigem+'-DpD'+payload.depositoIdDestino+'-Un'+payload.unidadeMedidaId,
                 depositoNameOrigem: payload.depositoNameOrigem,
                 depositoNameDestino: payload.depositoNameDestino,
                 itemName: payload.itemName,
                 unidadeMedidaSigla: payload.unidadeMedidaSigla,
             }},
-            fieldValue: "quantidadeDisponivelOrigem"
-        }]
+
+            }
+
+        return [
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadeDisponivelOrigem"
+            },
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadeReservadaOrigem"
+            },
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadeBloqueadaOrigem"
+            },
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadeReprovadaOrigem"
+            },
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadeAprovadaOrigem"
+            },
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadeRequisitadaOrigem"
+            },
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadeSeparadaOrigem"
+            },
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadeEntregueOrigem"
+            },
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadeFornecedorOrigem"
+            },
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadePedidaOrigem"
+            },
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadeFaturadaOrigem"
+            },
+            {
+                ...fieldsResumo,
+                fieldValue: "quantidadeRecebidaOrigem"
+            }
+        ]
     }
 
 }

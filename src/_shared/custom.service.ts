@@ -83,6 +83,8 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         const fieldsResumo = this.getFieldsResumo()
 
+        let keysCustom = false
+
         if (res?.data && res?.data?.length > 0) res.data.forEach(element => {
 
             for (let index = 0; index < fieldsResumo.length; index++) {
@@ -92,11 +94,12 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
                 if (fieldResumo.customGrupo && fieldResumo.customField) {
 
+                    keysCustom = true
+
                     let customGrupo = fieldResumo.customGrupo(element)
                     let fields = fieldResumo.customField(element)
 
                     if (!retorno[customGrupo]) retorno[customGrupo] = {
-                        key: customGrupo,
                         ...fields
                     }
 
@@ -123,6 +126,16 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             }
 
         });
+
+        if (keysCustom){
+            let novoRetorno = []
+
+            for (const [key, value] of Object.entries(retorno)) {
+                novoRetorno.push(value)
+            }
+
+            return novoRetorno
+        }
 
         return retorno
 
