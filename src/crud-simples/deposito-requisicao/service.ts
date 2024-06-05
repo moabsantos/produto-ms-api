@@ -370,6 +370,7 @@ export class DepositoRequisicaoService extends BaseCrudService{
                 depositoNameOrigem: payload.depositoNameOrigem,
                 depositoNameDestino: payload.depositoNameDestino,
                 itemName: payload.itemName,
+                itemGrupoName: payload.itemGrupoName,
                 unidadeMedidaSigla: payload.unidadeMedidaSigla,
             }},
 
