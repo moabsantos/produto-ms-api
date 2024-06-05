@@ -104,7 +104,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
                     let valor = retorno[customGrupo][fieldResumo.fieldValue]
 
-                    retorno[customGrupo][fieldResumo.fieldValue] = this.numeroFormatado({ valor: valor + Number(element[fieldResumo.fieldValue]) })
+                    retorno[customGrupo][fieldResumo.fieldValue] = valor + Number(element[fieldResumo.fieldValue])
 
                 }else{
 
