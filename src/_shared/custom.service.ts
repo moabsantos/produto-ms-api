@@ -134,7 +134,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
                 novoRetorno.push(value)
             }
 
-            return novoRetorno
+            return {data:novoRetorno}
         }
 
         return retorno
