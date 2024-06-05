@@ -84,24 +84,44 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         const fieldsResumo = this.getFieldsResumo()
 
         if (res?.data && res?.data?.length > 0) res.data.forEach(element => {
+
             for (let index = 0; index < fieldsResumo.length; index++) {
                 const fieldResumo = fieldsResumo[index];
-                
                 let customGrupo = fieldResumo.groupName
-                if (fieldResumo.customGrupo) customGrupo = fieldResumo.customGrupo(element)
-
-                if (!retorno[customGrupo]) retorno[customGrupo] = {key: customGrupo}
-                
                 let fieldName = element[fieldResumo.fieldName]
 
-                const objInicial = fieldResumo.customField ? fieldResumo.customField(element) : {}
-                if (!retorno[customGrupo][fieldName]) retorno[customGrupo][fieldName] = {...objInicial}
+                if (fieldResumo.customGrupo && fieldResumo.customField) {
 
-                if (!retorno[customGrupo][fieldName][fieldResumo.fieldValue]) retorno[customGrupo][fieldName][fieldResumo.fieldValue] = 0
-                let valor = retorno[customGrupo][fieldName][fieldResumo.fieldValue]
+                    let customGrupo = fieldResumo.customGrupo(element)
+                    let fields = fieldResumo.customField(element)
 
-                retorno[customGrupo][fieldName][fieldResumo.fieldValue] = this.numeroFormatado({ valor: valor + Number(element[fieldResumo.fieldValue]) })
+                    if (!retorno[customGrupo]) retorno[customGrupo] = {
+                        key: customGrupo,
+                        ...fields
+                    }
+
+                    if (!retorno[customGrupo][fieldResumo.fieldValue]) retorno[customGrupo][fieldResumo.fieldValue] = 0
+
+                    let valor = retorno[customGrupo][fieldResumo.fieldValue]
+
+                    retorno[customGrupo][fieldResumo.fieldValue] = this.numeroFormatado({ valor: valor + Number(element[fieldResumo.fieldValue]) })
+
+                }else{
+
+                    if (!retorno[customGrupo]) retorno[customGrupo] = {}
+                
+                    if (!retorno[customGrupo][fieldName]) retorno[customGrupo][fieldName] = {}
+    
+                    if (!retorno[customGrupo][fieldName][fieldResumo.fieldValue]) retorno[customGrupo][fieldName][fieldResumo.fieldValue] = 0
+                    
+                    let valor = retorno[customGrupo][fieldName][fieldResumo.fieldValue]
+    
+                    retorno[customGrupo][fieldName][fieldResumo.fieldValue] = this.numeroFormatado({ valor: valor + Number(element[fieldResumo.fieldValue]) })
+
+                }
+
             }
+
         });
 
         return retorno
