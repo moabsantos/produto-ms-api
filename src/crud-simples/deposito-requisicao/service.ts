@@ -359,4 +359,20 @@ export class DepositoRequisicaoService extends BaseCrudService{
         return null
     }
 
+    getFieldsResumo(){
+        return [{
+            groupName: "resumoCardex",
+            customGrupo: (payload: any) => payload.itemId+'-'+payload.depositoIdOrigem+'-'+payload.depositoIdDestino+'-'+payload.unidadeMedidaId,
+            fieldName: "centroCustoName",
+            customFields: (payload: any) =>{ return {
+                id: payload.itemId+'-'+payload.depositoIdOrigem+'-'+payload.depositoIdDestino+'-'+payload.unidadeMedidaId,
+                depositoNameOrigem: payload.depositoNameOrigem,
+                depositoNameDestino: payload.depositoNameDestino,
+                itemName: payload.itemName,
+                unidadeMedidaSigla: payload.unidadeMedidaSigla,
+            }},
+            fieldValue: "quantidade"
+        }]
+    }
+
 }

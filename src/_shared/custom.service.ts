@@ -87,14 +87,17 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
             for (let index = 0; index < fieldsResumo.length; index++) {
                 const fieldResumo = fieldsResumo[index];
                 
-                if (!retorno[fieldResumo.groupName]) retorno[fieldResumo.groupName] = {}
+                let customGrupo = fieldResumo.groupName
+                if (fieldResumo.customGrupo) customGrupo = fieldResumo.customGrupo(element)
+
+                if (!retorno[customGrupo]) retorno[customGrupo] = {}
                 const fieldName = element[fieldResumo.fieldName]
-                if (!retorno[fieldResumo.groupName][fieldName]) retorno[fieldResumo.groupName][fieldName] = {}
+                if (!retorno[customGrupo][fieldName]) retorno[customGrupo][fieldName] = {}
 
-                if (!retorno[fieldResumo.groupName][fieldName][fieldResumo.fieldValue]) retorno[fieldResumo.groupName][fieldName][fieldResumo.fieldValue] = 0
-                let valor = retorno[fieldResumo.groupName][fieldName][fieldResumo.fieldValue]
+                if (!retorno[customGrupo][fieldName][fieldResumo.fieldValue]) retorno[customGrupo][fieldName][fieldResumo.fieldValue] = 0
+                let valor = retorno[customGrupo][fieldName][fieldResumo.fieldValue]
 
-                retorno[fieldResumo.groupName][fieldName][fieldResumo.fieldValue] = this.numeroFormatado({ valor: valor + Number(element[fieldResumo.fieldValue]) })
+                retorno[customGrupo][fieldName][fieldResumo.fieldValue] = this.numeroFormatado({ valor: valor + Number(element[fieldResumo.fieldValue]) })
             }
         });
 
