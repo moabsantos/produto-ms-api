@@ -90,12 +90,12 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
                 let customGrupo = fieldResumo.groupName
                 if (fieldResumo.customGrupo) customGrupo = fieldResumo.customGrupo(element)
 
-                if (!retorno[customGrupo]) retorno[customGrupo] = {}
+                if (!retorno[customGrupo]) retorno[customGrupo] = {key: customGrupo}
                 
                 let fieldName = element[fieldResumo.fieldName]
-                if (fieldResumo.customField) fieldName = fieldResumo.customField(element)
 
-                if (!retorno[customGrupo][fieldName]) retorno[customGrupo][fieldName] = {}
+                const objInicial = fieldResumo.customField ? fieldResumo.customField(element) : {}
+                if (!retorno[customGrupo][fieldName]) retorno[customGrupo][fieldName] = {...objInicial}
 
                 if (!retorno[customGrupo][fieldName][fieldResumo.fieldValue]) retorno[customGrupo][fieldName][fieldResumo.fieldValue] = 0
                 let valor = retorno[customGrupo][fieldName][fieldResumo.fieldValue]
