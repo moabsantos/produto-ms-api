@@ -364,7 +364,7 @@ export class DepositoRequisicaoService extends BaseCrudService{
             groupName: "resumoCardex",
             customGrupo: (payload: any) => payload.itemId+'-'+payload.depositoIdOrigem+'-'+payload.depositoIdDestino+'-'+payload.unidadeMedidaId,
             fieldName: "centroCustoName",
-            customFields: (payload: any) =>{ return {
+            customField: (payload: any) =>{ return {
                 id: payload.itemId+'-'+payload.depositoIdOrigem+'-'+payload.depositoIdDestino+'-'+payload.unidadeMedidaId,
                 depositoNameOrigem: payload.depositoNameOrigem,
                 depositoNameDestino: payload.depositoNameDestino,
