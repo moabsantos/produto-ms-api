@@ -371,7 +371,7 @@ export class DepositoRequisicaoService extends BaseCrudService{
                 itemName: payload.itemName,
                 unidadeMedidaSigla: payload.unidadeMedidaSigla,
             }},
-            fieldValue: "quantidade"
+            fieldValue: "quantidadeDisponivelOrigem"
         }]
     }
 
