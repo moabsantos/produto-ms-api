@@ -16,6 +16,8 @@ import { ClienteModule } from "../cliente/module";
 import { ClienteEstabelecimentoModule } from "../cliente-estabelecimento/module";
 import { RequisicaoGrupoModule } from "../requisicao-grupo/module";
 import { SetorModule } from "../setor/module";
+import { ProdutoModule } from "../produto/module";
+import { UnidadeMedidaModule } from "../unidade-medida/module";
 
 @Module({
     imports: [
@@ -28,6 +30,8 @@ import { SetorModule } from "../setor/module";
         ClienteModule,
         ClienteEstabelecimentoModule,
         DepositoModule,
+        ProdutoModule,
+        UnidadeMedidaModule,
         
         TypeOrmModule.forFeature([RequisicaoAlmoxarifado, RequisicaoAlmoxarifadoUser]),
         BaseCrudModule

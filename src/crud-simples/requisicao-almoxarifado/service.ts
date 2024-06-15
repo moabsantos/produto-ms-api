@@ -9,6 +9,8 @@ import { DepositoService } from "../deposito/service";
 import { ClienteEstabelecimentoService } from "../cliente-estabelecimento/service";
 import { RequisicaoGrupoService } from "../requisicao-grupo/service";
 import { SetorService } from "../setor/service";
+import { ProdutoService } from "../produto/service";
+import { UnidadeMedidaService } from "../unidade-medida/service";
 
 export class RequisicaoAlmoxarifadoService extends BaseCrudService{
 
@@ -19,6 +21,8 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
     private clienteEstab: any;
     private depositoOrigem: any;
     private depositoDestino: any;
+    private itemProdutoFinal: any;
+    private unidadeMedidaProdutoFinal: any;
     
     constructor (
         @InjectRepository(RequisicaoAlmoxarifado) protected repo,
@@ -28,7 +32,9 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
         private requisicaoGrupoServ: RequisicaoGrupoService,
         private clienteServ: ClienteService,
         private clienteEstabServ: ClienteEstabelecimentoService,
-        private depositoServ: DepositoService)
+        private depositoServ: DepositoService,
+        private produtoFinalServ: ProdutoService,
+        private unidadeMedidaProdutoFinalServ: UnidadeMedidaService)
     {
         super(repo, repoUser)
         
@@ -44,39 +50,55 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: RequisicaoAlmoxarifado){
  
-        model.dataSolicitacao = dto.dataSolicitacao
+        if (!model.statusItem || model.statusItem == 'Pendente') {
+                
+            model.dataSolicitacao = dto.dataSolicitacao
 
-        model.empresaName = this.empresa.name
-        model.empresaSigla = this.empresa.sigla
-        model.empresaId = dto.empresaId
+            model.empresaName = this.empresa.name
+            model.empresaSigla = this.empresa.sigla
+            model.empresaId = dto.empresaId
 
-        model.requisicaoGrupoName = this.requisicaoGrupo.name
-        model.requisicaoGrupoSigla = this.requisicaoGrupo.sigla
-        model.requisicaoGrupoId = dto.requisicaoGrupoId
+            model.requisicaoGrupoName = this.requisicaoGrupo.name
+            model.requisicaoGrupoSigla = this.requisicaoGrupo.sigla
+            model.requisicaoGrupoId = dto.requisicaoGrupoId
 
-        model.clienteName = dto.clienteId && dto.clienteId > 0 ? this.cliente.name : null
-        model.clienteSigla = dto.clienteId && dto.clienteId > 0 ? this.cliente.sigla : null
-        model.clienteId = dto.clienteId && dto.clienteId > 0 ? dto.clienteId : null
+            model.clienteName = dto.clienteId && dto.clienteId > 0 ? this.cliente.name : null
+            model.clienteSigla = dto.clienteId && dto.clienteId > 0 ? this.cliente.sigla : null
+            model.clienteId = dto.clienteId && dto.clienteId > 0 ? dto.clienteId : null
 
-        model.clienteEstabelecimentoId = this.clienteEstab ? this.clienteEstab.id : null
-        model.clienteEstabelecimentoName = this.clienteEstab ? this.clienteEstab.name : null
-        model.clienteCep = this.clienteEstab && this.clienteEstab.cep > 0 ? this.clienteEstab.cep : null
-        model.clienteCidadeName = this.clienteEstab && this.clienteEstab.cidadeName ? this.clienteEstab.cidadeName : null
-        model.clienteCidadeUfSigla = this.clienteEstab ? this.clienteEstab.cidadeUfSigla : null
+            model.clienteEstabelecimentoId = this.clienteEstab ? this.clienteEstab.id : null
+            model.clienteEstabelecimentoName = this.clienteEstab ? this.clienteEstab.name : null
+            model.clienteCep = this.clienteEstab && this.clienteEstab.cep > 0 ? this.clienteEstab.cep : null
+            model.clienteCidadeName = this.clienteEstab && this.clienteEstab.cidadeName ? this.clienteEstab.cidadeName : null
+            model.clienteCidadeUfSigla = this.clienteEstab ? this.clienteEstab.cidadeUfSigla : null
 
-        model.depositoNameOrigem = this.depositoOrigem.name
-        model.depositoCodeOrigem = this.depositoOrigem.code
-        model.depositoSiglaOrigem = this.depositoOrigem.sigla
-        model.depositoIdOrigem = dto.depositoIdOrigem
+            model.depositoNameOrigem = this.depositoOrigem.name
+            model.depositoCodeOrigem = this.depositoOrigem.code
+            model.depositoSiglaOrigem = this.depositoOrigem.sigla
+            model.depositoIdOrigem = dto.depositoIdOrigem
 
-        model.depositoNameDestino = this.depositoDestino.name
-        model.depositoCodeDestino = this.depositoDestino.code
-        model.depositoSiglaDestino = this.depositoDestino.sigla
-        model.depositoIdDestino = dto.depositoIdDestino
+            model.depositoNameDestino = this.depositoDestino.name
+            model.depositoCodeDestino = this.depositoDestino.code
+            model.depositoSiglaDestino = this.depositoDestino.sigla
+            model.depositoIdDestino = dto.depositoIdDestino
 
-        model.setorName = this.setor.name
-        model.setorSigla = this.setor.sigla
-        model.setorId = dto.setorId
+            model.setorName = this.setor.name
+            model.setorSigla = this.setor.sigla
+            model.setorId = dto.setorId
+
+            model.itemIdProdutoFinal = this.itemProdutoFinal.id ?? 0;
+            if (this.itemProdutoFinal) model.itemCodeProdutoFinal = this.itemProdutoFinal.code;
+            if (this.itemProdutoFinal) model.itemNameProdutoFinal = this.itemProdutoFinal.name;
+            if (this.itemProdutoFinal) model.itemSiglaProdutoFinal = this.itemProdutoFinal.sigla;
+            if (this.itemProdutoFinal) model.itemDescriptionProdutoFinal = this.itemProdutoFinal.description;
+
+            model.unidadeMedidaIdProdutoFinal = this.unidadeMedidaProdutoFinal.id ?? 0;
+            if (this.unidadeMedidaProdutoFinal) model.unidadeMedidaNameProdutoFinal = this.unidadeMedidaProdutoFinal.name;
+            if (this.unidadeMedidaProdutoFinal) model.unidadeMedidaSiglaProdutoFinal = this.unidadeMedidaProdutoFinal.sigla;
+            model.quantidadeSolicitadaProdutoFinal = dto.quantidadeSolicitadaProdutoFinal;
+            model.alternativaProdutoFinal = dto.alternativaProdutoFinal;
+        
+        }
 
         return super.getDataFromDto(dto, user, model)
     }
@@ -136,6 +158,9 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
             this.logger.error(`O Setor ${dto.setorId} não foi encontrado`)
             return false
         }
+
+        this.itemProdutoFinal = await this.validateId(this.produtoFinalServ, dto.itemProdutoFinalId, user)
+        this.unidadeMedidaProdutoFinal = await this.validateId(this.unidadeMedidaProdutoFinalServ, dto.unidadeMedidaProdutoFinalId, user)
 
         return super.validate(dto, user)
     }

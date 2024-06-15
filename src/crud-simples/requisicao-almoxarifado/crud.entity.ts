@@ -98,4 +98,36 @@ export class RequisicaoAlmoxarifado extends BaseModelCrud {
 
     @Column({default: 'Pendente'})
     statusItem: string;
+
+
+
+    @Column({nullable: true})
+    itemIdProdutoFinal: number;
+
+    @Column({nullable: true})
+    itemCodeProdutoFinal: string;
+
+    @Column({nullable: true})
+    itemNameProdutoFinal: string;
+
+    @Column({nullable: true})
+    itemSiglaProdutoFinal: string;
+
+    @Column({nullable: true})
+    itemDescriptionProdutoFinal: string;
+
+    @Column({nullable: true})
+    unidadeMedidaIdProdutoFinal: number;
+
+    @Column({nullable: true})
+    unidadeMedidaNameProdutoFinal: string;
+
+    @Column({nullable: true})
+    unidadeMedidaSiglaProdutoFinal: string;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeSolicitadaProdutoFinal: number;
+
+    @Column({default: 1})
+    alternativaProdutoFinal: number;
 }
