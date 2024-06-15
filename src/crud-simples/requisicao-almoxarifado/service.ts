@@ -159,8 +159,8 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
             return false
         }
 
-        this.itemProdutoFinal = await this.validateId(this.produtoFinalServ, dto.itemProdutoFinalId, user)
-        this.unidadeMedidaProdutoFinal = await this.validateId(this.unidadeMedidaProdutoFinalServ, dto.unidadeMedidaProdutoFinalId, user)
+        this.itemProdutoFinal = await this.validateId(this.produtoFinalServ, dto.itemIdProdutoFinal, user)
+        this.unidadeMedidaProdutoFinal = await this.validateId(this.unidadeMedidaProdutoFinalServ, dto.unidadeMedidaIdProdutoFinal, user)
 
         return super.validate(dto, user)
     }
