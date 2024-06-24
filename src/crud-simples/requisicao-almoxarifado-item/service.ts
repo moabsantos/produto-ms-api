@@ -594,7 +594,7 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             ...dtoNovaRequisicao
         })
 
-        if (novaRequisicao.success.id) for (let index = 0; index < itensRequisicao.length; index++) {
+        if (novaRequisicao?.success?.id) for (let index = 0; index < itensRequisicao.length; index++) {
             let element = {
                 ...itensRequisicao[index]
             }
