@@ -569,4 +569,48 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
     }
 
+
+    async requisicaoDuplicar(req: CrudRequest, user: any, dto: any): Promise<any>{
+
+        const requisicaoAlmoxarifadoId = dto.requisicaoAlmoxarifadoId
+        const itensRequisicao = await this.repo.find({where:{requisicaoAlmoxarifadoId: requisicaoAlmoxarifadoId}})
+        if (itensRequisicao.length < 1) return this.getMessage(req, user, this, {status: 'error', message: 'Itens para o Id da Requisição não encontrados'})
+
+        const reqAlmox = await this.requisicaoAlmoxServ['repo'].find({where:{id: itensRequisicao[0].requisicaoAlmoxarifadoId}})
+        if (reqAlmox.length < 1) throw new Error('Requisição não encontrada para o Id')
+
+        let dtoNovaRequisicao = {
+            ...reqAlmox[0]
+        }
+        
+        delete dtoNovaRequisicao.id
+        delete dtoNovaRequisicao.code
+        delete dtoNovaRequisicao.name
+        delete dtoNovaRequisicao.dataSolicitacao
+        dtoNovaRequisicao.quantidadeSolicitadaProdutoFinal = dto.novaQuantidadeProduzida
+        dtoNovaRequisicao.statusItem = 'Pendente'
+
+        const novaRequisicao =  await this.requisicaoAlmoxServ.save(req, user, {
+            ...dtoNovaRequisicao
+        })
+
+        if (novaRequisicao.success.id) for (let index = 0; index < itensRequisicao.length; index++) {
+            let element = {
+                ...itensRequisicao[index]
+            }
+            
+            delete element.id
+            delete element.dataAprovacao
+            delete element.dataSeparacao
+            element.requisicaoAlmoxarifadoId = novaRequisicao.success.id
+            element.statusItem = 'Pendente'
+            element.quantidadeSolicitada = (Number(element.quantidadeSolicitada) / Number(reqAlmox[0].quantidadeSolicitadaProdutoFinal))*Number(dto.novaQuantidadeProduzida)
+
+            await this.save(req, user, {element})
+        }
+
+        return novaRequisicao
+
+    }
+
 }

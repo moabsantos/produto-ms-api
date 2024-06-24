@@ -122,4 +122,23 @@ export class RequisicaoAlmoxarifadoItemController extends BaseCrudController{
         return result
     }
 
+
+    @Post('requisicao/duplicar')
+    @UseInterceptors(CrudRequestInterceptor)
+    async requisicaoDuplicar(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
+
+        const user = await this.getDetailToken(req, authToken.token)
+
+        let result = await this.service.requisicaoDuplicar(req, user, body)
+
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+
+        return result
+    }
+
 }
