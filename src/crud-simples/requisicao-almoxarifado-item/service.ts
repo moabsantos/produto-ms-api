@@ -585,8 +585,8 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
         
         const novaData = new Date()
         delete dtoNovaRequisicao.id
-        dtoNovaRequisicao.code = dtoNovaRequisicao.code + ' ' + this.dataFormatada({data: novaData})
-        dtoNovaRequisicao.name = dtoNovaRequisicao.name + ' ' + this.dataFormatada({data: novaData})
+        dtoNovaRequisicao.code = dtoNovaRequisicao.code + ' ' + this.dataFormatada({data: novaData, isDate: true})
+        dtoNovaRequisicao.name = dtoNovaRequisicao.name + ' ' + this.dataFormatada({data: novaData, isDate: true})
         delete dtoNovaRequisicao.dataSolicitacao
         dtoNovaRequisicao.quantidadeSolicitadaProdutoFinal = dto.novaQuantidadeProduzida
         dtoNovaRequisicao.statusItem = 'Pendente'
