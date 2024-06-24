@@ -606,8 +606,8 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             element.requisicaoAlmoxarifadoId = novaRequisicao.success.id
             element.statusItem = 'Pendente'
             element.quantidadeSolicitada = (Number(element.quantidadeSolicitada) / Number(reqAlmox[0].quantidadeSolicitadaProdutoFinal))*Number(dto.novaQuantidadeProduzida)
-
-            await this.save(req, user, {element})
+            console.log(element)
+            await this.save(req, user, element)
         }
 
         return novaRequisicao
