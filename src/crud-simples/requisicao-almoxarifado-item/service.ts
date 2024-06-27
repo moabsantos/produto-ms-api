@@ -224,7 +224,15 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
                     continue;
                 }
 
-                await this.updateRepoId(req, user, {id: element.id, statusItem: 'Aprovado', idUserSelecao: 0, dataAprovacao: new Date()})
+                let itemAprovado = {
+                    ...element
+                }
+                
+                itemAprovado.statusItem = 'Aprovado'
+                itemAprovado.idUserSelecao = 0
+                itemAprovado.dataAprovacao = new Date()
+
+                await this.save(req, user, itemAprovado)
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
