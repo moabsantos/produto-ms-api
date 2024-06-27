@@ -232,7 +232,8 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
                 itemAprovado.idUserSelecao = 0
                 itemAprovado.dataAprovacao = new Date()
 
-                await this.save(req, user, itemAprovado)
+                const respItemSalvo = await this.save(req, user, itemAprovado)
+                console.log(respItemSalvo)
 
                 await this.depositoRequisicaoServ.movimentacao(req, user, {
                     id: element.id, 
