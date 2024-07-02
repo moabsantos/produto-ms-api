@@ -65,6 +65,12 @@ export class PedidoCompraItemService extends BaseCrudService{
             model.setorSigla = this.setor.sigla
             model.setorId = dto.setorId
 
+
+            model.itemNameFornecedor = dto.itemNameFornecedor;
+            model.unidadeMedidaFornecedor = dto.unidadeMedidaFornecedor;
+            model.quantidadeFornecedor = dto.quantidadeFornecedor;
+            model.itemDescriptionFornecedor = dto.itemDescriptionFornecedor;
+            model.fatorConversaoQuantidadeFornecedor = dto.quantidadeFornecedor && dto.quantidadeSolicitada ? Number(dto.quantidadeFornecedor )/Number(dto.quantidadeSolicitada) : 0
         }
 
 

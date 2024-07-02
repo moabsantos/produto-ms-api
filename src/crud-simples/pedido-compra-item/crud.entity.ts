@@ -71,4 +71,21 @@ export class PedidoCompraItem extends BaseModelCrud {
     statusItem: string;
 
 
+
+    @Column({nullable: true})
+    itemNameFornecedor: string;
+
+    @Column({nullable: true})
+    unidadeMedidaFornecedor: string;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeFornecedor: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 10, default: 0})
+    fatorConversaoQuantidadeFornecedor: number;
+
+    @Column({nullable: true})
+    itemDescriptionFornecedor: string;
+
+
 }

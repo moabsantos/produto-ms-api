@@ -604,6 +604,8 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
             let element = {
                 ...itensRequisicao[index]
             }
+
+            if (element.requisicaoAlmoxarifadoItemIdOrigem) continue
             
             delete element.id
             delete element.dataAprovacao
