@@ -225,9 +225,10 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
                 ...novoContrato
             })
          
-            await this.importarParcelas(req, user, model)
-            
-            await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
+            const parcImport = await this.importarParcelas(req, user, model)
+            console.log(parcImport)
+            const contrCalc = await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
+            console.log(contrCalc)
         }
 
         return await super.afterSave(req, dto, user, model)
