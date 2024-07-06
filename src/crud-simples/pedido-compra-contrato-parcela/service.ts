@@ -106,7 +106,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
         const contrato = await this.pedidoCompraContratoServ.getUnico(req, user, {id: param.pedidoCompraContratoId})
         if (!contrato) return {status: false, error: true, message: `Contrato não localizado [${param.pedidoCompraContratoId}]`}
-        if (!contrato['status'] || contrato['status'] != 'Pendente') return {status: false, error:false, message: "Contrato não está pendente"}
+        if (!contrato['status'] || (contrato['status'] != 'Pendente') || contrato['gerarParcelaAutomaticamente'] != 1) return {status: false, error:false, message: "Contrato não está pendente"}
         if (!contrato['qtdParcelas'] || Number(contrato['qtdParcelas']) < 1) return {status: false, error:false, message: "Não há parcelas"}
 
         let valorTotal = 0
@@ -215,13 +215,11 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
             const novoContrato = this.adicionarValorContrato(req, user, {
                 valorMercadoria: Number(respContrato.newContrato.valorMercadoria),
                 valorServico: Number(respContrato.newContrato.valorServico),
-                valorTotal: Number(respContrato.newContrato.valorTotal),
                 valorAdicionar: Number(model.valorParcela),
             })
 
             await this.pedidoCompraContratoServ.updateRepoId(req, user, {
                 id: respContrato.newContrato.id,
-                qtdParcelas: Number(respContrato.oldContrato.qtdParcelas) +1,
                 ...novoContrato
             })
          
@@ -241,8 +239,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         
         return {
             valorServico: dto.valorServico,
-            valorMercadoria: dto.valorMercadoria,
-            valorTotal: dto.valorTotal = dto.valorTotal + dto.valorAdicionar
+            valorMercadoria: dto.valorMercadoria
         }
     }
 
