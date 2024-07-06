@@ -164,7 +164,11 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
         if (obj.status != dto.statusOrigem) return this.getMessage(req, user, this, {status: false, error: true, message: `Parcela não está no status origem [${dto.statusOrigem}]`})
 
-        await this.updateRepoId(req, user, {id: obj.id, status: dto.statusDestino})
+        await this.updateRepoId(req, user, {
+            id: obj.id, 
+            status: dto.statusDestino,
+            idUserSelecao: dto.statusDestino == 'Baixado' ? 0 : obj.idUserSelecao
+        })
     }
 
     async mudaStatusParcelas(req: any, user: any, dto: any){
