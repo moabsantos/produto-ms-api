@@ -106,6 +106,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
         const contrato = await this.pedidoCompraContratoServ.getUnico(req, user, {id: param.pedidoCompraContratoId})
         if (!contrato) return {status: false, error: true, message: `Contrato não localizado [${param.pedidoCompraContratoId}]`}
+        console.log(contrato)
         if (!contrato['status'] || (contrato['status'] != 'Pendente') || contrato['gerarParcelaAutomaticamente'] != 1) return {status: false, error:false, message: "Contrato não está pendente"}
         if (!contrato['qtdParcelas'] || Number(contrato['qtdParcelas']) < 1) return {status: false, error:false, message: "Não há parcelas"}
 
