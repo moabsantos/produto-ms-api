@@ -326,6 +326,10 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
             if (valorMercadoria < valorServico) valorServico = valorServico + valorDif
         }
 
+        if (contrato.valorTotal > valorTotalParcela) {
+            valorSaldo = valorSaldo + (Number(contrato.valorTotal) - valorTotalParcela)
+        }
+
 
         contrato.valorMercadoria = valorMercadoria
         contrato.valorServico = valorServico
