@@ -183,7 +183,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
             await this.mudaStatusItem(req, user, {id: element['id'], statusOrigem: dto.statusOrigem, statusDestino: dto.statusDestino})
         }
 
-        return this.calculaContrato(req, user, dto)
+        return this.afterSave(req, dto, user, dto)
     }
 
     async aprovar(req: any, user: any, dto: any): Promise<any> {
