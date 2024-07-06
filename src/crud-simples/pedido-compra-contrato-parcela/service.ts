@@ -224,10 +224,10 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
                 qtdParcelas: Number(respContrato.oldContrato.qtdParcelas) +1,
                 ...novoContrato
             })
+         
+            await this.importarParcelas(req, user, model)
             
             await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
-
-            await this.importarParcelas(req, user, model)
         }
 
         return await super.afterSave(req, dto, user, model)
