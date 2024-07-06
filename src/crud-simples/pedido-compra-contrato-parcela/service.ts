@@ -215,13 +215,10 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
             const novoContrato = this.adicionarValorContrato(req, user, {
                 valorMercadoria: Number(respContrato.newContrato.valorMercadoria),
                 valorServico: Number(respContrato.newContrato.valorServico),
+                valorTotal: Number(respContrato.newContrato.valorTotal),
                 valorAdicionar: Number(model.valorParcela),
             })
-            console.log({
-                id: respContrato.newContrato.id,
-                qtdParcelas: Number(respContrato.oldContrato.qtdParcelas) +1,
-                ...novoContrato
-            })
+
             await this.pedidoCompraContratoServ.updateRepoId(req, user, {
                 id: respContrato.newContrato.id,
                 qtdParcelas: Number(respContrato.oldContrato.qtdParcelas) +1,
@@ -244,6 +241,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         return {
             valorServico: dto.valorServico,
             valorMercadoria: dto.valorMercadoria,
+            valorTotal: dto.valorTotal = dto.valorTotal + dto.valorAdicionar
         }
     }
 
