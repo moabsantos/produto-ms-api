@@ -231,8 +231,8 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
     }
 
     adicionarValorContrato(req: any, user: any, dto: any): any {
-        if (dto.valorServico == 0 ) dto.valorServico = dto.valorServico + dto.valorAdicionar
-        if (dto.valorMercadoria == 0 && dto.valorServico > 0) dto.valorMercadoria = dto.valorMercadoria + dto.valorAdicionar
+        if (dto.valorServico == 0 ) dto.valorMercadoria = dto.valorMercadoria + dto.valorAdicionar
+        if (dto.valorMercadoria == 0 && dto.valorServico > 0) dto.valorServico = dto.valorServico + dto.valorAdicionar
         
         return {
             id: dto.id,
