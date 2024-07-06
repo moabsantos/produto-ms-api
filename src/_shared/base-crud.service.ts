@@ -188,13 +188,21 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
     async afterSave(req: any, dto: any, user: any, model: BaseModel) {
 
         if (!dto.id && user.userId){
-            this.repoUser.save({
-                originId:model.id, 
-                userId: user.userId, 
-                isAdmin: true,
-                created_at: new Date(),
-                created_by: user.userId
-            })
+
+            try {
+                
+                this.repoUser.save({
+                    originId:model.id, 
+                    userId: user.userId, 
+                    isAdmin: true,
+                    created_at: new Date(),
+                    created_by: user.userId
+                })
+
+            } catch (e) {
+                console.log(e); // Logs the error
+            }
+
         }
         
         return model
