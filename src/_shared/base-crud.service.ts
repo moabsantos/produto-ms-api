@@ -190,7 +190,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         if (!dto.id && user.userId){
 
             try {
-                
+                /*
                 this.repoUser.save({
                     originId:model.id, 
                     userId: user.userId, 
@@ -198,7 +198,7 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
                     created_at: new Date(),
                     created_by: user.userId
                 })
-
+*/
             } catch (e) {
                 console.log(e); // Logs the error
             }
