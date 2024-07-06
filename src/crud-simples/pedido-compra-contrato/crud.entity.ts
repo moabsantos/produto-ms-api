@@ -116,4 +116,7 @@ export class PedidoCompraContrato extends BaseModelCrud {
     @Column()
     site: string;
 
+    @Column({default: 0})
+    gerarParcelaAutomaticamente: number;
+
 }

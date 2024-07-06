@@ -200,10 +200,34 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
     async afterSave(req: any, dto: any, user: any, model: PedidoCompraContratoParcela) {
 
-        await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
+        const respContrato = await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
+
+        if (respContrato && respContrato.newContrato && respContrato.oldContrato 
+                && respContrato.newContrato.valorTotalSaldo == 0
+                && respContrato.oldContrato.gerarParcelaAutomaticamente == 1
+        ) {
+
+            const novoContrato = this.adicionarValorContrato(req, user, {
+                id: respContrato.newContrato.id,
+                valorMercadoria: Number(respContrato.newContrato.valorMercadoria),
+                valorServico: Number(respContrato.newContrato.valorServico),
+                valorAdicionar: Number(model.valorParcela),
+            })
+
+            await this.pedidoCompraContratoServ.updateRepoId(req, user, novoContrato)
+
+            await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
+        }
 
         return await super.afterSave(req, dto, user, model)
 
+    }
+
+    adicionarValorContrato(req: any, user: any, dto: any): any {
+        if (dto.valorServico == 0 ) dto.valorServico = dto.valorServico + dto.valorAdicionar
+        if (dto.valorMercadoria == 0 && dto.valorServico > 0) dto.valorMercadoria = dto.valorMercadoria + dto.valorAdicionar
+        
+        return dto
     }
 
     async calculaContrato(req: any, user: any, dto: any): Promise<any> {
@@ -312,7 +336,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
         this.pedidoCompraContratoServ.updateRepoId(req, user, newContrato)
 
-        return {status: true, error: false}
+        return {status: true, error: false, oldContrato: contrato, newContrato: newContrato}
     }
 
 

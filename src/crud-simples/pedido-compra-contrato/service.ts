@@ -62,7 +62,7 @@ export class PedidoCompraContratoService extends BaseCrudService{
 
             model = this.getModelFromInputs(model, dto, [
                 'numeroMatricula', 'numeroDocumento', 'dataDocumento', 
-                'qtdParcelas', 'primeiroVencimento', 'regraIntervaloParcelas',
+                'qtdParcelas', 'primeiroVencimento', 'regraIntervaloParcelas', 'gerarParcelaAutomaticamente',
 
                 'valorMercadoria', 'valorServico', 'valorDesconto', 'valorDesconto',
                 'valorFrete', 'valorOutrosAcrescimos', 'valorOutrasDeducoes',
