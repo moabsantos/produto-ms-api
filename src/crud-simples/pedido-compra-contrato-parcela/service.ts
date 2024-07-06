@@ -220,8 +220,10 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
             })
 
             await this.pedidoCompraContratoServ.updateRepoId(req, user, novoContrato)
-
+            
             await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
+
+            await this.importarParcelas(req, user, model)
         }
 
         return await super.afterSave(req, dto, user, model)
