@@ -181,9 +181,10 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
             const element = itens[index];
 
             await this.mudaStatusItem(req, user, {id: element['id'], statusOrigem: dto.statusOrigem, statusDestino: dto.statusDestino})
+
+            return this.afterSave(req, dto, user, element)
         }
 
-        return this.afterSave(req, dto, user, dto)
     }
 
     async aprovar(req: any, user: any, dto: any): Promise<any> {
