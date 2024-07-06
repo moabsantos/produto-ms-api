@@ -205,7 +205,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
     async afterSave(req: any, dto: any, user: any, model: PedidoCompraContratoParcela) {
 
         const respContrato = await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
-
+        console.log(respContrato)
         if (respContrato && respContrato.newContrato && respContrato.oldContrato 
                 && respContrato.newContrato.valorTotalSaldo == 0
                 && respContrato.oldContrato.gerarParcelaAutomaticamente == 1
@@ -217,7 +217,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
                 valorServico: Number(respContrato.newContrato.valorServico),
                 valorAdicionar: Number(model.valorParcela),
             })
-
+            console.log(novoContrato)
             await this.pedidoCompraContratoServ.updateRepoId(req, user, novoContrato)
 
             await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
