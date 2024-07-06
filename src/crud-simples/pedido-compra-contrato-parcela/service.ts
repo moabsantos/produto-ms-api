@@ -216,9 +216,12 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
                 id: respContrato.newContrato.id,
                 valorMercadoria: Number(respContrato.newContrato.valorMercadoria),
                 valorServico: Number(respContrato.newContrato.valorServico),
+                qtdParcelas: Number(respContrato.oldContrato.qtdParcelas) +1,
                 valorAdicionar: Number(model.valorParcela),
             })
 
+            console.log(novoContrato)
+            
             await this.pedidoCompraContratoServ.updateRepoId(req, user, novoContrato)
             
             await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
