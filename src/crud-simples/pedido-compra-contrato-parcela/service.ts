@@ -222,6 +222,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
             await this.pedidoCompraContratoServ.updateRepoId(req, user, {
                 id: respContrato.newContrato.id,
+                qtdParcelas: Number(respContrato.oldContrato.id) +1,
                 ...novoContrato
             })
          
