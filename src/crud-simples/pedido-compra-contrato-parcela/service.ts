@@ -106,7 +106,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
         const contrato = await this.pedidoCompraContratoServ.getUnico(req, user, {id: param.pedidoCompraContratoId})
         if (!contrato) return {status: false, error: true, message: `Contrato não localizado [${param.pedidoCompraContratoId}]`}
-        console.log(contrato)
+
         if (!contrato['status'] || (contrato['status'] != 'Pendente') && contrato['gerarParcelaAutomaticamente'] != 1) return {status: false, error:false, message: "Contrato não está pendente"}
         if (!contrato['qtdParcelas'] || Number(contrato['qtdParcelas']) < 1) return {status: false, error:false, message: "Não há parcelas"}
 
@@ -216,6 +216,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
             const novoContrato = this.adicionarValorContrato(req, user, {
                 valorMercadoria: Number(respContrato.newContrato.valorMercadoria),
                 valorServico: Number(respContrato.newContrato.valorServico),
+                valorTotal: Number(respContrato.newContrato.valorTotal),
                 valorAdicionar: Number(model.valorParcela),
             })
 
@@ -225,9 +226,9 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
             })
          
             const parcImport = await this.importarParcelas(req, user, model)
-            console.log(parcImport)
+
             const contrCalc = await this.calculaContrato(req, user, {pedidoCompraContratoId: model.pedidoCompraContratoId})
-            console.log(contrCalc)
+
         }
 
         return await super.afterSave(req, dto, user, model)
@@ -240,7 +241,8 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         
         return {
             valorServico: dto.valorServico,
-            valorMercadoria: dto.valorMercadoria
+            valorMercadoria: dto.valorMercadoria,
+            valorTotal: dto.valorTotal + dto.valorAdicionar
         }
     }
 
