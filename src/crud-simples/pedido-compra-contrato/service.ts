@@ -11,6 +11,7 @@ import { TipoDocumentoService } from "../tipo-documento/service";
 import { EmpresaService } from "../empresa/service";
 import { CentroCustoService } from "../centro-custo/service";
 import { DespesaFinanceiraService } from "../despesa-financeira/service";
+import { CentroFinanceiroService } from "../centro-financeiro/service";
 
 export class PedidoCompraContratoService extends BaseCrudService{
 
@@ -23,7 +24,8 @@ export class PedidoCompraContratoService extends BaseCrudService{
         private pedidoCompraServ: PedidoCompraService,
         private tipoDocumentoServ: TipoDocumentoService,
         private fornecedorServ: FornecedorService,
-        private formaPagamentoServ: FormaPagamentoService)
+        private formaPagamentoServ: FormaPagamentoService,
+        private centroFinanceiroServ: CentroFinanceiroService)
     {
         super(repo, repoUser)
 
@@ -41,7 +43,8 @@ export class PedidoCompraContratoService extends BaseCrudService{
             {fieldName: 'fornecedor', service: this.fornecedorServ, fields: ['id', 'name']},
             {fieldName: 'formaPagamento', service: this.formaPagamentoServ, fields: ['id', 'name', 'sigla']},
             {fieldName: 'centroCusto', service: this.centroCustoServ, fields: ['id', 'name', 'sigla']},
-            {fieldName: 'despesaFinanceira', service: this.despesaFinanceiraServ, fields: ['id', 'code', 'name', 'sigla']}
+            {fieldName: 'despesaFinanceira', service: this.despesaFinanceiraServ, fields: ['id', 'code', 'name', 'sigla']},
+            {fieldName: 'centroFinanceiro', service: this.centroFinanceiroServ, fields: ['id', 'code', 'name', 'sigla']}
         ]
     }
 

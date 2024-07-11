@@ -54,6 +54,16 @@ export class PedidoCompraContrato extends BaseModelCrud {
     centroCustoSigla: string;
 
 
+    @Column({nullable: true})
+    centroFinanceiroId: number;
+    @Column({nullable: true})
+    centroFinanceiroName: string;
+    @Column({nullable: true})
+    centroFinanceiroCode: string;
+    @Column({nullable: true})
+    centroFinanceiroSigla: string;
+
+
     @Column()
     despesaFinanceiraId: number;
     @Column()

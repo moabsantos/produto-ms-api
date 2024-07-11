@@ -18,6 +18,7 @@ import { TipoDocumentoModule } from "../tipo-documento/module";
 import { EmpresaModule } from "../empresa/module";
 import { CentroCustoModule } from "../centro-custo/module";
 import { DespesaFinanceiraModule } from "../despesa-financeira/module";
+import { CentroFinanceiroModule } from "../centro-financeiro/module";
 
 @Module({
     imports: [
@@ -31,6 +32,7 @@ import { DespesaFinanceiraModule } from "../despesa-financeira/module";
         CentroCustoModule,
         DespesaFinanceiraModule,
         FormaPagamentoModule,
+        CentroFinanceiroModule,
 
         TypeOrmModule.forFeature([PedidoCompraContrato, PedidoCompraContratoUser]),
         BaseCrudModule
