@@ -31,6 +31,7 @@ export class PedidoCompraContratoParcelaItemService extends BaseCrudService{
         if (!dto.qtdParcelas || dto.qtdParcelas < 1) dto.qtdParcelas = 1
 
         model = this.getModelFromInputs(model, dto, [
+            'pedidoCompraContratoParcelaId',
             'sequencia', 'code', 'name', 
             'qtdParcelas', 'numParcelaInicial', 'numParcelaFinal',
             'valorPrimeiraParcela', 'valorParcela', 'valorUltimaParcela', 'valorTotal'
@@ -51,6 +52,7 @@ export class PedidoCompraContratoParcelaItemService extends BaseCrudService{
     async validate(dto: any, user: any): Promise<boolean>{
 
         const checkInputs = this.validateFieldsRequireds([
+            {name: "pedidoCompraContratoParcelaId"},
             {name: "code"},
             {name: "name"},
             {name: "numeroParcela"},
