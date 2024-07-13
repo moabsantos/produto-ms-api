@@ -5,14 +5,11 @@ import { PedidoCompraContratoParcelaItemParcelaItem } from "./crud.entity";
 import { PedidoCompraContratoParcelaItemUser } from "./crud-user.entity";
 
 
-import { PedidoCompraContratoParcelaService } from "../pedido-compra-contrato-parcela/service";
-
 export class PedidoCompraContratoParcelaItemService extends BaseCrudService{
 
     constructor (
         @InjectRepository(PedidoCompraContratoParcelaItemParcelaItem) protected repo,
-        @InjectRepository(PedidoCompraContratoParcelaItemUser) protected repoUser,
-        private pedidoCompraContratoParcelaServ: PedidoCompraContratoParcelaService)
+        @InjectRepository(PedidoCompraContratoParcelaItemUser) protected repoUser)
     {
         super(repo, repoUser)
 
@@ -23,9 +20,7 @@ export class PedidoCompraContratoParcelaItemService extends BaseCrudService{
             get: "sup-pedido-compra-contrato-get"
         })
 
-        this.modelsRequired = [
-            {fieldName: 'pedidoCompraContratoParcela', service: this.pedidoCompraContratoParcelaServ, fields: ['id']},
-        ]
+        this.modelsRequired = []
     }
 
     getDataFromDto(dto: any, user: any, model: PedidoCompraContratoParcelaItemParcelaItem){
