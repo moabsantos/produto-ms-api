@@ -15,6 +15,7 @@ import { PedidoCompraContratoModule } from "../pedido-compra-contrato/module";
 import { TipoDocumentoModule } from "../tipo-documento/module";
 import { FornecedorModule } from "../fornecedor/module";
 import { FormaPagamentoModule } from "../forma-pagamento/module";
+import { PedidoCompraContratoParcelaItemModule } from "../pedido-compra-contrato-parcela-item/module";
 
 @Module({
     imports: [
@@ -26,6 +27,7 @@ import { FormaPagamentoModule } from "../forma-pagamento/module";
         TipoDocumentoModule,
         FornecedorModule,
         FormaPagamentoModule,
+        PedidoCompraContratoParcelaItemModule,
 
         TypeOrmModule.forFeature([PedidoCompraContratoParcela, PedidoCompraContratoParcelaUser]),
         BaseCrudModule

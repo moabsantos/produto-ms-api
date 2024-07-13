@@ -9,6 +9,7 @@ import { FornecedorService } from "../fornecedor/service";
 import { FormaPagamentoService } from "../forma-pagamento/service";
 import { PedidoCompraContratoService } from "../pedido-compra-contrato/service";
 import { CrudRequest } from "@nestjsx/crud";
+import { PedidoCompraContratoParcelaItemService } from "../pedido-compra-contrato-parcela-item/service";
 
 export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
@@ -22,7 +23,8 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         private pedidoCompraContratoServ: PedidoCompraContratoService,
         private tipoDocumentoServ: TipoDocumentoService,
         private fornecedorServ: FornecedorService,
-        private formaPagamentoServ: FormaPagamentoService)
+        private formaPagamentoServ: FormaPagamentoService,
+        private pedidoCompraContratoParcelaItemServ: PedidoCompraContratoParcelaItemService)
     {
         super(repo, repoUser)
 
@@ -373,5 +375,22 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         const deleted = await this.repo.delete(item.data[0].id)
 
         return {status: true, error: false, id:id, message: "Exclusão da Parcela realizada"}
+    }
+
+    async salvaItemParcela(req: any, user: any, dto: any){
+
+        if (!dto.pedidoCompraContratoParcelaId) return {status: false, error: false, data:dto, message: "Não foi informada a Parcela"}
+
+        const parcela = await this.get(req, user, dto.pedidoCompraContratoParcelaId)
+
+        if (parcela.status != 'Pendente') return {status: false, error: false, data:dto, message: "Esta parcela não setá pendente"}
+
+        dto.numeroParcela = parcela.numeroParcela
+        const item = this.pedidoCompraContratoParcelaItemServ.save(req, user, dto)
+
+        console.log(dto)
+        console.log(item)
+
+        return {status: true, error: false, data:dto, message: "Item Salvo com Sucesso"}
     }
 }
