@@ -1,14 +1,14 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { BaseCrudService } from "src/_shared/base-crud.service";
 
-import { PedidoCompraContratoParcelaItemParcelaItem } from "./crud.entity";
+import { PedidoCompraContratoParcelaItem } from "./crud.entity";
 import { PedidoCompraContratoParcelaItemUser } from "./crud-user.entity";
 
 
 export class PedidoCompraContratoParcelaItemService extends BaseCrudService{
 
     constructor (
-        @InjectRepository(PedidoCompraContratoParcelaItemParcelaItem) protected repo,
+        @InjectRepository(PedidoCompraContratoParcelaItem) protected repo,
         @InjectRepository(PedidoCompraContratoParcelaItemUser) protected repoUser)
     {
         super(repo, repoUser)
@@ -23,7 +23,7 @@ export class PedidoCompraContratoParcelaItemService extends BaseCrudService{
         this.modelsRequired = []
     }
 
-    getDataFromDto(dto: any, user: any, model: PedidoCompraContratoParcelaItemParcelaItem){
+    getDataFromDto(dto: any, user: any, model: PedidoCompraContratoParcelaItem){
 
         model = this.getDataModelsFromDto(model)
 

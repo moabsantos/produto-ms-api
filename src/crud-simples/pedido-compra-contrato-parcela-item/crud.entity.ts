@@ -3,7 +3,7 @@ import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
 @Unique("uniq_name", ["name", "realmId"])
-export class PedidoCompraContratoParcelaItemParcelaItem extends BaseModelCrud {
+export class PedidoCompraContratoParcelaItem extends BaseModelCrud {
 
     @Column()
     pedidoCompraContratoParcelaId: number;
