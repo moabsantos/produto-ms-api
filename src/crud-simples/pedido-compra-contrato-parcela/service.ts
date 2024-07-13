@@ -392,7 +392,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         console.log(itens)
         for (let index = 0; index < itens.length; index++) {
             const itemParcela = itens[index];
-            valorParcela = valorParcela + itemParcela.valorParcela
+            valorParcela = valorParcela + Number(itemParcela.valorParcela)
         }
 
         let novaParcela = { ...parcela.data[0] }
