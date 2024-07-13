@@ -396,7 +396,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
         let novaParcela = parcela.data[0]
         novaParcela.valorParcela = valorParcela
-        await this.pedidoCompraContratoParcelaItemServ.save(req, user, novaParcela)
+        await this.save(req, user, novaParcela)
 
         return {status: true, error: false, data:dto, message: "Item Salvo com Sucesso"}
     }
