@@ -382,8 +382,8 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         if (!dto.pedidoCompraContratoParcelaId) return {status: false, error: false, data:dto, message: "Não foi informada a Parcela"}
 
         const parcela = await this.get(req, user, dto.pedidoCompraContratoParcelaId)
-
-        if (parcela.status != 'Pendente') return {status: false, error: false, data:dto, message: "Esta parcela não setá pendente"}
+        console.log(parcela)
+        if (parcela.status != 'Pendente') return {status: false, error: false, data:dto, message: `[${parcela.status}] Esta parcela não setá pendente`}
 
         dto.numeroParcela = parcela.numeroParcela
         const item = this.pedidoCompraContratoParcelaItemServ.save(req, user, dto)
