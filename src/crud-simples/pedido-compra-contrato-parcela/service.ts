@@ -389,7 +389,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
         const itens = await this.pedidoCompraContratoParcelaItemServ.getLista(req, user, {pedidoCompraContratoParcelaId:dto.pedidoCompraContratoParcelaId})
         let valorParcela = 0
-        console.log(itens)
+
         for (let index = 0; index < itens.length; index++) {
             const itemParcela = itens[index];
             valorParcela = valorParcela + Number(itemParcela.valorParcela)
@@ -398,6 +398,7 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         let novaParcela = { ...parcela.data[0] }
         novaParcela.valorParcela = valorParcela
         await this.save(req, user, novaParcela)
+        dto.novoValorParcela = valorParcela
 
         return {status: true, error: false, data:dto, message: "Item Salvo com Sucesso"}
     }
