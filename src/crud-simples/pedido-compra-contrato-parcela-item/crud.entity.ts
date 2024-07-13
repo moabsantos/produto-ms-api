@@ -11,7 +11,7 @@ export class PedidoCompraContratoParcelaItemParcelaItem extends BaseModelCrud {
     @Column({default: 0})
     sequencia: number;
     @Column()
-    Code: string;
+    code: string;
     @Column()
     name: string;
 
