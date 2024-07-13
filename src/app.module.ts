@@ -73,6 +73,7 @@ import { FiscalNaturezaOperacaoModule } from './crud-simples/fiscal-natureza-ope
 import { FiscalSerieModule } from './crud-simples/fiscal-serie/module';
 import { FornecedorEstabelecimentoModule } from './crud-simples/fornecedor-estabelecimento/module';
 import { PedidoTipoModule } from './crud-simples/pedido-tipo/module';
+import { PedidoCompraContratoParcelaItemModule } from './crud-simples/pedido-compra-contrato-parcela-item/module';
 
 
 
@@ -144,6 +145,7 @@ import { PedidoTipoModule } from './crud-simples/pedido-tipo/module';
     PedidoCompraItemModule,
     PedidoCompraContratoModule,
     PedidoCompraContratoParcelaModule,
+    PedidoCompraContratoParcelaItemModule,
 
 
     DespesaFinanceiraModule,
