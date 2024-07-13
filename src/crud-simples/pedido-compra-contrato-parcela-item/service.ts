@@ -25,8 +25,10 @@ export class PedidoCompraContratoParcelaItemService extends BaseCrudService{
 
     getDataFromDto(dto: any, user: any, model: PedidoCompraContratoParcelaItemParcelaItem){
 
-
         model = this.getDataModelsFromDto(model)
+
+        if (!dto.sequencia) dto.sequencia = 1
+        if (!dto.qtdParcelas || dto.qtdParcelas < 1) dto.qtdParcelas = 1
 
         model = this.getModelFromInputs(model, dto, [
             'sequencia', 'code', 'name', 
@@ -34,7 +36,6 @@ export class PedidoCompraContratoParcelaItemService extends BaseCrudService{
             'valorPrimeiraParcela', 'valorParcela', 'valorUltimaParcela', 'valorTotal'
         ])
 
-        if (!model.qtdParcelas || model.qtdParcelas < 1) model.qtdParcelas = 1
         model.numParcelaInicial =  dto.numeroParcela
         model.numParcelaFinal =  dto.numeroParcela + model.qtdParcelas - 1
 
