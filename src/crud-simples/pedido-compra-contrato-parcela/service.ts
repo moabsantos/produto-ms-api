@@ -398,8 +398,8 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         let novaParcela = { ...dto.parcela }
         novaParcela.valorParcela = valorParcela
         await this.save(req, user, novaParcela)
-        dto.novoValorParcela = valorParcela
 
+        return valorParcela
     }
 
     async removeItemParcela(req: any, user: any, dto: any){
@@ -414,11 +414,11 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
         await this.pedidoCompraContratoParcelaItemServ['repo'].delete(item.id)
         
-        await this.calcularItemParcela(req, user, {
+        const novoValorParcela = await this.calcularItemParcela(req, user, {
             parcela: parcela
         })
 
-        return {status: true, error: false, data:item, message: "Item removido"}        
+        return {status: true, error: false, data:{novoValorParcela : novoValorParcela}, message: "Item removido"}        
     }
 
     async salvaItemParcela(req: any, user: any, dto: any){
@@ -431,10 +431,10 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         dto.numeroParcela = parcela.data[0].numeroParcela
         await this.pedidoCompraContratoParcelaItemServ.save(req, user, dto)
 
-        await this.calcularItemParcela(req, user, {
+        const novoValorParcela = await this.calcularItemParcela(req, user, {
             parcela: parcela.data[0]
         })
 
-        return {status: true, error: false, data:dto, message: "Item Salvo com Sucesso"}
+        return {status: true, error: false, data:{novoValorParcela : novoValorParcela}, message: "Item Salvo com Sucesso"}
     }
 }
