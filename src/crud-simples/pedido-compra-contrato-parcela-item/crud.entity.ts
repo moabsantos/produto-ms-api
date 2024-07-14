@@ -2,7 +2,7 @@ import { BaseModelCrud } from "src/_shared/base-model-crud.entity";
 import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
-@Unique("uniq_name", ["name", "realmId"])
+@Unique("uniq_name", ["sequencia", "code", "name", "realmId"])
 export class PedidoCompraContratoParcelaItem extends BaseModelCrud {
 
     @Column()

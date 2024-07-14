@@ -377,6 +377,26 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         return {status: true, error: false, id:id, message: "Exclusão da Parcela realizada"}
     }
 
+    async listaItemParcela(req: any, user: any, dto: any){
+        if (!dto.pedidoCompraContratoParcelaId) return {status: false, error: false, data:dto, message: "Não foi informada a Parcela"}
+        
+        const itens = await this.pedidoCompraContratoParcelaItemServ.getLista(req, user, {pedidoCompraContratoParcelaId:dto.pedidoCompraContratoParcelaId})
+        
+        return {status: true, error: false, data:itens, message: "Itens Parcela"}        
+    }
+
+    async removeItemParcela(req: any, user: any, dto: any){
+        if (!dto.pedidoCompraContratoParcelaId) return {status: false, error: false, data:dto, message: "Não foi informada a Parcela"}
+        if (!dto.id) return {status: false, error: false, data:dto, message: "Id do Item não foi informado"}
+
+        const item = await this.pedidoCompraContratoParcelaItemServ.getById(req, user, {id: dto.id})
+        if (!item) return {status: false, error: false, data:dto, message: "Item não encontrado"}
+
+        await this.pedidoCompraContratoParcelaItemServ['repo'].delete(item.id)
+        
+        return {status: true, error: false, data:item, message: "Item removido"}        
+    }
+
     async salvaItemParcela(req: any, user: any, dto: any){
 
         if (!dto.pedidoCompraContratoParcelaId) return {status: false, error: false, data:dto, message: "Não foi informada a Parcela"}

@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Post, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, UseInterceptors } from "@nestjs/common";
 import { BaseCrudController } from "src/_shared/base-crud.controller";
 import { UserService } from "src/_user/user.service";
 
@@ -85,6 +85,36 @@ export class PedidoCompraContratoParcelaController extends BaseCrudController{
 
         const user = await this.getDetailToken(req, authToken.token)
         let result = await this.service.cancelarBaixa(req, user, body)
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+        return result
+    }
+
+    @Get(':idParcela/item')
+    @UseInterceptors(CrudRequestInterceptor)
+    async listaItemParcela(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Param('idParcela') id: number){
+
+        const user = await this.getDetailToken(req, authToken.token)
+        let result = await this.service.listaItemParcela(req, user, {pedidoCompraContratoParcelaId:id})
+        if (!result){
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'Não houve resposta para os dados informados',
+            }, HttpStatus.FORBIDDEN);
+        }
+        return result
+    }
+
+    @Delete(':idParcela/item/:idItem')
+    @UseInterceptors(CrudRequestInterceptor)
+    async removeItemParcela(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Param('idParcela') idParcela: number, @Param('idItem') idItem: number){
+
+        const user = await this.getDetailToken(req, authToken.token)
+        let result = await this.service.removeItemParcela(req, user, {pedidoCompraContratoParcelaId:idParcela, id: idItem})
         if (!result){
             throw new HttpException({
                 status: HttpStatus.NOT_FOUND,
