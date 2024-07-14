@@ -110,13 +110,12 @@ export class PedidoCompraContratoParcelaController extends BaseCrudController{
         return result
     }
 
-    @Override()
-    @Delete('remover/:id/item/:item')
+    @Delete('remover/item/:id')
     @UseInterceptors(CrudRequestInterceptor)
-    async removeItemParcela(@ParsedRequest() req: CrudRequest, @Param('id') id, @Param('item') item, @UserRequest() authToken){
+    async removeItemParcela(@ParsedRequest() req: CrudRequest, @Param('id') id, @UserRequest() authToken){
 
         const user = await this.getDetailToken(req, authToken.token)
-        let result = await this.service.removeItemParcela(req, user, {pedidoCompraContratoParcelaId: id, id: item})
+        let result = await this.service.removeItemParcela(req, user, {id: id})
         if (!result){
             throw new HttpException({
                 status: HttpStatus.NOT_FOUND,

@@ -386,11 +386,14 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
     }
 
     async removeItemParcela(req: any, user: any, dto: any){
-        if (!dto.pedidoCompraContratoParcelaId) return {status: false, error: false, data:dto, message: "Não foi informada a Parcela"}
-        if (!dto.id) return {status: false, error: false, data:dto, message: "Id do Item não foi informado"}
 
+        if (!dto.id) return {status: false, error: false, data:dto, message: "Id do Item não foi informado"}
         const item = await this.pedidoCompraContratoParcelaItemServ.getById(req, user, {id: dto.id})
         if (!item) return {status: false, error: false, data:dto, message: "Item não encontrado"}
+
+        const parcela = await this.getById(req, user, {id: item.pedidoCompraContratoParcelaId})
+        if (!parcela) return {status: false, error: false, data:dto, message: "Parcela não encontrada"}
+        if (parcela.status != 'Pendente') return {status: false, error: false, data:dto, message: "Parcela não está Pendente"}
 
         await this.pedidoCompraContratoParcelaItemServ['repo'].delete(item.id)
         
