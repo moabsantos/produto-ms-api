@@ -68,4 +68,15 @@ export class PedidoCompraContratoParcelaItemService extends BaseCrudService{
         return super.validate(dto, user)
     }
 
+    async foundDuplicated(dto: any, user: any): Promise<any> {
+
+        if (!dto.name) return {status: false, error: true, message: "Nome não informado"}
+
+        let modelRepo = await this.repo.findOne({where:{sequencia:dto.sequencia ? dto.sequencia : 1, name:dto.name, pedidoCompraContratoParcelaId:dto.pedidoCompraContratoParcelaId, realmId: user.realmId}})
+        
+        if(modelRepo && (!dto.id || dto.id != modelRepo.id)) return {status: true, error: true, message: `Cadastro localizado para o usuário [${dto.name}, ${dto.id}, ${modelRepo.id}]`}
+
+        return {status: false, message: "Duplicação não encontrada"}
+    }
+
 }
