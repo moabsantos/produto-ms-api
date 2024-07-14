@@ -106,6 +106,7 @@ export class PedidoCompraContratoParcelaController extends BaseCrudController{
                 error: 'Não houve resposta para os dados informados',
             }, HttpStatus.FORBIDDEN);
         }
+        
         return result
     }
 
