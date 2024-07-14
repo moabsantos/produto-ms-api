@@ -3,7 +3,7 @@ import { BaseCrudController } from "src/_shared/base-crud.controller";
 import { UserService } from "src/_user/user.service";
 
 import { PedidoCompraContratoParcelaService } from "./service";
-import { CrudRequest, CrudRequestInterceptor, ParsedRequest } from "@nestjsx/crud";
+import { CrudRequest, CrudRequestInterceptor, Override, ParsedRequest } from "@nestjsx/crud";
 import { UserRequest } from "src/_auth/user.decorator";
 
 @Controller('pedido-compra-contrato-parcela')
@@ -110,6 +110,7 @@ export class PedidoCompraContratoParcelaController extends BaseCrudController{
         return result
     }
 
+    @Override()
     @Delete('remover/:id/item/:item')
     @UseInterceptors(CrudRequestInterceptor)
     async removeItemParcela(@ParsedRequest() req: CrudRequest, @Param('id') id, @Param('item') item, @UserRequest() authToken){
