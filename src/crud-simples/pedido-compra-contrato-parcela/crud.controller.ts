@@ -110,7 +110,7 @@ export class PedidoCompraContratoParcelaController extends BaseCrudController{
         return result
     }
 
-    @Delete(':idParcela/item/:idItem')
+    @Delete(':id/item/:item')
     @UseInterceptors(CrudRequestInterceptor)
     async removeItemParcela(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Param('idParcela') idParcela: number, @Param('idItem') idItem: number){
 
