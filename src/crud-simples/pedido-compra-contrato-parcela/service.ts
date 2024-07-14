@@ -385,6 +385,23 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         return {status: true, error: false, data:itens, message: "Itens Parcela"}        
     }
 
+    async calcularItemParcela(req: any, user: any, dto: any){
+
+        const itens = await this.pedidoCompraContratoParcelaItemServ.getLista(req, user, {pedidoCompraContratoParcelaId:dto.parcela.id})
+        let valorParcela = 0
+
+        for (let index = 0; index < itens.length; index++) {
+            const itemParcela = itens[index];
+            valorParcela = valorParcela + Number(itemParcela.valorParcela)
+        }
+
+        let novaParcela = { ...dto.parcela }
+        novaParcela.valorParcela = valorParcela
+        await this.save(req, user, novaParcela)
+        dto.novoValorParcela = valorParcela
+
+    }
+
     async removeItemParcela(req: any, user: any, dto: any){
 
         if (!dto.id) return {status: false, error: false, data:dto, message: "Id do Item não foi informado"}
@@ -397,6 +414,10 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
 
         await this.pedidoCompraContratoParcelaItemServ['repo'].delete(item.id)
         
+        await this.calcularItemParcela(req, user, {
+            parcela: parcela
+        })
+
         return {status: true, error: false, data:item, message: "Item removido"}        
     }
 
@@ -408,20 +429,11 @@ export class PedidoCompraContratoParcelaService extends BaseCrudService{
         if (!parcela || !parcela.data || !parcela.data[0] || parcela.data[0].status != 'Pendente') return {status: false, error: false, data:dto, message: `[${parcela.status}] Esta parcela não setá pendente`}
 
         dto.numeroParcela = parcela.data[0].numeroParcela
-        const item = await this.pedidoCompraContratoParcelaItemServ.save(req, user, dto)
+        await this.pedidoCompraContratoParcelaItemServ.save(req, user, dto)
 
-        const itens = await this.pedidoCompraContratoParcelaItemServ.getLista(req, user, {pedidoCompraContratoParcelaId:dto.pedidoCompraContratoParcelaId})
-        let valorParcela = 0
-
-        for (let index = 0; index < itens.length; index++) {
-            const itemParcela = itens[index];
-            valorParcela = valorParcela + Number(itemParcela.valorParcela)
-        }
-
-        let novaParcela = { ...parcela.data[0] }
-        novaParcela.valorParcela = valorParcela
-        await this.save(req, user, novaParcela)
-        dto.novoValorParcela = valorParcela
+        await this.calcularItemParcela(req, user, {
+            parcela: parcela.data[0]
+        })
 
         return {status: true, error: false, data:dto, message: "Item Salvo com Sucesso"}
     }
