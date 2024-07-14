@@ -94,9 +94,9 @@ export class PedidoCompraContratoParcelaController extends BaseCrudController{
         return result
     }
 
-    @Get(':idParcela/item')
+    @Get(':id/item/list')
     @UseInterceptors(CrudRequestInterceptor)
-    async listaItemParcela(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Param('idParcela') id: number){
+    async listaItemParcela(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Param('id') id: number){
 
         const user = await this.getDetailToken(req, authToken.token)
         let result = await this.service.listaItemParcela(req, user, {pedidoCompraContratoParcelaId:id})
@@ -106,7 +106,7 @@ export class PedidoCompraContratoParcelaController extends BaseCrudController{
                 error: 'Não houve resposta para os dados informados',
             }, HttpStatus.FORBIDDEN);
         }
-        
+
         return result
     }
 
