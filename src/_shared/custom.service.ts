@@ -487,6 +487,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         let hora = dt.getHours()
         let minuto = dt.getMinutes()
         let segundo = dt.getSeconds()
+        let milliseconds = dt.getMilliseconds();
 
         let novaData = dto.formato
         if (!novaData) novaData = "YYYY-mm-dd HH:mi:ss"
@@ -498,6 +499,8 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         novaData = novaData.replace('HH', hora)
         novaData = novaData.replace('mi', minuto)
         novaData = novaData.replace('ss', segundo)
+
+        novaData = novaData.replace('sss', milliseconds)
 
         return novaData
     }
