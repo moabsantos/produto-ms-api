@@ -210,6 +210,12 @@ export class PedidoVendaItemService extends BaseCrudService{
 
     }
 
+    async editarPedidoItens(req: any, user: any, dto: any): Promise<any> {
+
+        return this.mudaStatusItens(req, user, {...dto, statusItemOrigem: 'Pendente', statusItemDestino: 'Digitação'})
+
+    }
+
     async aprovaItens(req: any, user: any, dto: any): Promise<any> {
 
         return this.mudaStatusItens(req, user, {...dto, statusItemOrigem: 'Pendente', statusItemDestino: 'Aprovado'})
