@@ -173,22 +173,22 @@ export class PedidoVendaItemService extends BaseCrudService{
     }
 
     async mudaStatusItens(req: any, user: any, dto: any): Promise<any>{
-        console.log('parte 1 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss"}))
+        console.log('parte 1 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss", data: '*'}))
         if (this.listStatus.indexOf(dto.statusItemDestino) < 0) return this.getMessage(req, user, this, {status: false, error: true, message: `Status Destino Inválido [${dto.statusItemDestino}]`})
-        console.log('parte 2 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss"}))
+        console.log('parte 2 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss", data: '*'}))
         let itens = await this.getLista(req, user, {pedidoVendaId: dto.pedidoVendaId, idUserSelecao: user.id, statusItem: dto.statusItemOrigem})
-        console.log('parte 3 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss"}))
+        console.log('parte 3 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss", data: '*'}))
         for (let index = 0; index < itens.length; index++) {
             const element = itens[index];
 
             await this.mudaStatusItem(req, user, {id: element['id'], statusItemOrigem: dto.statusItemOrigem, statusItemDestino: dto.statusItemDestino})
         }
-        console.log('parte 4 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss"}))
+        console.log('parte 4 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss", data: '*'}))
         let statusFinal = {
             valor: dto.statusItemDestino,
             pos: this.listStatus.indexOf(dto.statusItemDestino)
         }
-        console.log('parte 5 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss"}))
+        console.log('parte 5 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss", data: '*'}))
         itens = await this.getLista(req, user, {pedidoVendaId: dto.pedidoVendaId})
         for (let index = 0; index < itens.length; index++) {
             const element = itens[index];
@@ -198,9 +198,9 @@ export class PedidoVendaItemService extends BaseCrudService{
                 pos: this.listStatus.indexOf(element.statusItem)
             }
         };
-        console.log('parte 6 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss"}))
+        console.log('parte 6 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss", data: '*'}))
         if (itens.length > 0) this.pedidoVendaServ.updateRepoId(req, user, {id: dto.pedidoVendaId, statusItem: statusFinal.valor})
-        console.log('parte 7 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss"}))
+        console.log('parte 7 '+ this.dataFormatada({isDate: false, formato: "YYYY-mm-dd HH:mi:ss:sss", data: '*'}))
         return this.getMessage(req, user, this, {status: true, error: false, message: `Processo finalizado`})
     }
 
