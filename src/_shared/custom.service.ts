@@ -498,9 +498,9 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
         novaData = novaData.replace('HH', hora)
         novaData = novaData.replace('mi', minuto)
-        novaData = novaData.replace('ss', segundo)
 
-        novaData = novaData.replace('sss', milliseconds)
+        if (novaData.indexOf('sss')) novaData = novaData.replace('sss', milliseconds)
+        novaData = novaData.replace('ss', segundo)
 
         return novaData
     }
