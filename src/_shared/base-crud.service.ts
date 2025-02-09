@@ -17,9 +17,9 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         super(repo)
     }
 
-    async getById(req: any, user: any, dto: any): Promise<any>{
+    async getById(req: any, user: any, dto: any, params: any = null): Promise<any>{
 
-        const resId = await this.repo.find({where:{id: dto.id, realmId: user.realmId}})
+        const resId = await this.repo.find({where:{id: dto.id, realmId: user.realmId}, select:params?.fields})
 
         if (!resId || resId.length != 1) return
 

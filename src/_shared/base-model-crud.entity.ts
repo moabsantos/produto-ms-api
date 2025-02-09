@@ -1,7 +1,8 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 import { BaseModel } from "./base-model.entity";
 
 @Entity()
+@Index(["id", "realmId"])
 export class BaseModelCrud extends BaseModel {
 
     @Column({nullable: true})

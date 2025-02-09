@@ -331,8 +331,14 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
     async updateRepoId(req: CrudRequest, user: any, payload: any) {
 
+        if (!payload.id) return payload
+
+        const idPayload = payload.id
+        delete payload.id
+
         payload.updated_at = new Date()
-        await this.repo.update({id: payload.id}, payload)
+        await this.repo.update({id: idPayload}, payload)
+
         return payload
     }
 
@@ -478,6 +484,8 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
     dataFormatada(dto: any){
         if (!dto.data) return ''
+        if (dto.data = 'new') dto.data = new Date()
+
         let date: Date = dto.isDate ? dto.data : new Date(dto.data.split('-'));
         let dt = date
         let diaM = dt.getDate()
@@ -487,7 +495,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         let hora = dt.getHours()
         let minuto = dt.getMinutes()
         let segundo = dt.getSeconds()
-        let milliseconds = dt.getMilliseconds();
+        let milliseconds = dt.getMilliseconds()
 
         let novaData = dto.formato
         if (!novaData) novaData = "YYYY-mm-dd HH:mi:ss"
