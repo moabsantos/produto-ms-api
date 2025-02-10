@@ -264,6 +264,16 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
         return this.repo.find()
     }
 
+    async findByWhereFields(where: any, fields: any){
+
+        if (!fields) return this.findByWhere(where)
+
+        if (where){
+            return this.repo.find({where: where, select: fields})
+        }
+        return this.repo.find({select: fields})
+    }
+
     async save(req: CrudRequest, user: any, dto: any){
         
         let modelRepoFound

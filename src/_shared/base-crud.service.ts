@@ -35,9 +35,9 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         return resId[0]
     }
 
-    async getLista(req: any, user: any, dto: any): Promise<any>{
+    async getLista(req: any, user: any, dto: any, params: any = null): Promise<any>{
 
-        const res = await this.repo.find({where:{...dto, realmId: user.realmId}})
+        const res = await this.repo.find({where:{...dto, realmId: user.realmId}, select:params?.fields})
 
         return res
     }
@@ -51,14 +51,14 @@ export class BaseCrudService extends CustomService<BaseModelCrud>{
         return super.validate(dto, user)
     }
 
-    async validateId(service: BaseCrudService, id: any, user: any): Promise<any>{
+    async validateId(service: BaseCrudService, id: any, user: any, fields: any = null): Promise<any>{
 
         if (!id) return this.getMessage(null, user, this, {status: false, error: true, message: "Id não informado"})
 
-        const listService = await service.findByWhere({
+        const listService = await service.findByWhereFields({
             id: id,
             realmId: user.realmId
-        })
+        }, fields)
 
         if (listService.length == 0){
             return this.getMessage(null, user, this, {status: false, error: true, message: "Id informado não é válido"})
