@@ -6,6 +6,9 @@ import { Column, Entity, Unique } from "typeorm";
 export class Produto extends BaseModelCrud {
 
     @Column()
+    endDescription: string;
+
+    @Column()
     unidadeMedidaId: number;
 
     @Column()

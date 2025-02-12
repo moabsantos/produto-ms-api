@@ -123,6 +123,11 @@ export class ProdutoService extends BaseCrudService{
             }
         }
 
+        dto.name = this.produtoGrupo.name
+        if (this.produtoBase.name) dto.name = `${dto.name} ${this.produtoBase.name}`
+        if (this.produtoCor.name) dto.name = `${dto.name} ${this.produtoCor.name}`
+        if (dto.endDescription) dto.name = `${dto.name} ${dto.endDescription}`
+
         if (!dto.name){
             return false
         }
