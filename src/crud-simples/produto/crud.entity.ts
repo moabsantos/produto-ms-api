@@ -35,7 +35,34 @@ export class Produto extends BaseModelCrud {
     produtoGrupoName: string;
 
     @Column({nullable: true})
-    produtoGrupoSigla: string;    
+    produtoGrupoSigla: string;
+
+
+    @Column({nullable: true})
+    produtoBaseId: number;
+
+    @Column({nullable: true})
+    produtoBaseCode: string;
+
+    @Column({nullable: true})
+    produtoBaseName: string;
+
+    @Column({nullable: true})
+    produtoBaseSigla: string;
+
+
+    @Column({nullable: true})
+    produtoCorId: number;
+
+    @Column({nullable: true})
+    produtoCorCode: string;
+
+    @Column({nullable: true})
+    produtoCorName: string;
+
+    @Column({nullable: true})
+    produtoCorSigla: string;
+
 
     @Column({default: 0})
     flagServico: number;

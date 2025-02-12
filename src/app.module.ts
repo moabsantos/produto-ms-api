@@ -74,6 +74,9 @@ import { FiscalSerieModule } from './crud-simples/fiscal-serie/module';
 import { FornecedorEstabelecimentoModule } from './crud-simples/fornecedor-estabelecimento/module';
 import { PedidoTipoModule } from './crud-simples/pedido-tipo/module';
 import { PedidoCompraContratoParcelaItemModule } from './crud-simples/pedido-compra-contrato-parcela-item/module';
+import { PedidoVendaFacadeModule } from './facade/pedido-venda-facade/module';
+import { ProdutoBaseModule } from './crud-simples/produto-base/module';
+import { ProdutoCorModule } from './crud-simples/produto-cor/module';
 
 
 
@@ -129,6 +132,8 @@ import { PedidoCompraContratoParcelaItemModule } from './crud-simples/pedido-com
 
     ProdutoGrupoModule,
     ProdutoModule,
+    ProdutoBaseModule,
+    ProdutoCorModule,
     ProdutoPrecoModule,
     ProdutoComponenteModule,
     ProdutoComponenteParteModule,
@@ -146,6 +151,8 @@ import { PedidoCompraContratoParcelaItemModule } from './crud-simples/pedido-com
     PedidoCompraContratoModule,
     PedidoCompraContratoParcelaModule,
     PedidoCompraContratoParcelaItemModule,
+
+    PedidoVendaFacadeModule,
 
 
     DespesaFinanceiraModule,

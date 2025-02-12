@@ -83,6 +83,9 @@ export class PedidoVendaItem extends BaseModelCrud {
     quantidadeSolicitada: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
+    quantidadeOrdem: number;
+
+    @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeEntregue: number;
 
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
