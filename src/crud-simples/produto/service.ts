@@ -59,6 +59,8 @@ export class ProdutoService extends BaseCrudService{
         model.produtoCorSigla = this.produtoCor.sigla
         model.produtoCorId = this.produtoCor.id
 
+        model.endDescription = dto.endDescription
+
         model.flagServico = 0
         if (dto.flagServico > 0) model.flagServico = 1
 
