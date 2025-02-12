@@ -10,12 +10,15 @@ import { ProdutoBaseUser } from "./crud-user.entity";
 import { ProdutoBaseUserController } from "./crud-user.controller";
 import { ProdutoBaseService } from "./service";
 import { ProdutoBaseUserService } from "./crud-user.service";
+import { ProdutoGrupoModule } from "../produto-grupo/module";
 
 @Module({
     imports: [
         HttpModule,
         UserModule,
         
+        ProdutoGrupoModule,
+
         TypeOrmModule.forFeature([ProdutoBase, ProdutoBaseUser]),
         BaseCrudModule
     ],
