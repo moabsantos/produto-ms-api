@@ -7,6 +7,7 @@ import { UnidadeMedidaService } from "../unidade-medida/service";
 import { ProdutoGrupoService } from "../produto-grupo/service";
 import { ProdutoBaseService } from "../produto-base/service";
 import { ProdutoCorService } from "../produto-cor/service";
+import { ProdutoMaterialService } from "../produto-material/service";
 
 export class ProdutoService extends BaseCrudService{
 
@@ -15,6 +16,7 @@ export class ProdutoService extends BaseCrudService{
     private produtoGrupo: any;
     private produtoBase: any;
     private produtoCor: any;
+    private produtoMaterial: any;
 
     constructor (
         @InjectRepository(Produto) protected repo,
@@ -22,7 +24,8 @@ export class ProdutoService extends BaseCrudService{
         private unidadeServ: UnidadeMedidaService,
         private produtoGrupoServ: ProdutoGrupoService,
         private produtoBaseServ: ProdutoBaseService,
-        private produtoCorServ: ProdutoCorService )
+        private produtoCorServ: ProdutoCorService,
+        private produtoMaterialServ: ProdutoMaterialService )
     {
         super(repo, repoUser)
 
@@ -58,6 +61,11 @@ export class ProdutoService extends BaseCrudService{
         model.produtoCorCode = this.produtoCor.code
         model.produtoCorSigla = this.produtoCor.sigla
         model.produtoCorId = this.produtoCor.id
+
+        model.produtoMaterialName = this.produtoMaterial.name
+        model.produtoMaterialCode = this.produtoMaterial.code
+        model.produtoMaterialSigla = this.produtoMaterial.sigla
+        model.produtoMaterialId = this.produtoMaterial.id
 
         model.endDescription = dto.endDescription
 
@@ -106,6 +114,21 @@ export class ProdutoService extends BaseCrudService{
         }
         this.produtoCor = produtoCo[0]
 
+
+
+        const produtoMat = await this.produtoMaterialServ.findByWhere({
+            id: dto.produtoMaterialId,
+            realmId: user.realmId
+        })
+
+        if (produtoMat.length == 0){
+            this.logger.error(`O Material ${dto.produtoMaterialId} não foi encontrado`)
+            return false
+        }
+        this.produtoMaterial = produtoMat[0]
+
+
+
         const unidMedida = await this.unidadeServ.findByWhere({
             id: dto.unidadeMedidaId,
             realmId: user.realmId
@@ -127,6 +150,7 @@ export class ProdutoService extends BaseCrudService{
 
         dto.name = this.produtoGrupo.name
         if (this.produtoBase.name) dto.name = this.produtoBase.name
+        if (this.produtoMaterial.name) dto.name = `${dto.name} ${this.produtoMaterial.name}`
         if (this.produtoCor.name) dto.name = `${dto.name} ${this.produtoCor.name}`
         if (dto.endDescription) dto.name = `${dto.name} ${dto.endDescription}`
 

@@ -13,6 +13,7 @@ import { UnidadeMedidaModule } from "../unidade-medida/module";
 import { ProdutoGrupoModule } from "../produto-grupo/module";
 import { ProdutoBaseModule } from "../produto-base/module";
 import { ProdutoCorModule } from "../produto-cor/module";
+import { ProdutoMaterialModule } from "../produto-material/module";
 
 
 @Module({
@@ -26,7 +27,8 @@ import { ProdutoCorModule } from "../produto-cor/module";
         UnidadeMedidaModule,
         ProdutoGrupoModule,
         ProdutoBaseModule,
-        ProdutoCorModule
+        ProdutoCorModule,
+        ProdutoMaterialModule
     ],
     controllers:[ProdutoController, ProdutoUserController],
     providers:[ProdutoService, ProdutoUserService],

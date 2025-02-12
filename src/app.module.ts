@@ -77,6 +77,7 @@ import { PedidoCompraContratoParcelaItemModule } from './crud-simples/pedido-com
 import { PedidoVendaFacadeModule } from './facade/pedido-venda-facade/module';
 import { ProdutoBaseModule } from './crud-simples/produto-base/module';
 import { ProdutoCorModule } from './crud-simples/produto-cor/module';
+import { ProdutoMaterialModule } from './crud-simples/produto-material/module';
 
 
 
@@ -134,6 +135,7 @@ import { ProdutoCorModule } from './crud-simples/produto-cor/module';
     ProdutoModule,
     ProdutoBaseModule,
     ProdutoCorModule,
+    ProdutoMaterialModule,
     ProdutoPrecoModule,
     ProdutoComponenteModule,
     ProdutoComponenteParteModule,

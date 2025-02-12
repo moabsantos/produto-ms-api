@@ -67,6 +67,19 @@ export class Produto extends BaseModelCrud {
     produtoCorSigla: string;
 
 
+    @Column({nullable: true})
+    produtoMaterialId: number;
+
+    @Column({nullable: true})
+    produtoMaterialCode: string;
+
+    @Column({nullable: true})
+    produtoMaterialName: string;
+
+    @Column({nullable: true})
+    produtoMaterialSigla: string;
+
+
     @Column({default: 0})
     flagServico: number;
 
