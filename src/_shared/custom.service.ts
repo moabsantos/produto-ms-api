@@ -494,7 +494,7 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
 
     dataFormatada(dto: any){
         if (!dto.data) return ''
-        if (dto.data = 'new') dto.data = new Date()
+        if (dto.data == 'new') dto.data = new Date()
 
         let date: Date = dto.isDate ? dto.data : new Date(dto.data.split('-'));
         let dt = date
