@@ -80,11 +80,13 @@ export class PedidoVendaItemService extends BaseCrudService{
 
     async validate(dto: any, user: any): Promise<boolean>{
         
-        const checkFields = this.validateFieldsRequireds([{name: "sequencia"}], dto)
-        if (!checkFields.status) return checkFields
-
         const dtoValid = await this.validateModelsRequired(dto, user)
         if (!dtoValid || !dtoValid.status) return dtoValid
+
+        if (!dto.id) dto.sequencia = this.pedidoVenda.proximaSequenciaItem 
+
+        const checkFields = this.validateFieldsRequireds([{name: "sequencia"}], dto)
+        if (!checkFields.status) return checkFields
 
         dto.name = this.pedidoVenda.id +'-'+ this.pedidoVenda.clienteId +'-'+ dto.sequencia +'-'+ this.itemVenda.id
         return super.validate(dto, user)
@@ -117,7 +119,8 @@ export class PedidoVendaItemService extends BaseCrudService{
             quantidadeItens: qtdTotal,
             valorSubTotalItem: subTotal,
             valorDesconto: valorDesconto,
-            valorTotal: valorTotal
+            valorTotal: valorTotal,
+            proximaSequenciaItem: itensVenda.length +1
         })
 
         return super.afterSave(req, dto, user, model)

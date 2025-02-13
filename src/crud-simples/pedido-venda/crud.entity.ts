@@ -99,6 +99,9 @@ export class PedidoVenda extends BaseModelCrud {
 
 
 
+    @Column({default: 1})
+    proximaSequenciaItem: number;
+
     @Column({type: 'decimal', precision: 20, scale: 6, default: 0})
     quantidadeItens: number; 
 
