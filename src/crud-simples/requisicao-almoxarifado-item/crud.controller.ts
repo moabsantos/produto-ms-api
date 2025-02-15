@@ -141,7 +141,7 @@ export class RequisicaoAlmoxarifadoItemController extends BaseCrudController{
         return result
     }
 
-    @Post('selecao/full-list')
+    @Post('selecionar/full-list')
     @UseInterceptors(CrudRequestInterceptor)
     async selecaoFullList(@ParsedRequest() req: CrudRequest, @UserRequest() authToken, @Body() body: any){
 
