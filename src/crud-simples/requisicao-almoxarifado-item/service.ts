@@ -621,4 +621,21 @@ export class RequisicaoAlmoxarifadoItemService extends BaseCrudService{
 
     }
 
+    async selecaoItens(req: any, user: any, id: number, valor: number): Promise<any>{
+
+        if (!id) return {id: null, idUserSelecao: null}
+        
+        const itens = await this.findByWhereFields({requisicaoAlmoxarifadoId: id}, ['requisicaoAlmoxarifadoId', 'realmId'])
+
+        if (itens.length < 1) return
+
+        if (itens[0]['requisicaoAlmoxarifadoId'] != id || itens[0]['realmId'] != user.realmId) return
+
+        const valorIdSelecao = valor ? user.userId : 0
+        await this.updateRepoWhere(req, user, {requisicaoAlmoxarifadoId: id, realmId: user.realmId}, {idUserSelecao: valorIdSelecao})
+
+        return {requisicaoAlmoxarifadoId: id, idUserSelecao: valorIdSelecao}
+
+    }
+
 }

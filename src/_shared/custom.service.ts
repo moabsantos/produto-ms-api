@@ -353,6 +353,17 @@ export class CustomService<T> extends TypeOrmCrudService<BaseModel>{
     }
 
 
+    async updateRepoWhere(req: CrudRequest, user: any, whereRepo: any, payload: any) {
+
+        delete payload?.id
+
+        payload.updated_at = new Date()
+        await this.repo.update(whereRepo, payload)
+
+        return payload
+    }
+
+
     async delete(req: CrudRequest, user: any, id: number){
 
         if (!user){
