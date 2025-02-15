@@ -3,4 +3,9 @@ import { Column, Entity, Unique } from "typeorm";
 
 @Entity()
 @Unique("uniq_name", ["name", "realmId"])
-export class ProdutoGrupo extends BaseModelCrud {}
+export class ProdutoGrupo extends BaseModelCrud {
+
+    @Column({default: 0})
+    flagItemPedidoVenda: number;
+
+}

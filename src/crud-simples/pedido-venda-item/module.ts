@@ -14,6 +14,8 @@ import { PedidoVendaModule } from "../pedido-venda/module";
 import { ProdutoModule } from "../produto/module";
 import { DepositoRequisicaoModule } from "../deposito-requisicao/module";
 import { UnidadeMedidaModule } from "../unidade-medida/module";
+import { ProdutoBaseModule } from "../produto-base/module";
+import { ProdutoGrupoModule } from "../produto-grupo/module";
 
 @Module({
     imports: [
@@ -21,6 +23,8 @@ import { UnidadeMedidaModule } from "../unidade-medida/module";
         UserModule,
 
         PedidoVendaModule,
+        ProdutoGrupoModule,
+        ProdutoBaseModule,
         ProdutoModule,
         UnidadeMedidaModule,
         DepositoRequisicaoModule,

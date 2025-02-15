@@ -148,11 +148,14 @@ export class ProdutoService extends BaseCrudService{
             }
         }
 
-        dto.name = this.produtoGrupo.name
-        if (this.produtoBase.name) dto.name = this.produtoBase.name
-        if (this.produtoMaterial.name) dto.name = `${dto.name} ${this.produtoMaterial.name}`
-        if (this.produtoCor.name) dto.name = `${dto.name} ${this.produtoCor.name}`
-        if (dto.endDescription) dto.name = `${dto.name} ${dto.endDescription}`
+        dto.produtoBaseComplemento = ''
+        if (this.produtoMaterial.name) dto.produtoBaseComplemento = `${dto.produtoBaseComplemento} ${this.produtoMaterial.name}`
+        if (this.produtoCor.name) dto.produtoBaseComplemento = `${dto.produtoBaseComplemento} ${this.produtoCor.name}`
+        if (dto.endDescription) dto.produtoBaseComplemento = `${dto.produtoBaseComplemento} ${dto.endDescription}`
+
+        dto.name = dto.produtoBaseComplemento
+        if (this.produtoGrupo.name) dto.name = `${this.produtoGrupo.name} - ${dto.produtoBaseComplemento}`
+        if (this.produtoBase.name) dto.name = `${this.produtoBase.name} ${dto.produtoBaseComplemento}`
 
         if (!dto.name){
             return false

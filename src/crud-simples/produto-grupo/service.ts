@@ -13,4 +13,11 @@ export class ProdutoGrupoService extends BaseCrudService{
         super(repo, repoUser)
     }
 
+    getDataFromDto(dto: any, user: any, model: ProdutoGrupo){
+
+        model.flagItemPedidoVenda = dto.flagItemPedidoVenda
+        
+        return super.getDataFromDto(dto, user, model)
+    }
+
 }

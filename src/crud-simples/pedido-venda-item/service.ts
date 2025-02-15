@@ -9,6 +9,8 @@ import e from "express";
 import { endWith } from "rxjs";
 import { DepositoRequisicaoService } from "../deposito-requisicao/service";
 import { UnidadeMedidaService } from "../unidade-medida/service";
+import { ProdutoGrupoService } from "../produto-grupo/service";
+import { ProdutoBaseService } from "../produto-base/service";
 
 export class PedidoVendaItemService extends BaseCrudService{
 
@@ -22,6 +24,8 @@ export class PedidoVendaItemService extends BaseCrudService{
         private pedidoVendaServ: PedidoVendaService,
         private unidadeMedidaServ: UnidadeMedidaService,
         private depositoRequisicaoServ: DepositoRequisicaoService,
+        private produtoGrupoServ: ProdutoGrupoService,
+        private produtoBaseServ: ProdutoBaseService,
         private itemVendaServ: ProdutoService)
     {
         super(repo, repoUser)
@@ -50,6 +54,11 @@ export class PedidoVendaItemService extends BaseCrudService{
             {fieldKey: 'unidadeMedidaId', fieldName: 'unidadeMedida', service: this.unidadeMedidaServ, fields: [
                 'id', 'code', 'name', 'sigla']},
 
+            {fieldKey: 'produtoGrupoId', fieldName: 'produtoGrupo', service: this.produtoGrupoServ, fields: [
+                'id', 'name', 'sigla', 'description']},
+            {fieldKey: 'produtoBaseId', fieldName: 'produtoBase', service: this.produtoBaseServ, fields: [
+                'id', 'name', 'sigla', 'description']},
+                
             {fieldKey: 'itemVendaId', fieldName: 'itemVenda', service: this.itemVendaServ, fields: [
                 'id', 'name', 'sigla', 'description']},
         ]

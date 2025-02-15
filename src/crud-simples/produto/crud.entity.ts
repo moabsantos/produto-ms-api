@@ -9,6 +9,9 @@ export class Produto extends BaseModelCrud {
     endDescription: string;
 
     @Column()
+    produtoBaseComplemento: string;
+
+    @Column()
     unidadeMedidaId: number;
 
     @Column()

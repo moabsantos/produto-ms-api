@@ -51,6 +51,33 @@ export class PedidoVendaItem extends BaseModelCrud {
     @Column({default: 1})
     sequencia: number;
 
+
+    @Column({nullable: true})
+    produtoGrupoId: number;
+
+    @Column({nullable: true})
+    produtoGrupoCode: string;
+
+    @Column({nullable: true})
+    produtoGrupoName: string;
+
+    @Column({nullable: true})
+    produtoGrupoSigla: string;
+
+
+    @Column({nullable: true})
+    produtoBaseId: number;
+
+    @Column({nullable: true})
+    produtoBaseCode: string;
+
+    @Column({nullable: true})
+    produtoBaseName: string;
+
+    @Column({nullable: true})
+    produtoBaseSigla: string;
+
+
     @Column()
     itemVendaId: number;
 
