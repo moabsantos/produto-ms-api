@@ -45,8 +45,7 @@ export class ProdutoBaseService extends BaseCrudService{
 
         
 
-        dto.name = this.produtoGrupo.name
-        if (dto.endDescription) dto.name = `${dto.name} ${dto.endDescription}`
+        dto.name = dto.endDescription
 
         if (!dto.name){
             return false
