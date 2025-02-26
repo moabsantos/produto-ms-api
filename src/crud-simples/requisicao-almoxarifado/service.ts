@@ -66,11 +66,11 @@ export class RequisicaoAlmoxarifadoService extends BaseCrudService{
             model.clienteSigla = dto.clienteId && dto.clienteId > 0 ? this.cliente.sigla : null
             model.clienteId = dto.clienteId && dto.clienteId > 0 ? dto.clienteId : null
 
-            model.clienteEstabelecimentoId = this.clienteEstab ? this.clienteEstab.id : 0
-            model.clienteEstabelecimentoName = this.clienteEstab ? this.clienteEstab.name : ""
-            model.clienteCep = this.clienteEstab && this.clienteEstab.cep > 0 ? this.clienteEstab.cep : ""
-            model.clienteCidadeName = this.clienteEstab && this.clienteEstab.cidadeName ? this.clienteEstab.cidadeName : ""
-            model.clienteCidadeUfSigla = this.clienteEstab ? this.clienteEstab.cidadeUfSigla : ""
+            model.clienteEstabelecimentoId = dto.clienteId && this.clienteEstab ? this.clienteEstab.id : 0
+            model.clienteEstabelecimentoName = dto.clienteId && this.clienteEstab ? this.clienteEstab.name : ""
+            model.clienteCep = dto.clienteId && this.clienteEstab && this.clienteEstab.cep > 0 ? this.clienteEstab.cep : ""
+            model.clienteCidadeName = dto.clienteId && this.clienteEstab && this.clienteEstab.cidadeName ? this.clienteEstab.cidadeName : ""
+            model.clienteCidadeUfSigla = dto.clienteId && this.clienteEstab ? this.clienteEstab.cidadeUfSigla : ""
 
             model.depositoNameOrigem = this.depositoOrigem.name
             model.depositoCodeOrigem = this.depositoOrigem.code
